@@ -1,7 +1,9 @@
+from multiprocessing.connection import Listener
+
 from roboticsnet.commands.command_factory import CommandFactory
 from roboticsnet.sanitizer import sanitize
 
-class Listener:
+class RoverListener:
     """
     author: psyomn
 
@@ -15,5 +17,15 @@ class Listener:
 
     def listen(self):
         """ main entry point """
-        CommandFactory.make_from_str("move 123")
         print "Listening on port: ", self.port
+
+        address = ('localhost', self.port)
+
+        l = Listener(address)
+
+        # TODO add graceful shutdown?
+        while True:
+            conn = l.accept()
+            print "Received: ", conn.recv_bytes()
+            conn.close()
+

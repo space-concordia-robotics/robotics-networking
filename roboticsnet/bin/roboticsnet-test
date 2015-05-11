@@ -1,9 +1,9 @@
 #!/usr/bin/env python2.7
 
 import roboticsnet
-from roboticsnet.listener import Listener
+from roboticsnet.rover_listener import RoverListener
 
-l = Listener()
+l = RoverListener()
 
 print roboticsnet.__appname__, " ",  roboticsnet.__version__
 print "Starting command dispatcher..."
