@@ -1,4 +1,4 @@
-from roboticsnet.commands.move_command import MoveCommand
+from roboticsnet.commands.command_factory import CommandFactory
 
 class Listener:
     """
@@ -14,6 +14,5 @@ class Listener:
 
     def listen(self):
         """ main entry point """
-        mv = MoveCommand(123)
+        CommandFactory.make_from_str("move 123")
         print "Listening on port: ", self.port
-        mv.execute()
