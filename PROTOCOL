@@ -4,12 +4,13 @@ ROVER PROTOCOLS
 A 'number' is an integer, positive, or negative. We use integers for movement,
 and wheel rotation (rotation for turns).
 
-  number ::= (-)[0-9]+
+  Number is a negative, or positive integer. Limits for now are up to 255.
+    number ::= (-)[0-9]+
 
-  move_ns ::= movens <number>
+  Movement forward/backward:
+    move <number>
 
-  move_ew ::= moveew <number>
-
-  rotate_wheels ::= turn <number>
+  Rotate wheels:
+    turn <number>
 
 
