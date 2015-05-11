@@ -6,14 +6,13 @@ setup(
     name=roboticsnet.__appname__,
     version=roboticsnet.__version__,
 
-    description='',
+    description='Common network code for Rover',
     long_description=open('README.rst').read(),
     # url='http://www.github.com/psyomn/pypsylbm',
     license='MIT',
 
-    author='TBD',
+    author='Simon Symeonidis, George Gonis',
 
     packages=['roboticsnet'],
-    zip_safe=False,
     scripts=['roboticsnet/bin/roboticsnet-test']
 )

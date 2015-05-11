@@ -9,4 +9,4 @@ class Listener:
 
     def listen(port=5000):
         """ main entry point """
-        pass
+        print "Listening on port: ", port
