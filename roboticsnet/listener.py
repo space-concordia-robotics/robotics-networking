@@ -1,3 +1,5 @@
+from roboticsnet.commands.move_command import MoveCommand
+
 class Listener:
     """
     author: psyomn
@@ -7,6 +9,11 @@ class Listener:
     first to the validator, and then to the dispatcher.
     """
 
-    def listen(port=5000):
+    def __init__(self, default_port=5000):
+        self.port = default_port
+
+    def listen(self):
         """ main entry point """
-        print "Listening on port: ", port
+        mv = MoveCommand(123)
+        print "Listening on port: ", self.port
+        mv.execute()

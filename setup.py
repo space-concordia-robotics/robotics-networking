@@ -13,6 +13,6 @@ setup(
 
     author='Simon Symeonidis, George Gonis',
 
-    packages=['roboticsnet'],
+    packages=['roboticsnet', 'roboticsnet.commands'],
     scripts=['roboticsnet/bin/roboticsnet-test']
 )
