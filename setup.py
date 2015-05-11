@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 import roboticsnet
 
 setup(
-    name='roboticsnet',
+    name=roboticsnet.__appname__,
     version=roboticsnet.__version__,
 
     description='',
