@@ -1,4 +1,5 @@
 from roboticsnet.commands.command_factory import CommandFactory
+from roboticsnet.sanitizer import sanitize
 
 class Listener:
     """
