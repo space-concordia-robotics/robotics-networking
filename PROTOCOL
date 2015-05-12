@@ -13,4 +13,27 @@ and wheel rotation (rotation for turns).
   Rotate wheels:
     turn <number>
 
+When we're actually sending the commands, we want to turn the above into udp
+packets. It would not make sense to send whole strings over the network.
+Therefore we can bind hex values to the commands in this manner:
+
++--------------+-------------+
+| ActionLabel  | ActionHex   |
++--------------+-------------+
+| move         | 0x01        |
+| turn         | 0x02        |
++--------------+-------------+
+
+
+PROCESS MANAGER
+===============
+
+We are able to query about different running processes with the following
+messages:
+
++--------------+-------------+
+| ActionLabel  | ActionHex   |
++--------------+-------------+
+| queryproc    | 0x03        |
++--------------+-------------+
 
