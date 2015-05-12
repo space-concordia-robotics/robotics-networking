@@ -1,6 +1,19 @@
 ROVER PROTOCOLS
 ===============
 
+GRACEFUL SHUTDOWN
+-----------------
+
+To stop the listener from listening you send the 'graceful' command to the
+server.
+
++--------------+-------------+
+| ActionLabel  | ActionHex   |
++--------------+-------------+
+| graceful     | 0xFF        |
++--------------+-------------+
+
+
 A 'number' is an integer, positive, or negative. We use integers for movement,
 and wheel rotation (rotation for turns).
 
