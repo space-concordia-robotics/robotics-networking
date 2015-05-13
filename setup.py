@@ -20,5 +20,7 @@ setup(
         , 'roboticsnet.client'
         ],
 
-    scripts=['roboticsnet/bin/roboticsnet-test']
+    scripts=[
+          'roboticsnet/bin/roboticsnet-test'
+        , 'roboticsnet/bin/roboticsnet-client']
 )

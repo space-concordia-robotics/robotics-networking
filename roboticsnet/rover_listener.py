@@ -32,6 +32,9 @@ class RoverListener:
             conn.close()
             if bytes[0] == ROBOTICSNET_COMMAND_GRACEFUL:
                 self.end_listen = True
+            else:
+                cmd = CommandFactory.make_from_byte_array(bytes)
+                cmd.execute()
 
         print "BYE."
 

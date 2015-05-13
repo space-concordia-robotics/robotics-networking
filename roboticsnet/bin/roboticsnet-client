@@ -2,9 +2,13 @@
 
 import sys
 
-from roboticsnet.client import RoverClient
+from roboticsnet.client.rover_client import RoverClient
 
+# TODO accept input from cmdline
 args = sys.argv[1:]
+client = RoverClient()
 
-print "Test Client"
+print "Using port: ", client.getPort()
+print "Using host: ", client.getHost()
+
 

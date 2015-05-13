@@ -1,4 +1,6 @@
 from roboticsnet.commands.command_validator import validate
+from roboticsnet.commands import *
+from roboticsnet.gateway_constants import *
 
 class CommandFactory:
     """
@@ -21,5 +23,20 @@ class CommandFactory:
 
     @staticmethod
     def make_from_byte_array(bytes):
-        pass
+        cmd = bytes[0]
+        params = bytes[1:]
 
+        if cmd == ROBOTICSNET_COMMAND_MOVE:
+            print "Make move command"
+            return _make_move(params)
+
+        elif cmd == ROBOTICSNET_COMMAND_TURN:
+            print "Turn stuff"
+
+        elif cmd == ROBOTICSNET_COMMAND_QUERYPROC:
+            print "Query running processes"
+
+    @staticmethod
+    def _make_move(bytes):
+        magnitude = bytes[0]
+        return MoveCommand(magnitude)
