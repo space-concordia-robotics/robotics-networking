@@ -2,6 +2,8 @@ from roboticsnet.commands.commandable import Commandable
 
 class MoveCommand(Commandable):
     """
+    Send commands to turn the wheels left or right depending on values.
+
     author: psyomn
     """
 
