@@ -9,6 +9,15 @@ author: psyomn
 ROBOTICSNET_PORT = 5000
 # The command bound to this hex for a graceful shutdown in the main server loop.
 ROBOTICSNET_COMMAND_GRACEFUL  = 0xFF
+
 ROBOTICSNET_COMMAND_MOVE      = 0x01
 ROBOTICSNET_COMMAND_TURN      = 0x02
 ROBOTICSBET_COMMAND_QUERYPROC = 0x03
+
+ROBOTICS_STRCMD_LOOKUP = {
+          'graceful': ROBOTICS_COMMAND_GRACEFUL
+        , 'move': ROBOTICSNET_COMMAND_MOVE
+        , 'turn': ROBOTICSNET_COMMAND_TURN
+        , 'queryproc': ROBOTICSNET_COMMAND_QUERYPROC
+        }
+
