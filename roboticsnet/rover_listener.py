@@ -2,7 +2,7 @@ from multiprocessing.connection import Listener
 
 from roboticsnet.commands.command_factory import CommandFactory
 from roboticsnet.sanitizer import sanitize
-import roboticsnet.gateway_constants
+from roboticsnet.gateway_constants import *
 
 class RoverListener:
     """
@@ -13,7 +13,7 @@ class RoverListener:
     first to the validator, and then to the dispatcher.
     """
 
-    def __init__(self, default_port=5000):
+    def __init__(self, default_port=ROBOTICSNET_PORT):
         self.port = default_port
         self.end_listen = False
 
@@ -25,7 +25,6 @@ class RoverListener:
 
         l = Listener(address)
 
-        # TODO add graceful shutdown?
         while not self.end_listen:
             conn = l.accept()
             bytes = conn.recv_bytes()
@@ -33,5 +32,6 @@ class RoverListener:
             conn.close()
             if bytes[0] == ROBOTICSNET_COMMAND_GRACEFUL:
                 self.end_listen = True
+
         print "BYE."
 
