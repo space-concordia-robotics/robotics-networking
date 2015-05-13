@@ -4,8 +4,8 @@ class CommandFactory:
     """
     author: psyomn
 
-    Consumes strings sent to service, and returns a command specific to that
-    request
+    Consumes strings or byte arrays sent to service, and returns a command
+    specific to that request
     """
 
     @staticmethod
@@ -18,4 +18,8 @@ class CommandFactory:
             return
 
         str_arr = str.split()
+
+    @staticmethod
+    def make_from_byte_array(bytes):
+        pass
 
