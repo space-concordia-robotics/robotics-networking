@@ -10,6 +10,16 @@ To install, run:
 This will make a user install. Make sure your environment sees executables in
 the local path.
 
+Then you can start the server using the following command (this is the
+executable that comes along with this library):
+
+    roboticsnet-test
+
+And if you want to give a few things a shot manually, you can test with the
+client executable
+
+    roboticsnet-client
+
 
 Overall Setup
 =============
