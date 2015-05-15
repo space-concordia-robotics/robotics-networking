@@ -16,28 +16,28 @@ class RoverClient:
         """
         self.port = port
         self.host = host
-        self._buildConnection()
 
     def getPort(self): return self.port
     def getHost(self): return self.host
 
     def move(self, magnitude):
-        message = [ROBOTICSNET_COMMAND_MOVE, magnitude]
-        self.conn.send_byte(message)
+        message = str(ROBOTICSNET_COMMAND_MOVE) +  str(magnitude)
+        self._sendMessage(message)
 
     def turn(self, magnitude):
         message = [ROBOTICSNET_COMMAND_TURN, magnitude]
-        self.conn.send_byte(message)
+        self._sendMessage(message)
 
     def query(self):
         message = [ROBOTICSNET_COMMAND_QUERYPROC]
-        self.conn.send_bytes(message)
+        self._sendMessage(message)
 
-    def _buildConnection(self):
+    def _sendMessage(self, message):
         """
         Given the host, and port, we build the connection. Don't call this
         outside the constructor, unless you know what you are doing.
         """
         address = (self.host, self.port)
         conn = Client(address)
-        self.conn = conn
+        conn.send_bytes(message)
+        conn.close()
