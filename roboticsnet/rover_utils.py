@@ -1,5 +1,10 @@
 
 class RoverUtils:
 
+    @staticmethod
     def makeStringFromHexArray(hexArr):
-        pass
+        str = ""
+        for el in hexArr:
+            str += chr(el)
+        return str
+
