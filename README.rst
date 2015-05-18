@@ -35,16 +35,23 @@ So after running the server, with the above command (roboticsnet-test), you can
 send a packet this way:
 
     $ roboticsnet-client --move 23
+
     Using port:  5000
+
     Using host:  localhost
+
     Send move command...
+
     Done!
 
 And on the server side you should get the following:
 
     Send things to motors
+
     Received:  0x1 0x17
+
     Make move command
+
     Send things to motors
 
 Overall Setup
