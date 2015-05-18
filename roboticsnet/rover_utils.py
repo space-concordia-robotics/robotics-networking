@@ -2,8 +2,10 @@ class RoverUtils:
 
     @staticmethod
     def hexArr2Str(hexArr):
-        str = ""
-        for el in hexArr:
-            str += chr(el)
-        return str
+        """
+        NB: join MUST have no spaces in between. This makes a hex array
+        into a string (so you should not pass values per element which exceed
+        255, or 0xFF
+        """
+        return ''.join(map(lambda x: chr(x), hexArr))
 
