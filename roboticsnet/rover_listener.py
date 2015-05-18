@@ -39,6 +39,7 @@ class RoverListener:
             except:
                 # TODO: logging would be a good idea here
                 print "There was some error. Ignoring last command"
+                traceback.print_exc(file=sys.stdout)
 
         print "BYE."
 
