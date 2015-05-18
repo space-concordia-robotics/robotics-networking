@@ -30,11 +30,15 @@ class RoverListener:
             bytes = conn.recv_bytes()
             print "Received: ", ' '.join(map(lambda x: hex(ord(x)), bytes))
             conn.close()
-            if bytes[0] == ROBOTICSNET_COMMAND_GRACEFUL:
-                self.end_listen = True
-            else:
-                cmd = CommandFactory.make_from_byte_array(bytes)
-                cmd.execute()
+            try:
+                if bytes[0] == ROBOTICSNET_COMMAND_GRACEFUL:
+                    self.end_listen = True
+                else:
+                    cmd = CommandFactory.make_from_byte_array(bytes)
+                    cmd.execute()
+            except:
+                # TODO: logging would be a good idea here
+                print "There was some error. Ignoring last command"
 
         print "BYE."
 
