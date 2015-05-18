@@ -1,8 +1,7 @@
-
 class RoverUtils:
 
     @staticmethod
-    def makeStringFromHexArray(hexArr):
+    def hexArr2Str(hexArr):
         str = ""
         for el in hexArr:
             str += chr(el)
