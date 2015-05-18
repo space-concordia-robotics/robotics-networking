@@ -12,7 +12,15 @@ setup(
     license='MIT',
 
     author='Simon Symeonidis, George Gonis',
+    author_email='lethaljellybean@gmail.com, gonis.george@gmail.com',
 
-    packages=['roboticsnet', 'roboticsnet.commands'],
-    scripts=['roboticsnet/bin/roboticsnet-test']
+    packages=[
+          'roboticsnet'
+        , 'roboticsnet.commands'
+        , 'roboticsnet.client'
+        ],
+
+    scripts=[
+          'roboticsnet/bin/roboticsnet-test'
+        , 'roboticsnet/bin/roboticsnet-client']
 )

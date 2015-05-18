@@ -1,6 +1,19 @@
 ROVER PROTOCOLS
 ===============
 
+GRACEFUL SHUTDOWN
+-----------------
+
+To stop the listener from listening you send the 'graceful' command to the
+server.
+
++--------------+-------------+
+| ActionLabel  | ActionHex   |
++--------------+-------------+
+| graceful     | 0xFF        |
++--------------+-------------+
+
+
 A 'number' is an integer, positive, or negative. We use integers for movement,
 and wheel rotation (rotation for turns).
 
@@ -13,4 +26,27 @@ and wheel rotation (rotation for turns).
   Rotate wheels:
     turn <number>
 
+When we're actually sending the commands, we want to turn the above into udp
+packets. It would not make sense to send whole strings over the network.
+Therefore we can bind hex values to the commands in this manner:
+
++--------------+-------------+
+| ActionLabel  | ActionHex   |
++--------------+-------------+
+| move         | 0x01        |
+| turn         | 0x02        |
++--------------+-------------+
+
+
+PROCESS MANAGER
+===============
+
+We are able to query about different running processes with the following
+messages:
+
++--------------+-------------+
+| ActionLabel  | ActionHex   |
++--------------+-------------+
+| queryproc    | 0x03        |
++--------------+-------------+
 
