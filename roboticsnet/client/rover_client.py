@@ -1,5 +1,6 @@
 from multiprocessing.connection import Client
 from roboticsnet.gateway_constants import *
+from roboticsnet.rover_utils import RoverUtils
 
 class RoverClient:
     """
@@ -21,21 +22,25 @@ class RoverClient:
     def getHost(self): return self.host
 
     def move(self, magnitude):
-        message = str(ROBOTICSNET_COMMAND_MOVE) +  str(magnitude)
+        """ magnitude: is a byte; 0x0 to 0xFF"""
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_MOVE, magnitude])
         self._sendMessage(message)
 
     def turn(self, magnitude):
-        message = [ROBOTICSNET_COMMAND_TURN, magnitude]
+        """ magnitude: is a byte; 0x0 to 0xFF"""
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_TURN, magnitude])
         self._sendMessage(message)
 
     def query(self):
-        message = [ROBOTICSNET_COMMAND_QUERYPROC]
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_QUERYPROC])
         self._sendMessage(message)
 
     def _sendMessage(self, message):
         """
         Given the host, and port, we build the connection. Don't call this
         outside the constructor, unless you know what you are doing.
+
+        message: is a string
         """
         address = (self.host, self.port)
         conn = Client(address)
