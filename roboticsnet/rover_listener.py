@@ -1,3 +1,5 @@
+import traceback
+
 from multiprocessing.connection import Listener
 
 from roboticsnet.commands.command_factory import CommandFactory
@@ -39,7 +41,7 @@ class RoverListener:
             except:
                 # TODO: logging would be a good idea here
                 print "There was some error. Ignoring last command"
-                traceback.print_exc(file=sys.stdout)
+                print traceback.format_exc()
 
         print "BYE."
 

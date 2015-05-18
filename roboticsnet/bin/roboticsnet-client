@@ -5,16 +5,40 @@ import argparse
 
 from roboticsnet.client.rover_client import RoverClient
 
-parser = argparse.ArgumentParser()
+# Configuration
+parser = argparse.ArgumentParser('Manually send commands to listener.')
 
-# TODO accept input from cmdline
-args = sys.argv[1:]
+parser.add_argument('--move',
+        help='send move command, given a value from 0 to 255',
+        type=int)
+
+parser.add_argument('--turn',
+        help='send turn command, given a value from 0 to 255',
+        type=int)
+
+parser.add_argument('--queryproc',
+        help='send query about what is currently running')
+
+args = parser.parse_args()
+
+# RUN
 client = RoverClient()
-
 print "Using port: ", client.getPort()
 print "Using host: ", client.getHost()
-print "Send move command..."
-client.move(233)
-print "Done!"
+
+if args.move:
+    print "Send move command..."
+    client.move(args.move)
+    print "Done!"
+
+elif args.turn:
+    print "Send turn command..."
+    client.turn(args.turn)
+    print "Done!"
+
+elif args.queryproc:
+    print "Send query to listener..."
+    client.query()
+    print "Done!"
 
 
