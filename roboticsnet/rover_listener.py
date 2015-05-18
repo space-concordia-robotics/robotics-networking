@@ -28,7 +28,7 @@ class RoverListener:
         while not self.end_listen:
             conn = l.accept()
             bytes = conn.recv_bytes()
-            print "Received: ", bytes
+            print "Received: ", ' '.join(map(lambda x: hex(ord(x)), bytes))
             conn.close()
             if bytes[0] == ROBOTICSNET_COMMAND_GRACEFUL:
                 self.end_listen = True
