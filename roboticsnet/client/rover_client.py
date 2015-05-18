@@ -12,8 +12,9 @@ class RoverClient:
 
     def __init__(self, host='localhost', port=ROBOTICSNET_PORT):
         """
-        port: is the port we are sending to
-        host: to who to connect - default is localhost
+        Parameters:
+            port - is the port we are sending to
+            host - to who to connect - default is localhost
         """
         self.port = port
         self.host = host
@@ -22,12 +23,18 @@ class RoverClient:
     def getHost(self): return self.host
 
     def move(self, magnitude):
-        """ magnitude: is a byte; 0x0 to 0xFF"""
+        """
+        Parameters:
+            magnitude - is a byte; 0x0 to 0xFF
+        """
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_MOVE, magnitude])
         self._sendMessage(message)
 
     def turn(self, magnitude):
-        """ magnitude: is a byte; 0x0 to 0xFF"""
+        """
+        Parameters:
+            magnitude - is a byte; 0x0 to 0xFF
+        """
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_TURN, magnitude])
         self._sendMessage(message)
 
@@ -40,7 +47,8 @@ class RoverClient:
         Given the host, and port, we build the connection. Don't call this
         outside the constructor, unless you know what you are doing.
 
-        message: is a string
+        Parameters:
+            message - is the bytearray to send, in string format
         """
         address = (self.host, self.port)
         conn = Client(address)
