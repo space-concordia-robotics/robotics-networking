@@ -33,7 +33,7 @@ class RoverListener:
             print "Received: ", ' '.join(map(lambda x: hex(ord(x)), bytes))
             conn.close()
             try:
-                if bytes[0] == ROBOTICSNET_COMMAND_GRACEFUL:
+                if ord(bytes[0]) == ROBOTICSNET_COMMAND_GRACEFUL:
                     self.end_listen = True
                 else:
                     cmd = CommandFactory.make_from_byte_array(bytes)
