@@ -54,3 +54,7 @@ class RoverClient:
         conn = Client(address)
         conn.send_bytes(message)
         conn.close()
+
+    def graceful(self):
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_GRACEFUL])
+        self._sendMessage(message)
