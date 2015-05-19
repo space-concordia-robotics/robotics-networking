@@ -38,8 +38,8 @@ Therefore we can bind hex values to the commands in this manner:
 +--------------+-------------+
 
 
-PROCESS MANAGER
-===============
+PROCESS MANAGER (QUERYPROC)
+===========================
 
 We are able to query about different running processes with the following
 messages:
@@ -49,4 +49,34 @@ messages:
 +--------------+-------------+
 | queryproc    | 0x03        |
 +--------------+-------------+
+
+Once the client sends one packet with the above value, the client must wait to
+receive a response. The first byte is to signal that this is a queryproc
+response (NB: This is received on the client side).
+
++----------------+-------------+
+| ActionLabel    | ActionHex   |
++----------------+-------------+
+| queryprocresp  | 0x04        |
++----------------+-------------+
+
+What is expected afterwards is a list of processes. The list of processes
+returned will be tuples of ids, to classify processes, and their status.
+The labels of the processes are found in the following table.
+
++-------------------+-------------+
+| Process Label     | Hex id      |
++-------------------+-------------+
+| rovercore         | 0x00        |
++-------------------+-------------+
+
+And they're bound to the following possible status IDs:
+
++-------------------+-------------+
+| Proc Status Label | Hex         |
++-------------------+-------------+
+| Dead              | 0x00        |
+| Running           | 0x01        |
+| BadState          | 0x03        |
++-------------------+-------------+
 
