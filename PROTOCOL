@@ -83,3 +83,12 @@ And they're bound to the following possible status IDs:
 | BadState          | 0x03        |
 +-------------------+-------------+
 
+So for example, the following sequence:
+
+    [ <0x00, 0x01>, <0x01, 0x01>, <0x03, 0x03> ]
+
+would mean that the rovercore is in `running` state, the `first camera` process
+is running, but the `third` one is in `bad state`.
+
+
+
