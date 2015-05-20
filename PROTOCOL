@@ -68,6 +68,9 @@ The labels of the processes are found in the following table.
 | Process Label     | Hex id      |
 +-------------------+-------------+
 | rovercore         | 0x00        |
+| camera1           | 0x01        |
+| camera2           | 0x02        |
+| camera3           | 0x03        |
 +-------------------+-------------+
 
 And they're bound to the following possible status IDs:
