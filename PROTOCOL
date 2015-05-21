@@ -80,7 +80,7 @@ And they're bound to the following possible status IDs:
 +-------------------+-------------+
 | Dead              | 0x00        |
 | Running           | 0x01        |
-| BadState          | 0x03        |
+| BadState          | 0x02        |
 +-------------------+-------------+
 
 So for example, the following sequence:
