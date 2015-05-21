@@ -6,6 +6,7 @@ from roboticsnet.commands.command_factory import CommandFactory
 from roboticsnet.sanitizer import sanitize
 from roboticsnet.session import Session
 from roboticsnet.gateway_constants import *
+from roboticsnet.rover_utils import RoverUtils
 
 class RoverListener:
     """
@@ -32,7 +33,7 @@ class RoverListener:
         while not self.end_listen:
             conn = l.accept()
             bytes = conn.recv_bytes()
-            print "Received: ", ' '.join(map(lambda x: hex(ord(x)), bytes))
+            print "Received: ", RoverUtils.hexArrToHumanReadableString(bytes)
 
             try:
                 if ord(bytes[0]) == ROBOTICSNET_COMMAND_GRACEFUL:

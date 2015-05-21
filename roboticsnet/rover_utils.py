@@ -9,3 +9,15 @@ class RoverUtils:
         """
         return ''.join(map(lambda x: chr(x), hexArr))
 
+    @staticmethod
+    def hexArrToString(hexArr):
+        """
+        Parameters:
+            hexArr - is an array that is known to contain byte data.
+
+        Return:
+            a string representing the bytes, in human readable form (this is
+            used when you want to print the information)
+        """
+        return ' '.join(map(lambda x: hex(ord(x)), bytes))
+
