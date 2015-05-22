@@ -1,4 +1,6 @@
 from roboticsnet.commands.commandable import Commandable
+from roboticsnet.rover_utils import RoverUtils
+import itertools
 
 class QueryprocCommand(Commandable):
     """
@@ -18,4 +20,17 @@ class QueryprocCommand(Commandable):
 
     def execute(self):
         print "Do queries and send back stuff"
-        cam1 = [0x0]
+
+        # TODO eventually we should remove dummy data
+        cam1 = [0x01, 0x01]
+        cam2 = [0x02, 0x02]
+        cam3 = [0x03, 0x00]
+        rovercore = [0x00, 0x01]
+
+        message_a = list(itertools.chain.from_iterable(
+            [rovercore, cam1, cam2, cam3]))
+
+        message_str = ''.join(RoverUtils.hexArr2Str(message_a))
+
+        self.remote_client.send_bytes(message_str)
+
