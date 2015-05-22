@@ -5,6 +5,7 @@ import argparse
 
 from roboticsnet.client.rover_client import RoverClient
 from roboticsnet.byte_helpers.queryproc_byte_arr_helper import QueryprocByteArrHelper
+from roboticsnet.gateway_constants import *
 
 # Configuration
 parser = argparse.ArgumentParser('Manually send commands to listener.')
@@ -25,10 +26,26 @@ parser.add_argument('--graceful',
         help='shutdown server gracefully',
         action='store_true')
 
+parser.add_argument('--host',
+        help='specify an alternate host to default localhost')
+
+parser.add_argument('--port',
+        help='specify an alternate port to default 5000',
+        type=int)
+
 args = parser.parse_args()
 
+# These will be overwritten if --port, or --host is supplied
+host, port = 'localhost', ROBOTICSNET_PORT
+
+if args.host:
+    host = args.host
+
+if args.port:
+    port = args.port
+
 # RUN
-client = RoverClient()
+client = RoverClient(host, port)
 print "Using port: ", client.getPort()
 print "Using host: ", client.getHost()
 
