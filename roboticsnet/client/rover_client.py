@@ -40,7 +40,8 @@ class RoverClient:
 
     def query(self):
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_QUERYPROC])
-        self._sendMessage(message)
+        return self._sendMessageAwaitReply(message)
+
 
     def _sendMessage(self, message):
         """
@@ -55,6 +56,25 @@ class RoverClient:
         conn.send_bytes(message)
         conn.close()
 
+    def _sendMessageAwaitReply(self, message):
+        """
+        As _sendMessage, but this method waits for a reply
+
+        Parameters:
+            message - is the bytearray to send, in string format
+        """
+        address = (self.host, self.port)
+        conn = Client(address)
+        conn.send_bytes(message)
+        rcv = conn.recv_bytes()
+        conn.close()
+        return rcv
+
+
     def graceful(self):
+        """
+        Tell the server to gracefully shutdown.
+        """
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_GRACEFUL])
         self._sendMessage(message)
+
