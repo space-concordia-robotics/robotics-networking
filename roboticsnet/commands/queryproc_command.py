@@ -19,7 +19,7 @@ class QueryprocCommand(Commandable):
         self.session = session
 
     def execute(self):
-        print "Do queries and send back stuff"
+        print "Do queries and send back stuff ... ",
 
         # TODO eventually we should remove dummy data
         cam1 = [0x01, 0x01]
@@ -27,10 +27,14 @@ class QueryprocCommand(Commandable):
         cam3 = [0x03, 0x00]
         rovercore = [0x00, 0x01]
 
-        message_a = list(itertools.chain.from_iterable(
-            [rovercore, cam1, cam2, cam3]))
+        import random
+        mess_shuffle = [rovercore, cam1, cam2, cam3]
+        random.shuffle(mess_shuffle)
+
+        message_a = list(itertools.chain.from_iterable(mess_shuffle))
 
         message_str = ''.join(RoverUtils.hexArr2Str(message_a))
 
         self.remote_client.send_bytes(message_str)
+        print "DONE!"
 

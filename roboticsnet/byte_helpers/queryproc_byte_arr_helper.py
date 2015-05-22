@@ -1,3 +1,5 @@
+from roboticsnet.gateway_constants import *
+
 class QueryprocByteArrHelper:
     """
     This has functionality to parse replies from the server, and show in human
@@ -10,7 +12,7 @@ class QueryprocByteArrHelper:
 
     _sids_to_label = ROBOTICSNET_PROCESS_IDS_TO_LABEL
 
-    _statids_to_label = ROBOTICSNET_PROCESS_STATUS_IDS_TO_LABELS
+    _statids_to_label = ROBOTICSNET_PROCESS_STATUS_IDS_TO_LABEL
 
     @staticmethod
     def format(reply):
@@ -30,6 +32,13 @@ class QueryprocByteArrHelper:
 
         while len(reply_a) != 0:
             b1, b2 = ord(reply_a[0]), ord(reply_a[1])
-            ret += "{}: {}\n".format(_sids_to_label[b1], _statids_to_label[b2])
+
+            del reply_a[0]
+            del reply_a[0]
+
+            ret += "{}: {}\n".format(
+                    QueryprocByteArrHelper._sids_to_label[b1],
+                    QueryprocByteArrHelper._statids_to_label[b2])
+
 
         return ret

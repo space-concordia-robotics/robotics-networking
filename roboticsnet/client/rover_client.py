@@ -39,9 +39,9 @@ class RoverClient:
         self._sendMessage(message)
 
     def query(self):
+        """ Issue a queryproc request """
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_QUERYPROC])
         return self._sendMessageAwaitReply(message)
-
 
     def _sendMessage(self, message):
         """
@@ -70,11 +70,8 @@ class RoverClient:
         conn.close()
         return rcv
 
-
     def graceful(self):
-        """
-        Tell the server to gracefully shutdown.
-        """
+        """ Tell the server to gracefully shutdown. """
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_GRACEFUL])
         self._sendMessage(message)
 
