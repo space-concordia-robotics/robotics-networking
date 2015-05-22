@@ -25,7 +25,18 @@ class CommandFactory:
         str_arr = str.split()
 
     @staticmethod
-    def make_from_byte_array(bytes):
+    def make_from_byte_array(bytes, conn, session):
+        """
+        Parameters:
+            bytes - the information that the client sends
+
+            conn - the connection back to the client, which sent some request
+              (some commands might need this information, as the protocol
+              dictates a two-way communication channel).
+
+            session - the current information that should be known about the
+              status of the rover. See session.py
+        """
         cmd = ord(bytes[0])
         params = bytes[1:]
 
@@ -39,7 +50,7 @@ class CommandFactory:
 
         elif cmd == ROBOTICSNET_COMMAND_QUERYPROC:
             print "Query running processes"
-            return QueryprocCommand()
+            return QueryprocCommand(conn, session)
 
     @staticmethod
     def _makeMove(bytes):

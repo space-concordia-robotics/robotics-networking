@@ -4,7 +4,9 @@ from multiprocessing.connection import Listener
 
 from roboticsnet.commands.command_factory import CommandFactory
 from roboticsnet.sanitizer import sanitize
+from roboticsnet.session import Session
 from roboticsnet.gateway_constants import *
+from roboticsnet.rover_utils import RoverUtils
 
 class RoverListener:
     """
@@ -18,6 +20,7 @@ class RoverListener:
     def __init__(self, default_port=ROBOTICSNET_PORT):
         self.port = default_port
         self.end_listen = False
+        self.session = Session()
 
     def listen(self):
         """ main entry point """
@@ -30,18 +33,21 @@ class RoverListener:
         while not self.end_listen:
             conn = l.accept()
             bytes = conn.recv_bytes()
-            print "Received: ", ' '.join(map(lambda x: hex(ord(x)), bytes))
-            conn.close()
+            print "Received: ", RoverUtils.hexArrToHumanReadableString(bytes)
+
             try:
-                if bytes[0] == ROBOTICSNET_COMMAND_GRACEFUL:
+                if ord(bytes[0]) == ROBOTICSNET_COMMAND_GRACEFUL:
                     self.end_listen = True
                 else:
-                    cmd = CommandFactory.make_from_byte_array(bytes)
+                    cmd = CommandFactory.make_from_byte_array(
+                            bytes, conn, self.session)
                     cmd.execute()
             except:
                 # TODO: logging would be a good idea here
                 print "There was some error. Ignoring last command"
                 print traceback.format_exc()
+
+            conn.close()
 
         print "BYE."
 

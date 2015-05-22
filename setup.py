@@ -18,6 +18,7 @@ setup(
           'roboticsnet'
         , 'roboticsnet.commands'
         , 'roboticsnet.client'
+        , 'roboticsnet.byte_helpers'
         ],
 
     scripts=[

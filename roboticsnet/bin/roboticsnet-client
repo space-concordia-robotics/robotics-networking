@@ -4,6 +4,7 @@ import sys
 import argparse
 
 from roboticsnet.client.rover_client import RoverClient
+from roboticsnet.byte_helpers.queryproc_byte_arr_helper import QueryprocByteArrHelper
 
 # Configuration
 parser = argparse.ArgumentParser('Manually send commands to listener.')
@@ -17,7 +18,12 @@ parser.add_argument('--turn',
         type=int)
 
 parser.add_argument('--queryproc',
-        help='send query about what is currently running')
+        help='send query about what is currently running',
+        action='store_true')
+
+parser.add_argument('--graceful',
+        help='shutdown server gracefully',
+        action='store_true')
 
 args = parser.parse_args()
 
@@ -38,7 +44,12 @@ elif args.turn:
 
 elif args.queryproc:
     print "Send query to listener..."
-    client.query()
+    reply = client.query()
     print "Done!"
+    print QueryprocByteArrHelper.format(reply)
 
+elif args.graceful:
+    print "Requesting shutdown..."
+    client.graceful()
+    print "DONE!"
 
