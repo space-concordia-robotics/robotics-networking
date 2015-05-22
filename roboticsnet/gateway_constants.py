@@ -2,7 +2,8 @@
 Store the constants for the whole project here. Other parts of the project can
 use these constants to interface to appropriate modules if necessary.
 
-author: psyomn
+Author:
+    psyomn
 """
 
 # The listener listens to this port if we specify nothing else
@@ -22,3 +23,15 @@ ROBOTICSNET_STRCMD_LOOKUP = {
         }
 
 
+ROBOTICSNET_PROCESS_IDS_TO_LABEL = {
+          0x00: "rovercore"
+        , 0x01: "camera1"
+        , 0x02: "camera2"
+        , 0x03: "camera3"
+        }
+
+ROBOTICSNET_PROCESS_STATUS_IDS_TO_LABEL = {
+          0x00: "dead"
+        , 0x01: "running"
+        , 0x02: "badstate"
+        }
