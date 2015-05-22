@@ -42,6 +42,11 @@ class RoverListener:
                     cmd = CommandFactory.make_from_byte_array(
                             bytes, conn, self.session)
                     cmd.execute()
+
+            except KeyboardInterrupt:
+                print "Shutting down ..."
+                self.end_listen = True
+
             except:
                 # TODO: logging would be a good idea here
                 print "There was some error. Ignoring last command"
