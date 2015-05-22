@@ -31,17 +31,18 @@ class RoverListener:
         l = Listener(address)
 
         while not self.end_listen:
-            conn = l.accept()
-            bytes = conn.recv_bytes()
-            print "Received: ", RoverUtils.hexArrToHumanReadableString(bytes)
-
             try:
+                conn = l.accept()
+                bytes = conn.recv_bytes()
+                print "Received: ", RoverUtils.hexArrToHumanReadableString(bytes)
                 if ord(bytes[0]) == ROBOTICSNET_COMMAND_GRACEFUL:
                     self.end_listen = True
                 else:
                     cmd = CommandFactory.make_from_byte_array(
                             bytes, conn, self.session)
                     cmd.execute()
+
+                conn.close()
 
             except KeyboardInterrupt:
                 print "Shutting down ..."
@@ -52,7 +53,6 @@ class RoverListener:
                 print "There was some error. Ignoring last command"
                 print traceback.format_exc()
 
-            conn.close()
 
         print "BYE."
 
