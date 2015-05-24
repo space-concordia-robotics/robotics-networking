@@ -12,18 +12,6 @@ class CommandFactory:
     specific to that request
     """
 
-    # TODO legacy: remove before milestone comes to a close
-    @staticmethod
-    def make_from_str(str):
-        """ Pass the string that is received from the listener here, and the
-        appropriate command will be created and returned"""
-
-        if not validate(str):
-            print "Received erroneous command: {", str, "}"
-            return
-
-        str_arr = str.split()
-
     @staticmethod
     def make_from_byte_array(rcv_bytes, conn, session):
         """
