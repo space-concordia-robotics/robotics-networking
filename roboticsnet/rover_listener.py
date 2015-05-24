@@ -33,13 +33,13 @@ class RoverListener:
         while not self.end_listen:
             try:
                 conn = l.accept()
-                bytes = conn.recv_bytes()
-                print "Received: ", RoverUtils.hexArrToHumanReadableString(bytes)
-                if ord(bytes[0]) == ROBOTICSNET_COMMAND_GRACEFUL:
+                received_bytes = conn.recv_bytes()
+                print "Received: ", RoverUtils.hexArrToHumanReadableString(received_bytes)
+                if ord(received_bytes[0]) == ROBOTICSNET_COMMAND_GRACEFUL:
                     self.end_listen = True
                 else:
                     cmd = CommandFactory.make_from_byte_array(
-                            bytes, conn, self.session)
+                            received_bytes, conn, self.session)
                     cmd.execute()
 
                 conn.close()
