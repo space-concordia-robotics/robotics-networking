@@ -14,6 +14,10 @@ setup(
     author='Simon Symeonidis, George Gonis',
     author_email='lethaljellybean@gmail.com, gonis.george@gmail.com',
 
+    install_requires=[
+        "colorama>=0.3.3"
+        ],
+
     packages=[
           'roboticsnet'
         , 'roboticsnet.commands'

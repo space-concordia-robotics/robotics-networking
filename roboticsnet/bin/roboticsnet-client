@@ -7,6 +7,8 @@ from roboticsnet.client.rover_client import RoverClient
 from roboticsnet.byte_helpers.queryproc_byte_arr_helper import QueryprocByteArrHelper
 from roboticsnet.gateway_constants import *
 
+from colorama import Fore
+
 # Configuration
 parser = argparse.ArgumentParser('Manually send commands to listener.')
 
@@ -33,6 +35,10 @@ parser.add_argument('--port',
         help='specify an alternate port to default 5000',
         type=int)
 
+parser.add_argument('--testall',
+        help='sends a command of each',
+        action='store_true')
+
 args = parser.parse_args()
 
 # These will be overwritten if --port, or --host is supplied
@@ -44,29 +50,44 @@ if args.host:
 if args.port:
     port = args.port
 
-# RUN
+##### RUN
 client = RoverClient(host, port)
-print "Using port: ", client.getPort()
-print "Using host: ", client.getHost()
+print "Using port: " + Fore.GREEN, client.getPort(), Fore.RESET
+print "Using host: " + Fore.GREEN, client.getHost(), Fore.RESET
 
-if args.move:
-    print "Send move command..."
+def _move():
+    print "Send " + Fore.BLUE + "move" + Fore.RESET + " command...",
     client.move(args.move)
-    print "Done!"
+    print Fore.GREEN, "Done!", Fore.RESET
 
-elif args.turn:
-    print "Send turn command..."
+def _turn():
+    print "Send " + Fore.BLUE + "turn" + Fore.RESET+ " command...",
     client.turn(args.turn)
-    print "Done!"
+    print Fore.GREEN, "Done!", Fore.RESET
 
-elif args.queryproc:
-    print "Send query to listener..."
+def _queryproc():
+    print "Send " + Fore.BLUE + "query" + Fore.RESET + " to listener...",
     reply = client.query()
-    print "Done!"
+    print Fore.GREEN, "Done!", Fore.RESET
     print QueryprocByteArrHelper.format(reply)
 
-elif args.graceful:
-    print "Requesting shutdown..."
+def _graceful():
+    print "Requesting " + Fore.BLUE + "shutdown" + Fore.RESET + "...",
     client.graceful()
-    print "DONE!"
+    print Fore.GREEN, "Done!", Fore.RESET
+
+def _testAll():
+    """ Test all commands with dummy data """
+    args.move = 233
+    args.turn = 22
+    calls = [_move, _turn, _queryproc, _graceful]
+    print Fore.MAGENTA + "Testing all commands..." + Fore.RESET
+    for c in calls:
+        c()
+
+if   args.move: _move()
+elif args.turn: _turn()
+elif args.queryproc: _queryproc()
+elif args.graceful: _graceful()
+elif args.testall: _testAll()
 

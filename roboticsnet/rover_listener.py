@@ -1,6 +1,7 @@
 import traceback
 
 from multiprocessing.connection import Listener
+from colorama import Fore
 
 from roboticsnet.commands.command_factory import CommandFactory
 from roboticsnet.sanitizer import sanitize
@@ -34,7 +35,11 @@ class RoverListener:
             try:
                 conn = l.accept()
                 received_bytes = conn.recv_bytes()
-                print "Received: ", RoverUtils.hexArrToHumanReadableString(received_bytes)
+
+                print "Received: ",
+                print(Fore.GREEN + RoverUtils.hexArrToHumanReadableString(received_bytes))
+                print(Fore.RESET)
+
                 if ord(received_bytes[0]) == ROBOTICSNET_COMMAND_GRACEFUL:
                     self.end_listen = True
                 else:
