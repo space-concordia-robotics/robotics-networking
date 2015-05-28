@@ -6,7 +6,7 @@ class ProcessManager:
       - restarting killed processes if there is any issue
       - share information about such processes
 
-    author: psyomn
+    Author: psyomn
     """
 
     # TODO dear future me, look here
