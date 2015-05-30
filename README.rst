@@ -19,7 +19,7 @@ Any changes you make will take effect immediately. No need to reinstall.
 Then you can start the server using the following command (this is the
 executable that comes along with this library):
 
-    roboticsnet-test
+    roboticsnet-server
 
 And if you want to give a few things a shot manually, you can test with the
 client executable. You can run help to see what kind of commands are currently
@@ -37,7 +37,7 @@ supported manually.
                             send query about what is currently running
 
 
-So after running the server, with the above command (roboticsnet-test), you can
+So after running the server, with the above command (roboticsnet-server), you can
 send a packet this way:
 
     $ roboticsnet-client --move 23
