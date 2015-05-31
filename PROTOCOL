@@ -1,6 +1,19 @@
 ROVER PROTOCOLS
 ===============
 
+Full Table of Commands
+----------------------
+
++--------------+-------+
+|Label         | Value |
++--------------+-------+
+|move          | 0x01  |
+|turn          | 0x02  |
+|queryproc     | 0x03  |
+|reverse       | 0x04  |
+|graceful      | 0xFF  |
++--------------+-------+
+
 GRACEFUL SHUTDOWN
 -----------------
 
@@ -20,8 +33,11 @@ and wheel rotation (rotation for turns).
   Number is a negative, or positive integer. Limits for now are up to 255.
     number ::= (-)[0-9]+
 
-  Movement forward/backward:
+  Movement forward:
     move <number>
+
+  Movement backwards:
+    reverse <number>
 
   Rotate wheels:
     turn <number>
@@ -35,6 +51,7 @@ Therefore we can bind hex values to the commands in this manner:
 +--------------+-------------+
 | move         | 0x01        |
 | turn         | 0x02        |
+| reverse      | 0x04        |
 +--------------+-------------+
 
 
@@ -89,6 +106,5 @@ So for example, the following sequence:
 
 would mean that the rovercore is in `running` state, the `first camera` process
 is running, but the `third` one is in `bad state`.
-
 
 
