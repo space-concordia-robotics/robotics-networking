@@ -26,6 +26,6 @@ setup(
         ],
 
     scripts=[
-          'roboticsnet/bin/roboticsnet-test'
+          'roboticsnet/bin/roboticsnet-server'
         , 'roboticsnet/bin/roboticsnet-client']
 )
