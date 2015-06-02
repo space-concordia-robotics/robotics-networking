@@ -16,6 +16,10 @@ parser.add_argument('--move',
         help='send move command, given a value from 0 to 255',
         type=int)
 
+parser.add_argument('--reverse',
+        help='send move command, given a value from 0 to 255',
+        type=int)
+
 parser.add_argument('--turn',
         help='send turn command, given a value from 0 to 255',
         type=int)
@@ -65,6 +69,11 @@ def _turn():
     client.turn(args.turn)
     print Fore.GREEN, "Done!", Fore.RESET
 
+def _reverse():
+    print "Send " + Fore.BLUE + "reverse" + Fore.RESET + " command...",
+    client.reverse(args.reverse)
+    print Fore.GREEN, "Done!", Fore.RESET
+
 def _queryproc():
     print "Send " + Fore.BLUE + "query" + Fore.RESET + " to listener...",
     reply = client.query()
@@ -80,14 +89,16 @@ def _testAll():
     """ Test all commands with dummy data """
     args.move = 233
     args.turn = 22
-    calls = [_move, _turn, _queryproc, _graceful]
+    args.reverse = 0xbb
+    calls = [_move, _turn, _queryproc, _graceful, _reverse]
     print Fore.MAGENTA + "Testing all commands..." + Fore.RESET
     for c in calls:
         c()
 
-if   args.move: _move()
-elif args.turn: _turn()
+if   args.move:      _move()
+elif args.turn:      _turn()
+elif args.reverse:   _reverse()
 elif args.queryproc: _queryproc()
-elif args.graceful: _graceful()
-elif args.testall: _testAll()
+elif args.graceful:  _graceful()
+elif args.testall:   _testAll()
 
