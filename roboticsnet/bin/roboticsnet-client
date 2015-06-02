@@ -90,7 +90,9 @@ def _testAll():
     args.move = 233
     args.turn = 22
     args.reverse = 0xbb
-    calls = [_move, _turn, _queryproc, _graceful, _reverse]
+
+    # Make sure _graceful is in the end
+    calls = [_move, _reverse, _turn, _queryproc, _graceful]
     print Fore.MAGENTA + "Testing all commands..." + Fore.RESET
     for c in calls:
         c()
