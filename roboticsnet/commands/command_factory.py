@@ -14,7 +14,7 @@ class CommandFactory:
     """
 
     @staticmethod
-    def make_from_byte_array(rcv_bytes, conn, session):
+    def makeFromByteArray(rcv_bytes, conn, session):
         """
         Parameters:
             rcv_bytes - the information that the client sends
