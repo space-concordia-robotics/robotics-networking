@@ -8,7 +8,7 @@ class CommandHook:
     Author: psyomn
     """
 
-    def __init__(move=None, turn=None, queryproc=None, reverse=None):
+    def __init__(self, move=None, turn=None, queryproc=None, reverse=None):
         self.move = move
         self.turn = turn
         self.queryproc = queryproc
