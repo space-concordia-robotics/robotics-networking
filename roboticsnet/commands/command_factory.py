@@ -14,7 +14,7 @@ class CommandFactory:
     """
 
     @staticmethod
-    def makeFromByteArray(rcv_bytes, conn, session):
+    def makeFromByteArray(rcv_bytes, conn, session, hooks):
         """
         Parameters:
             rcv_bytes - the information that the client sends
@@ -25,34 +25,39 @@ class CommandFactory:
 
             session - the current information that should be known about the
               status of the rover. See session.py
+
+            hooks - if this is being as a library, we can add a hook here (note
+              well single hook), that will be called, when the library receives
+              the request, and the request is fully processed. In the end, the
+              hooks are called.
         """
         cmd = ord(rcv_bytes[0])
         params = rcv_bytes[1:]
 
         if cmd == ROBOTICSNET_COMMAND_MOVE:
-            return CommandFactory._makeMove(params)
+            return CommandFactory._makeMove(params, hooks)
 
         elif cmd == ROBOTICSNET_COMMAND_REVERSE:
-            return CommandFactory._makeReverse(params)
+            return CommandFactory._makeReverse(params, hooks)
 
         elif cmd == ROBOTICSNET_COMMAND_TURN:
-            return CommandFactory._makeTurn(params)
+            return CommandFactory._makeTurn(params, hooks)
 
         elif cmd == ROBOTICSNET_COMMAND_QUERYPROC:
-            return QueryprocCommand(conn, session)
+            return QueryprocCommand(conn, session, hooks)
 
     @staticmethod
-    def _makeMove(rcv_bytes):
+    def _makeMove(rcv_bytes, hooks):
         magnitude = ord(rcv_bytes[0])
-        return MoveCommand(magnitude)
+        return MoveCommand(magnitude, hooks)
 
     @staticmethod
-    def _makeTurn(rcv_bytes):
+    def _makeTurn(rcv_bytes, hooks):
         magnitude = ord(rcv_bytes[0])
-        return TurnCommand(magnitude)
+        return TurnCommand(magnitude, hooks)
 
     @staticmethod
-    def _makeReverse(rcv_bytes):
+    def _makeReverse(rcv_bytes, hooks):
         magnitude = ord(rcv_bytes[0])
-        return ReverseCommand(magnitude)
+        return ReverseCommand(magnitude, hooks)
 
