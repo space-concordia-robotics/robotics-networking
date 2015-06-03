@@ -43,7 +43,7 @@ class RoverListener:
                 if ord(received_bytes[0]) == ROBOTICSNET_COMMAND_GRACEFUL:
                     self.end_listen = True
                 else:
-                    cmd = CommandFactory.make_from_byte_array(
+                    cmd = CommandFactory.makeFromByteArray(
                             received_bytes, conn, self.session)
                     cmd.execute()
 

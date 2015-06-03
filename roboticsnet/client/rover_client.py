@@ -43,6 +43,11 @@ class RoverClient:
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_QUERYPROC])
         return self._sendMessageAwaitReply(message)
 
+    def reverse(self, magnitude):
+        """ Issue a reverse command """
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_REVERSE, magnitude])
+        return self._sendMessage(message)
+
     def _sendMessage(self, message):
         """
         Given the host, and port, we build the connection. Don't call this
