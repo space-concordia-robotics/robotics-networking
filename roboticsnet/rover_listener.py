@@ -18,10 +18,11 @@ class RoverListener:
     first to the validator, and then to the dispatcher.
     """
 
-    def __init__(self, default_port=ROBOTICSNET_PORT):
+    def __init__(self, default_port=ROBOTICSNET_PORT, hooks=None):
         self.port = default_port
         self.end_listen = False
         self.session = Session()
+        self.hooks = hooks
 
     def listen(self):
         """ main entry point """
@@ -44,7 +45,10 @@ class RoverListener:
                     self.end_listen = True
                 else:
                     cmd = CommandFactory.makeFromByteArray(
-                            received_bytes, conn, self.session)
+                            received_bytes,
+                            conn,
+                            self.session,
+                            self.hooks)
                     cmd.execute()
 
                 conn.close()
