@@ -40,5 +40,5 @@ class QueryprocCommand(Commandable):
         print "DONE!"
 
         if not self.hooks == None:
-            self.hooks()
+            self.queryprocHook()
 

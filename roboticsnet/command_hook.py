@@ -14,3 +14,15 @@ class CommandHook:
         self.queryproc = queryproc
         self.reverse = reverse
 
+    def moveHook(self):
+        self.move()
+
+    def turnHook(self):
+        self.turn()
+
+    def queryprocHook(self):
+        self.queryproc()
+
+    def reverseHook(self):
+        self.reverse()
+

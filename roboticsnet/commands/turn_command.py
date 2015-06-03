@@ -12,4 +12,4 @@ class TurnCommand(Commandable):
     def execute(self):
         print "Send things to turn wheels left right"
         if not self.hooks == None:
-            self.hooks()
+            self.hooks.turnHook()
