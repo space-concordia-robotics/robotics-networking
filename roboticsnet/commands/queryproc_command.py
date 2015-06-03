@@ -13,10 +13,11 @@ class QueryprocCommand(Commandable):
         psyomn
     """
 
-    def __init__(self, conn, session):
+    def __init__(self, conn, session, hooks):
         """ Nothing fancy needed here """
         self.remote_client = conn
         self.session = session
+        self.hooks = hooks
 
     def execute(self):
         print "Do queries and send back stuff ... ",
@@ -37,4 +38,7 @@ class QueryprocCommand(Commandable):
 
         self.remote_client.send_bytes(message_str)
         print "DONE!"
+
+        if not self.hooks == None:
+            self.hooks()
 
