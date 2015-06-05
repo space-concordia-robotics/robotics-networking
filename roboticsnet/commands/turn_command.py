@@ -10,5 +10,4 @@ class TurnCommand(Commandable):
         self.hooks = hooks
 
     def execute(self):
-        print "Send things to turn wheels left right"
         self.hooks.turnHook()
