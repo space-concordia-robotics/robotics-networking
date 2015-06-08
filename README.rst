@@ -1,5 +1,8 @@
 ROBOTICS NETWORKING
-========
+===================
+
+.. image:: https://travis-ci.org/space-concordia-robotics/robotics-networking.svg
+  :target: https://travis-ci.org/space-concordia-robotics/robotics-networking
 
 Robotics networking stuff.
 
