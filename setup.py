@@ -11,8 +11,8 @@ setup(
     # url='http://www.github.com/psyomn/pypsylbm',
     license='MIT',
 
-    author='Simon Symeonidis, George Gonis',
-    author_email='lethaljellybean@gmail.com, gonis.george@gmail.com',
+    author='Simon Symeonidis',
+    author_email='lethaljellybean@gmail.com',
 
     install_requires=[
         "colorama>=0.3.3"
@@ -27,5 +27,7 @@ setup(
 
     scripts=[
           'roboticsnet/bin/roboticsnet-server'
-        , 'roboticsnet/bin/roboticsnet-client']
+        , 'roboticsnet/bin/roboticsnet-client'],
+
+    test_suite="test"
 )

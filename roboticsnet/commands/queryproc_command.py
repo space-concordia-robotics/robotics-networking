@@ -20,8 +20,6 @@ class QueryprocCommand(Commandable):
         self.hooks = hooks
 
     def execute(self):
-        print "Do queries and send back stuff ... ",
-
         # TODO eventually we should remove dummy data
         cam1 = [0x01, 0x01]
         cam2 = [0x02, 0x02]
@@ -37,8 +35,5 @@ class QueryprocCommand(Commandable):
         message_str = ''.join(RoverUtils.hexArr2Str(message_a))
 
         self.remote_client.send_bytes(message_str)
-        print "DONE!"
-
-        if not self.hooks == None:
-            self.hooks.queryprocHook()
+        self.hooks.queryprocHook()
 

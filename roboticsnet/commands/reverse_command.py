@@ -10,6 +10,4 @@ class ReverseCommand(Commandable):
         self.hooks = hooks
 
     def execute(self):
-        print "Send things to reverse motors"
-        if not self.hooks == None:
-            self.hooks.reverseHook()
+        self.hooks.reverseHook()

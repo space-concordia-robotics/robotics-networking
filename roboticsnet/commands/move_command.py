@@ -12,6 +12,4 @@ class MoveCommand(Commandable):
         self.hooks = hooks
 
     def execute(self):
-        print "Send things to motors"
-        if not self.hooks == None:
-            print self.hooks.moveHook()
+        self.hooks.moveHook()
