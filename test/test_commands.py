@@ -7,7 +7,10 @@ from roboticsnet.commands.reverse_command import ReverseCommand
 from roboticsnet.command_hook import CommandHook
 
 class TestCommands(unittest.TestCase):
-    """ These just make sure that the commands, once executed, don't raise exceptions """
+    """ These just make sure that the commands, once executed, don't raise exceptions
+        TODO: testhooks - hooks should also have parameters being passed - need
+        to fix this
+    """
 
     @staticmethod
     def _makeEmptyHook():
