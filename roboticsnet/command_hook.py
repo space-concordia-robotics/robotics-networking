@@ -8,11 +8,14 @@ class CommandHook:
     Author: psyomn
     """
 
-    def __init__(self, move=None, turn=None, queryproc=None, reverse=None):
+    def __init__(self, move=None, turn=None, queryproc=None, reverse=None,
+            startVideo=None, stopVideo=None):
         self.move = move
         self.turn = turn
         self.queryproc = queryproc
         self.reverse = reverse
+        self.startVideo = startVideo
+        self.stopVideo = stopVideo
 
     def moveHook(self):
         if self.move:
@@ -30,3 +33,10 @@ class CommandHook:
         if self.reverse:
             self.reverse()
 
+    def startVideoHook(self):
+        if self.startVideo:
+            self.startVideo();
+
+    def stopVideoHook(self):
+        if self.stopVideo:
+            self.stopVideo();

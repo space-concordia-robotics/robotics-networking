@@ -3,10 +3,8 @@ from roboticsnet.commands.commandable import Commandable
 class StartVideoCommand(Commandable):
     """ Sends a request to boot the video process """
 
-    # TODO complete this
-    def __init__():
-        pass
+    def __init__(self, hooks):
+        self.hooks = hooks
 
-    # TODO complete this
-    def execute():
-        pass
+    def execute(self):
+        self.hooks.startVideoHook()
