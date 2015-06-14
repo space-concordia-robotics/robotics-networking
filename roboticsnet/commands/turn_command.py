@@ -10,4 +10,5 @@ class TurnCommand(Commandable):
         self.hooks = hooks
 
     def execute(self):
-        self.hooks.turnHook()
+        if self.hooks:
+            self.hooks.turnHook()

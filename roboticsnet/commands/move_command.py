@@ -12,4 +12,5 @@ class MoveCommand(Commandable):
         self.hooks = hooks
 
     def execute(self):
-        self.hooks.moveHook()
+        if self.hooks:
+            self.hooks.moveHook()

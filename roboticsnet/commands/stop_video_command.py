@@ -8,4 +8,5 @@ class StopVideoCommand(Commandable):
         self.hooks = hooks
 
     def execute(self):
-        self.hooks.stopVideoHook()
+        if self.hooks:
+            self.hooks.stopVideoHook()
