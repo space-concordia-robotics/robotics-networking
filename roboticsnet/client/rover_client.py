@@ -48,6 +48,17 @@ class RoverClient:
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_REVERSE, magnitude])
         return self._sendMessage(message)
 
+    def startVideo(self):
+        """ Send a request to start the video process - what happens if there is
+            already a running process is not dealt in this particular library """
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_START_VID])
+        self._sendMessage(message)
+
+    def stopVideo(self):
+        """ Send a request to stop the video process """
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_STOP_VID])
+        self._sendMessage(message)
+
     def _sendMessage(self, message):
         """
         Given the host, and port, we build the connection. Don't call this
