@@ -49,10 +49,10 @@ class CommandFactory:
             return QueryprocCommand(conn, session, hooks)
 
         elif cmd == ROBOTICSNET_COMMAND_START_VID:
-            return StartVideoCommand()
+            return StartVideoCommand(hooks)
 
         elif cmd == ROBOTICSNET_COMMAND_STOP_VID:
-            return StopVideoCommand()
+            return StopVideoCommand(hooks)
 
     @staticmethod
     def _makeMove(rcv_bytes, hooks):
