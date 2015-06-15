@@ -10,4 +10,5 @@ class ReverseCommand(Commandable):
         self.hooks = hooks
 
     def execute(self):
-        self.hooks.reverseHook()
+        if self.hooks:
+            self.hooks.reverseHook()

@@ -43,6 +43,14 @@ parser.add_argument('--testall',
         help='sends a command of each',
         action='store_true')
 
+parser.add_argument('--startvid',
+        help='request video to start running',
+        action='store_true')
+
+parser.add_argument('--stopvid',
+        help='request video to stop running',
+        action='store_true')
+
 args = parser.parse_args()
 
 # These will be overwritten if --port, or --host is supplied
@@ -80,6 +88,16 @@ def _queryproc():
     print Fore.GREEN, "Done!", Fore.RESET
     print QueryprocByteArrHelper.format(reply)
 
+def _startVideo():
+    print "Send " + Fore.BLUE + "startvid" + Fore.RESET + " to listener...",
+    client.startVideo()
+    print Fore.GREEN, "Done!", Fore.RESET
+
+def _stopVideo():
+    print "Send " + Fore.BLUE + "stopvid" + Fore.RESET + " to listener...",
+    client.stopVideo()
+    print Fore.GREEN, "Done!", Fore.RESET
+
 def _graceful():
     print "Requesting " + Fore.BLUE + "shutdown" + Fore.RESET + "...",
     client.graceful()
@@ -92,7 +110,9 @@ def _testAll():
     args.reverse = 0xbb
 
     # Make sure _graceful is in the end
-    calls = [_move, _reverse, _turn, _queryproc, _graceful]
+    calls = [_move, _reverse, _turn, _startVideo, _stopVideo,
+             _queryproc, _graceful]
+
     print Fore.MAGENTA + "Testing all commands..." + Fore.RESET
     for c in calls:
         c()
@@ -103,4 +123,6 @@ elif args.reverse:   _reverse()
 elif args.queryproc: _queryproc()
 elif args.graceful:  _graceful()
 elif args.testall:   _testAll()
+elif args.stopvid:   _stopVideo()
+elif args.startvid:  _startVideo()
 

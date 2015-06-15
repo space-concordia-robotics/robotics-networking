@@ -35,5 +35,7 @@ class QueryprocCommand(Commandable):
         message_str = ''.join(RoverUtils.hexArr2Str(message_a))
 
         self.remote_client.send_bytes(message_str)
-        self.hooks.queryprocHook()
+
+        if self.hooks:
+            self.hooks.queryprocHook()
 

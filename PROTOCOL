@@ -11,6 +11,8 @@ Full Table of Commands
 |turn          | 0x02  |
 |queryproc     | 0x03  |
 |reverse       | 0x04  |
+|startvid      | 0x05  |
+|stopvid       | 0x06  |
 |graceful      | 0xFF  |
 +--------------+-------+
 
@@ -107,4 +109,16 @@ So for example, the following sequence:
 would mean that the rovercore is in `running` state, the `first camera` process
 is running, but the `third` one is in `bad state`.
 
+START / STOP VIDEO
+==================
 
+To start the video, we just need to send the start and stop constants. There is
+no response. If we want to find out status of the video process, we use the
+queryproc command (discussed in this document).
+
++-------------------+-------------+
+| Process Label     | Hex id      |
++-------------------+-------------+
+| startvid          | 0x05        |
+| stopvid           | 0x06        |
++-------------------+-------------+

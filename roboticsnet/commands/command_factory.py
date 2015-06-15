@@ -3,6 +3,8 @@ from roboticsnet.commands.move_command import MoveCommand
 from roboticsnet.commands.turn_command import TurnCommand
 from roboticsnet.commands.reverse_command import ReverseCommand
 from roboticsnet.commands.queryproc_command import QueryprocCommand
+from roboticsnet.commands.start_video_command import StartVideoCommand
+from roboticsnet.commands.stop_video_command import StopVideoCommand
 from roboticsnet.gateway_constants import *
 
 class CommandFactory:
@@ -45,6 +47,12 @@ class CommandFactory:
 
         elif cmd == ROBOTICSNET_COMMAND_QUERYPROC:
             return QueryprocCommand(conn, session, hooks)
+
+        elif cmd == ROBOTICSNET_COMMAND_START_VID:
+            return StartVideoCommand(hooks)
+
+        elif cmd == ROBOTICSNET_COMMAND_STOP_VID:
+            return StopVideoCommand(hooks)
 
     @staticmethod
     def _makeMove(rcv_bytes, hooks):
