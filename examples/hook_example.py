@@ -35,6 +35,7 @@ move_count = 0
 turn_count = 0
 qp_count   = 0
 rev_count  = 0
+svid_count = 0
 
 def _moveHook():
     global move_count
@@ -56,12 +57,18 @@ def _reverseHook():
     print "This is my reverse hook!"
     rev_count += 1
 
+def _startVideoCount():
+    global svid_count
+    print "This is the startvid hook!"
+    svid_count += 1
+
 # First you would need to define your hooks using CommandHook
 cmd_hook = CommandHook(
         move=_moveHook,
         turn=_turnHook,
         queryproc=_queryProcHook,
         reverse=_reverseHook,
+        startVideo=_startVideoCount
         )
 
 l = RoverListener(hooks=cmd_hook)
@@ -75,5 +82,6 @@ print "  - move commands received: ", move_count
 print "  - turn commands received: ", turn_count
 print "  - query commands received: ", qp_count
 print "  - reverse commands received: ", rev_count
+print "  - startvid commands received: ", svid_count
 
 
