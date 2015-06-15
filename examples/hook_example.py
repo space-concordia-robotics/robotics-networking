@@ -19,7 +19,7 @@ sample output:
 
 BYE.
 The server is completely oblivious to the following information:
-  - move commands received:  1
+  - forward commands received:  1
   - turn commands received:  44
   - query commands received:  31
   - reverse commands received:  18
@@ -31,16 +31,16 @@ import roboticsnet
 from roboticsnet.command_hook import CommandHook
 from roboticsnet.rover_listener import RoverListener
 
-move_count = 0
+forward_count = 0
 turn_count = 0
 qp_count   = 0
 rev_count  = 0
 svid_count = 0
 
-def _moveHook():
-    global move_count
-    print "This is my custom move hook!"
-    move_count += 1
+def _forwardHook():
+    global forward_count
+    print "This is my custom forward hook!"
+    forward_count += 1
 
 def _turnHook():
     global turn_count
@@ -64,7 +64,7 @@ def _startVideoCount():
 
 # First you would need to define your hooks using CommandHook
 cmd_hook = CommandHook(
-        move=_moveHook,
+        forward=_forwardHook,
         turn=_turnHook,
         queryproc=_queryProcHook,
         reverse=_reverseHook,
@@ -78,7 +78,7 @@ print "Starting command dispatcher..."
 l.listen()
 
 print "The server is completely oblivious to the following information:"
-print "  - move commands received: ", move_count
+print "  - forward commands received: ", forward_count
 print "  - turn commands received: ", turn_count
 print "  - query commands received: ", qp_count
 print "  - reverse commands received: ", rev_count

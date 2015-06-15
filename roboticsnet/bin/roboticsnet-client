@@ -12,12 +12,12 @@ from colorama import Fore
 # Configuration
 parser = argparse.ArgumentParser('Manually send commands to listener.')
 
-parser.add_argument('--move',
-        help='send move command, given a value from 0 to 255',
+parser.add_argument('--forward',
+        help='send forward command, given a value from 0 to 255',
         type=int)
 
 parser.add_argument('--reverse',
-        help='send move command, given a value from 0 to 255',
+        help='send reverse command, given a value from 0 to 255',
         type=int)
 
 parser.add_argument('--turn',
@@ -67,9 +67,9 @@ client = RoverClient(host, port)
 print "Using port: " + Fore.GREEN, client.getPort(), Fore.RESET
 print "Using host: " + Fore.GREEN, client.getHost(), Fore.RESET
 
-def _move():
-    print "Send " + Fore.BLUE + "move" + Fore.RESET + " command...",
-    client.move(args.move)
+def _forward():
+    print "Send " + Fore.BLUE + "forward" + Fore.RESET + " command...",
+    client.forward(args.forward)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _turn():
@@ -105,19 +105,19 @@ def _graceful():
 
 def _testAll():
     """ Test all commands with dummy data """
-    args.move = 233
+    args.forward = 233
     args.turn = 22
     args.reverse = 0xbb
 
     # Make sure _graceful is in the end
-    calls = [_move, _reverse, _turn, _startVideo, _stopVideo,
+    calls = [_forward, _reverse, _turn, _startVideo, _stopVideo,
              _queryproc, _graceful]
 
     print Fore.MAGENTA + "Testing all commands..." + Fore.RESET
     for c in calls:
         c()
 
-if   args.move:      _move()
+if   args.forward:      _forward()
 elif args.turn:      _turn()
 elif args.reverse:   _reverse()
 elif args.queryproc: _queryproc()
