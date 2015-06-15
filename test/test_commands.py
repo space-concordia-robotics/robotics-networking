@@ -1,7 +1,7 @@
 import unittest
 
 from roboticsnet.session import Session
-from roboticsnet.commands.move_command import MoveCommand
+from roboticsnet.commands.forward_command import ForwardCommand
 from roboticsnet.commands.turn_command import TurnCommand
 from roboticsnet.commands.reverse_command import ReverseCommand
 from roboticsnet.commands.start_video_command import StartVideoCommand
@@ -19,7 +19,7 @@ class TestCommands(unittest.TestCase):
         return CommandHook()
 
     def testForwardCommand(self):
-        MoveCommand(0x22, self._makeEmptyHook()).execute()
+        ForwardCommand(0x22, self._makeEmptyHook()).execute()
 
     def testReverseCommand(self):
         ReverseCommand(0x33, self._makeEmptyHook()).execute()

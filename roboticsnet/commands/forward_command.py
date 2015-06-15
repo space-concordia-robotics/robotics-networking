@@ -1,6 +1,6 @@
 from roboticsnet.commands.commandable import Commandable
 
-class MoveCommand(Commandable):
+class ForwardCommand(Commandable):
     """
     Send commands to turn the wheels left or right depending on values.
 
@@ -13,4 +13,4 @@ class MoveCommand(Commandable):
 
     def execute(self):
         if self.hooks:
-            self.hooks.moveHook()
+            self.hooks.forwardHook()

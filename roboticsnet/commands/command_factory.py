@@ -1,5 +1,5 @@
 from roboticsnet.commands.command_validator import validate
-from roboticsnet.commands.move_command import MoveCommand
+from roboticsnet.commands.forward_command import ForwardCommand
 from roboticsnet.commands.turn_command import TurnCommand
 from roboticsnet.commands.reverse_command import ReverseCommand
 from roboticsnet.commands.queryproc_command import QueryprocCommand
@@ -36,8 +36,8 @@ class CommandFactory:
         cmd = ord(rcv_bytes[0])
         params = rcv_bytes[1:]
 
-        if cmd == ROBOTICSNET_COMMAND_MOVE:
-            return CommandFactory._makeMove(params, hooks)
+        if cmd == ROBOTICSNET_COMMAND_FORWARD:
+            return CommandFactory._makeForward(params, hooks)
 
         elif cmd == ROBOTICSNET_COMMAND_REVERSE:
             return CommandFactory._makeReverse(params, hooks)
@@ -55,9 +55,9 @@ class CommandFactory:
             return StopVideoCommand(hooks)
 
     @staticmethod
-    def _makeMove(rcv_bytes, hooks):
+    def _makeForward(rcv_bytes, hooks):
         magnitude = ord(rcv_bytes[0])
-        return MoveCommand(magnitude, hooks)
+        return ForwardCommand(magnitude, hooks)
 
     @staticmethod
     def _makeTurn(rcv_bytes, hooks):

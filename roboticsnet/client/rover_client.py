@@ -22,12 +22,12 @@ class RoverClient:
     def getPort(self): return self.port
     def getHost(self): return self.host
 
-    def move(self, magnitude):
+    def forward(self, magnitude):
         """
         Parameters:
             magnitude - is a byte; 0x0 to 0xFF
         """
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_MOVE, magnitude])
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_FORWARD, magnitude])
         self._sendMessage(message)
 
     def turn(self, magnitude):
