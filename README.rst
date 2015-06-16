@@ -69,3 +69,66 @@ Overall Setup
 For the moment this is how things should look like:
 
 .. image:: doc/sc-dep-diag.png
+
+Server Hooks
+============
+
+It is possible to use this module without actually altering it. The way that
+this is done, is by providing hooks to the server's commands. The commands
+execute whenever there is a request that is received and processed. After the
+request is processed and matched against the proper command, the command is
+executed. Each command is associated with a hook. So after the command (pattern)
+is executed, the hook is executed right after.
+
+There exists an example you can read in 'roboticsnet/examples/hook_example.py'.
+
+We will go over segments of the above piece by piece in order for the reader to
+have an easier time understanding what is happening.
+
+.. highlight:: python
+
+    import roboticsnet
+    from roboticsnet.command_hook import CommandHook
+    from roboticsnet.rover_listener import RoverListener
+
+    def _forwardHook():
+        ...
+
+    def _turnHook():
+        ...
+
+    def _queryProcHook():
+        ...
+
+    def _reverse=_reverseHook():
+        ...
+
+    def _startVideo():
+        ...
+
+    # First you would need to define your hooks using CommandHook
+    cmd_hook = CommandHook(
+            forward=_forwardHook,
+            turn=_turnHook,
+            queryproc=_queryProcHook,
+            reverse=_reverseHook,
+            startVideo=_startVideoCount
+            )
+
+    l = RoverListener(hooks=cmd_hook)
+
+    print roboticsnet.__appname__, " ",  roboticsnet.__version__
+    print "Starting command dispatcher..."
+    l.listen()
+
+The above example starts a listening server with hooks. The 'def's prefixed with
+'_' are our cutsom hooks. We can provide any method we want in order to get this
+to execute arbitrary code. So for example, each time a `forward` command is
+received, then the `_forwardHook()` method will actually execute once the
+request is done processing. This is how you attach your added, wanted behavior.
+
+To do this we need an extra structure which stores this information (what hooks
+to execute whenever a particular command is received). We use an object called
+`CommandHook`, and set each of these hooks individually. You can omit hooks, and
+that will be fine - it simply means we do not want to bind any more behavior to
+a command.
