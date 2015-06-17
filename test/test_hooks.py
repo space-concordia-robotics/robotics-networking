@@ -18,6 +18,22 @@ class ValContainer:
     def get(self):
         return self.val
 
+class Counter:
+    def __init__(self):
+        self.count = 0
+
+    def incr(self):
+        self.count += 1
+
+    def get(self):
+        return self.count
+
+def freefunc():
+    return True
+
+def freefuncParams(params):
+    return True
+
 class TestHooks(unittest.TestCase):
     """ Test that the values have been received through hooks, and that if we
     supply hooks with parameters to get things from the parts of the protocol
@@ -47,4 +63,22 @@ class TestHooks(unittest.TestCase):
         vc = ValContainer()
         StopVideoCommand(CommandHook(stopVideo=vc.put)).execute()
         self.assertEqual(vc.get(), None)
+
+    def testMultipleCalls(self):
+        c = Counter()
+        for x in range(0, 100):
+            ReverseCommand(0x33, CommandHook(reverse=c.incr())).execute()
+        self.assertEqual(c.get(), 100)
+
+    def testFreeFuncNoParams(self):
+        """ TODO: maybe we can have some way to make sure the free func fired
+        for sure. This could probably be done with glob vars ONLY IN THIS FILE
+        of course"""
+        ReverseCommand(0x33, CommandHook(reverse=freefunc)).execute()
+
+    def testFreeFuncParams(self):
+        """ TODO: maybe we can have some way to make sure the free func fired
+        for sure. This could probably be done with glob vars ONLY IN THIS FILE
+        of course"""
+        ReverseCommand(0x33, CommandHook(reverse=freefuncParams)).execute()
 
