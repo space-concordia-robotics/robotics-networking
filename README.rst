@@ -163,15 +163,11 @@ another example which is located in 'examples/hook_with_params.py'.
         print "This is turn hook, where I don't care about the params (even though"
         print "we actually do receive params"
 
-    def _someOtherHook(a,b,c,d,e):
-        pass
-
     myCounter = Counter()
 
     cmd_hook = CommandHook(
             forward=_forwardHook,
             turn=_turnHook,
-            reverse=_someOtherHook,
             startVideo=myCounter.inrc
             )
 
