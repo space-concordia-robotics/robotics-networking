@@ -85,7 +85,7 @@ There exists an example you can read in 'roboticsnet/examples/hook_example.py'.
 We will go over segments of the above piece by piece in order for the reader to
 have an easier time understanding what is happening.
 
-.. highlight:: python
+.. code:: python
 
     import roboticsnet
     from roboticsnet.command_hook import CommandHook
