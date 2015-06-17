@@ -8,10 +8,15 @@ class Commandable:
 
     def _runHook(self, hook, params):
         if not hook: return
+
         argc = hook.func_code.co_argcount
+
+        def isInstanceMethod():
+            return hook.func_code.co_varnames[0] == 'self' and argc == 2
+
         if argc == 0:
             hook()
-        elif argc == 1:
+        elif argc == 1 or isInstanceMethod():
             hook(params)
         else:
             raise RoboticsnetException(
