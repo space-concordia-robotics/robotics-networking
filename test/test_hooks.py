@@ -18,26 +18,33 @@ class ValContainer:
     def get(self):
         return self.val
 
-class TestCommands(unittest.TestCase):
-    """ Test that the values have been received through hooks """
+class TestHooks(unittest.TestCase):
+    """ Test that the values have been received through hooks, and that if we
+    supply hooks with parameters to get things from the parts of the protocol
+    which do not expect anything, we get 'None' instead. """
 
     def testForwardCommand(self):
         vc = ValContainer()
         ForwardCommand(0x22, CommandHook(forward=vc.put)).execute()
-        assert(vc.get()["value"], 0x22)
+        self.assertEqual(vc.get()["value"], 0x22)
 
     def testReverseCommand(self):
         vc = ValContainer()
         ReverseCommand(0x33, CommandHook(reverse=vc.put)).execute()
-        assert(vc.get()["value"], 0x33)
+        self.assertEqual(vc.get()["value"], 0x33)
 
     def testTurnCommand(self):
         vc = ValContainer()
         TurnCommand(0x44, CommandHook(turn=vc.put)).execute()
-        assert(vc.get()["value"], 0x44)
+        self.assertEqual(vc.get()["value"], 0x44)
 
     def testStartVideoCommand(self):
-        pass
+        vc = ValContainer()
+        StartVideoCommand(CommandHook(startVideo=vc.put)).execute()
+        self.assertEqual(vc.get(), None)
 
     def testStopVideoCommand(self):
-        pass
+        vc = ValContainer()
+        StopVideoCommand(CommandHook(stopVideo=vc.put)).execute()
+        self.assertEqual(vc.get(), None)
+
