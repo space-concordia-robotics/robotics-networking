@@ -8,4 +8,4 @@ class StartVideoCommand(Commandable):
 
     def execute(self):
         if self.hooks:
-            self.hooks.startVideoHook()
+            self._runHook(self.hooks.startVideo, None)

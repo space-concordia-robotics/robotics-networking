@@ -11,4 +11,4 @@ class ReverseCommand(Commandable):
 
     def execute(self):
         if self.hooks:
-            self.hooks.reverseHook()
+            self._runHook(self.hooks.reverse, {'value':self.magnitude})

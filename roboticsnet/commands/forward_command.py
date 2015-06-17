@@ -13,4 +13,4 @@ class ForwardCommand(Commandable):
 
     def execute(self):
         if self.hooks:
-            self.hooks.forwardHook()
+            self._runHook(self.hooks.forward, {'value':self.magnitude})

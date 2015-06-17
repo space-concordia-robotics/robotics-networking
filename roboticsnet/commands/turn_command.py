@@ -11,4 +11,4 @@ class TurnCommand(Commandable):
 
     def execute(self):
         if self.hooks:
-            self.hooks.turnHook()
+            self._runHook(self.hooks.turn, {'value':self.magnitude})
