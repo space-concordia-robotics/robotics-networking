@@ -37,5 +37,5 @@ class QueryprocCommand(Commandable):
         self.remote_client.send_bytes(message_str)
 
         if self.hooks:
-            self.hooks.queryprocHook()
+            self._runHook(self.hooks.queryproc, None)
 
