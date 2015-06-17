@@ -137,6 +137,7 @@ You could also create classes, and pass their methods as hooks as well. Here is
 another example which is located in 'examples/hook_with_params.py'.
 
 .. code:: python
+
     import roboticsnet
     from roboticsnet.command_hook import CommandHook
     from roboticsnet.rover_listener import RoverListener
