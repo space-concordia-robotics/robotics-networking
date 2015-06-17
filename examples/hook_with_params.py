@@ -1,28 +1,18 @@
 #!/usr/bin/env python2.7
 
 """
-This is an example script, showing users of the library how you may attach
-hooks to the commands that the rover may receive. This way you can 'inject'
-behavior to the library without modifying it.
+Hooks, but which can get params so that they do something with them.
 
-The difference to this approach is that you'll need to first create a CommandHook
-object, where you assign all the hooks you are interested in, within.
-The CommandHook object will then need to be passed to the RoverListener object, via
-constructor injection. This should suffice to get things working :o).
+Right now, to get the particular values you can use:
 
-The particular example this script demonstrates, is how we can spawn a server, and
-add hooks which simply count how many times certain requests have been sent. When
-The server gracefully shuts down, the vaulues are printed on screen. Below exists
-sample output:
+    def myhook(params):
+        val = params["value"]
+        ...
+as the hook sets 'params' to the hash:
 
-...
+    {"value":<some-value>}
 
-BYE.
-The server is completely oblivious to the following information:
-  - forward commands received:  1
-  - turn commands received:  44
-  - query commands received:  31
-  - reverse commands received:  18
+with respect to whatever you receive.
 
 Author: psyomn
 """
@@ -32,6 +22,16 @@ from roboticsnet.command_hook import CommandHook
 from roboticsnet.rover_listener import RoverListener
 
 forward_count = 0
+
+class Counter:
+    def __init__(self):
+        self.count = 0
+
+    def incr(self):
+        self.count += 1
+
+    def get(self):
+        return self.count
 
 def _forwardHook(params):
     print "This is my custom forward hook!"
@@ -45,11 +45,14 @@ def _turnHook():
 def _someOtherHook(a,b,c,d,e):
     pass
 
+myCounter = Counter()
+
 # First you would need to define your hooks using CommandHook
 cmd_hook = CommandHook(
         forward=_forwardHook,
         turn=_turnHook,
         reverse=_someOtherHook,
+        startVideo=myCounter.incr
         )
 
 l = RoverListener(hooks=cmd_hook)
@@ -57,4 +60,6 @@ l = RoverListener(hooks=cmd_hook)
 print roboticsnet.__appname__, " ",  roboticsnet.__version__
 print "Starting command dispatcher..."
 l.listen()
+
+print "The startvideo command was received this many times: ", myCounter.get()
 
