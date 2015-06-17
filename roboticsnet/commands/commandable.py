@@ -12,11 +12,11 @@ class Commandable:
         argc = hook.func_code.co_argcount
 
         def isInstanceMethod():
-            return hook.func_code.co_varnames[0] == 'self' and argc == 2
+            return hook.func_code.co_varnames[0] == 'self'
 
-        if argc == 0:
+        if argc == 0 or (isInstanceMethod() and argc == 1):
             hook()
-        elif argc == 1 or isInstanceMethod():
+        elif argc == 1 or (isInstanceMethod() and argc == 2):
             hook(params)
         else:
             raise RoboticsnetException(
