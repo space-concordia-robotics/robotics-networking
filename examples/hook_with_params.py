@@ -38,10 +38,18 @@ def _forwardHook(params):
     print "And in my custom forward hook, the params I receive are: ", params
     print "And I extract the value of interest: ", params['value']
 
+def _turnHook():
+    print "This is turn hook, where I don't care about the params (even though"
+    print "we actually do receive params"
+
+def _someOtherHook(a,b,c,d,e):
+    pass
 
 # First you would need to define your hooks using CommandHook
 cmd_hook = CommandHook(
         forward=_forwardHook,
+        turn=_turnHook,
+        reverse=_someOtherHook,
         )
 
 l = RoverListener(hooks=cmd_hook)

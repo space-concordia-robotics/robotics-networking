@@ -14,5 +14,5 @@ class Commandable:
         elif argc == 1:
             hook(params)
         else:
-            raise RoboticsnetException("You can only supply hooks with 0, or 1\
-                    parameter. Read the documentation.")
+            raise RoboticsnetException(
+                "You can only supply hooks with 0, or 1 parameter. Read the documentation.")
