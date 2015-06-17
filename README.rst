@@ -123,39 +123,20 @@ have an easier time understanding what is happening.
 
 The above example starts a listening server with hooks. The 'def's prefixed with
 '_' are our cutsom hooks. We can provide any method we want in order to get this
-to execute arbitrary code. So for example, each time a `forward` command is
-received, then the `_forwardHook()` method will actually execute once the
+to execute arbitrary code. So for example, each time a 'forward' command is
+received, then the '_forwardHook()' method will actually execute once the
 request is done processing. This is how you attach your added, wanted behavior.
 
 To do this we need an extra structure which stores this information (what hooks
 to execute whenever a particular command is received). We use an object called
-`CommandHook`, and set each of these hooks individually. You can omit hooks, and
+'CommandHook', and set each of these hooks individually. You can omit hooks, and
 that will be fine - it simply means we do not want to bind any more behavior to
 a command.
 
 You could also create classes, and pass their methods as hooks as well. Here is
-another example which is located in 'examples/':
+another example which is located in 'examples/hook_with_params.py'.
 
 .. code:: python
-    #!/usr/bin/env python2.7
-
-    """
-    Hooks, but which can get params so that they do something with them.
-
-    Right now, to get the particular values you can use:
-
-        def myhook(params):
-            val = params["value"]
-            ...
-    as the hook sets 'params' to the hash:
-
-        {"value":<some-value>}
-
-    with respect to whatever you receive.
-
-    Author: psyomn
-    """
-
     import roboticsnet
     from roboticsnet.command_hook import CommandHook
     from roboticsnet.rover_listener import RoverListener
@@ -186,7 +167,6 @@ another example which is located in 'examples/':
 
     myCounter = Counter()
 
-    # First you would need to define your hooks using CommandHook
     cmd_hook = CommandHook(
             forward=_forwardHook,
             turn=_turnHook,
@@ -202,5 +182,4 @@ another example which is located in 'examples/':
 
     print "The startvideo command was received this many times: ", myCounter.get()
 
-
-
+That should conclude most of what you need to know about hooks!
