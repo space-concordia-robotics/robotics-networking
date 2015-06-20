@@ -9,8 +9,8 @@ Full Table of Commands
 +--------------+-------+
 |forward       | 0x01  |
 |reverse       | 0x02  |
-|left          | 0x03  |
-|right         | 0x04  |
+|turnLeft      | 0x03  |
+|turnRight     | 0x04  |
 |stop          | 0x05  |
 |queryproc     | 0x06  |
 |startvid      | 0x07  |
