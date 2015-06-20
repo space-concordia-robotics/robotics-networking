@@ -16,7 +16,7 @@ def _valid_arg_size(str):
 
 def _command_exists(str):
     """ Is this a command that exists? """
-    cmds = ['move', 'turn']
+    cmds = ['forward', 'reverse', 'turnLeft', 'turnRight', 'stop']
     cmd = str.split()[0]
     return cmd in cmds
 

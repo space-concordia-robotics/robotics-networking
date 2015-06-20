@@ -30,12 +30,28 @@ class RoverClient:
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_FORWARD, magnitude])
         self._sendMessage(message)
 
-    def turn(self, magnitude):
+    def turnLeft(self, magnitude):
         """
         Parameters:
             magnitude - is a byte; 0x0 to 0xFF
         """
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_TURN, magnitude])
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_TURNLEFT, magnitude])
+        self._sendMessage(message)
+
+    def turnRight(self, magnitude):
+        """
+        Parameters:
+            magnitude - is a byte; 0x0 to 0xFF
+        """
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_TURNRIGHT,magnitude])
+        self._sendMessage(message)
+
+    def stop(self, magnitude):
+        """
+        Parameters:
+            magnitude - is a byte; 0x0 to 0xFF
+        """
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_STOP, magnitude])
         self._sendMessage(message)
 
     def query(self):

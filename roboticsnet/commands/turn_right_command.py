@@ -1,8 +1,8 @@
 from roboticsnet.commands.commandable import Commandable
 
-class TurnCommand(Commandable):
+class TurnRightCommand(Commandable):
     """
-    author: psyomn
+    author: doomfest
     """
 
     def __init__(self, value, hooks):
@@ -11,4 +11,4 @@ class TurnCommand(Commandable):
 
     def execute(self):
         if self.hooks:
-            self._runHook(self.hooks.turn, {'value':self.magnitude})
+            self._runHook(self.hooks.turnRight, {'value':self.magnitude})
