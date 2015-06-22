@@ -1,6 +1,8 @@
 from roboticsnet.commands.command_validator import validate
 from roboticsnet.commands.forward_command import ForwardCommand
-from roboticsnet.commands.turn_command import TurnCommand
+from roboticsnet.commands.turn_left_command import TurnLeftCommand
+from roboticsnet.commands.turn_right_command import TurnRightCommand
+from roboticsnet.commands.stop_command import StopCommand
 from roboticsnet.commands.reverse_command import ReverseCommand
 from roboticsnet.commands.queryproc_command import QueryprocCommand
 from roboticsnet.commands.start_video_command import StartVideoCommand
@@ -42,8 +44,14 @@ class CommandFactory:
         elif cmd == ROBOTICSNET_COMMAND_REVERSE:
             return CommandFactory._makeReverse(params, hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_TURN:
-            return CommandFactory._makeTurn(params, hooks)
+        elif cmd == ROBOTICSNET_COMMAND_TURNLEFT:
+            return CommandFactory._makeTurnLeft(params, hooks)
+
+        elif cmd == ROBOTICSNET_COMMAND_TURNRIGHT:
+            return CommandFactory._makeTurnRight(params, hooks)
+
+        elif cmd == ROBOTICSNET_COMMAND_STOP:
+            return CommandFactory._makeStop(params, hooks)
 
         elif cmd == ROBOTICSNET_COMMAND_QUERYPROC:
             return QueryprocCommand(conn, session, hooks)
@@ -60,9 +68,14 @@ class CommandFactory:
         return ForwardCommand(magnitude, hooks)
 
     @staticmethod
-    def _makeTurn(rcv_bytes, hooks):
+    def _makeTurnLeft(rcv_bytes, hooks):
         magnitude = ord(rcv_bytes[0])
-        return TurnCommand(magnitude, hooks)
+        return TurnLeftCommand(magnitude, hooks)
+
+    @staticmethod
+    def _makeTurnRight(rcv_bytes, hooks):
+        magnitude = ord(rcv_bytes[0])
+        return TurnRightCommand(magnitude, hooks)
 
     @staticmethod
     def _makeReverse(rcv_bytes, hooks):

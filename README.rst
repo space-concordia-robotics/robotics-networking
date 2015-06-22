@@ -116,9 +116,6 @@ have an easier time understanding what is happening.
             )
 
     l = RoverListener(hooks=cmd_hook)
-
-    print roboticsnet.__appname__, " ",  roboticsnet.__version__
-    print "Starting command dispatcher..."
     l.listen()
 
 The above example starts a listening server with hooks. The 'def's prefixed with
@@ -172,9 +169,6 @@ another example which is located in 'examples/hook_with_params.py'.
             )
 
     l = RoverListener(hooks=cmd_hook)
-
-    print roboticsnet.__appname__, " ",  roboticsnet.__version__
-    print "Starting command dispatcher..."
     l.listen()
 
     print "The startvideo command was received this many times: ", myCounter.get()

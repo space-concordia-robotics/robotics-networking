@@ -8,11 +8,13 @@ Full Table of Commands
 |Label         | Value |
 +--------------+-------+
 |forward       | 0x01  |
-|turn          | 0x02  |
-|queryproc     | 0x03  |
-|reverse       | 0x04  |
-|startvid      | 0x05  |
-|stopvid       | 0x06  |
+|reverse       | 0x02  |
+|turnLeft      | 0x03  |
+|turnRight     | 0x04  |
+|stop          | 0x05  |
+|queryproc     | 0x06  |
+|startvid      | 0x07  |
+|stopvid       | 0x08  |
 |graceful      | 0xFF  |
 +--------------+-------+
 
@@ -42,8 +44,12 @@ speed, and wheel rotation (rotation for turns).
     reverse <number>
 
   Rotate wheels:
-    turn <number>
-
+    turnLeft <number>
+    turnRight <number>
+  
+  Stoping motor wheels:
+    stop <number>
+    
 When we're actually sending the commands, we want to turn the above into udp
 packets. It would not make sense to send whole strings over the network.
 Therefore we can bind hex values to the commands in this manner:
@@ -52,8 +58,10 @@ Therefore we can bind hex values to the commands in this manner:
 | ActionLabel  | ActionHex   |
 +--------------+-------------+
 | forward      | 0x01        |
-| turn         | 0x02        |
-| reverse      | 0x04        |
+| reverse      | 0x02        |
+| turnLeft     | 0x03        |
+| turnRight    | 0x04        |
+| stop         | 0x05        |
 +--------------+-------------+
 
 
@@ -66,7 +74,7 @@ messages:
 +--------------+-------------+
 | ActionLabel  | ActionHex   |
 +--------------+-------------+
-| queryproc    | 0x03        |
+| queryproc    | 0x06        |
 +--------------+-------------+
 
 Once the client sends one packet with the above value, the client must wait to
@@ -119,6 +127,6 @@ queryproc command (discussed in this document).
 +-------------------+-------------+
 | Process Label     | Hex id      |
 +-------------------+-------------+
-| startvid          | 0x05        |
-| stopvid           | 0x06        |
+| startvid          | 0x07        |
+| stopvid           | 0x08        |
 +-------------------+-------------+
