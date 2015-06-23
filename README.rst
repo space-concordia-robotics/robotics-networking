@@ -28,16 +28,24 @@ And if you want to give a few things a shot manually, you can test with the
 client executable. You can run help to see what kind of commands are currently
 supported manually.
 
-    $ roboticsnet-client --help
-    usage: Manually send commands to listener. [-h] [--move MOVE] [--turn TURN]
-                                               [--queryproc QUERYPROC]
+
+    usage: roboticsnet-client [-h] [--forward FORWARD] [--reverse REVERSE]
+                              [--turn TURN] [--queryproc] [--graceful]
+                              [--host HOST] [--port PORT] [--testall] [--startvid]
+                              [--stopvid]
 
     optional arguments:
-      -h, --help            show this help message and exit
-      --move MOVE           send move command, given a value from 0 to 255
-      --turn TURN           send turn command, given a value from 0 to 255
-      --queryproc QUERYPROC
-                            send query about what is currently running
+      -h, --help         show this help message and exit
+      --forward FORWARD  send forward command, given a value from 0 to 255
+      --reverse REVERSE  send reverse command, given a value from 0 to 255
+      --turn TURN        send turn command, given a value from 0 to 255
+      --queryproc        send query about what is currently running
+      --graceful         shutdown server gracefully
+      --host HOST        specify an alternate host to default localhost
+      --port PORT        specify an alternate port to default 5000
+      --testall          sends a command of each
+      --startvid         request video to start running
+      --stopvid          request video to stop running
 
 
 So after running the server, with the above command (roboticsnet-server), you can

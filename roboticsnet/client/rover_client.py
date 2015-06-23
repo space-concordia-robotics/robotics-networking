@@ -1,6 +1,7 @@
 from multiprocessing.connection import Client
 from roboticsnet.gateway_constants import *
 from roboticsnet.rover_utils import RoverUtils
+from roboticsnet.roboticsnet_exception import RoboticsnetException
 
 class RoverClient:
     """
@@ -27,6 +28,7 @@ class RoverClient:
         Parameters:
             magnitude - is a byte; 0x0 to 0xFF
         """
+        self._validateByteValue(magnitude)
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_FORWARD, magnitude])
         self._sendMessage(message)
 
@@ -35,6 +37,7 @@ class RoverClient:
         Parameters:
             magnitude - is a byte; 0x0 to 0xFF
         """
+        self._validateByteValue(magnitude)
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_TURNLEFT, magnitude])
         self._sendMessage(message)
 
@@ -43,6 +46,7 @@ class RoverClient:
         Parameters:
             magnitude - is a byte; 0x0 to 0xFF
         """
+        self._validateByteValue(magnitude)
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_TURNRIGHT,magnitude])
         self._sendMessage(message)
 
@@ -61,6 +65,7 @@ class RoverClient:
 
     def reverse(self, magnitude):
         """ Issue a reverse command """
+        self._validateByteValue(magnitude)
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_REVERSE, magnitude])
         return self._sendMessage(message)
 
@@ -107,3 +112,12 @@ class RoverClient:
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_GRACEFUL])
         self._sendMessage(message)
 
+    def _validateByteValue(self, value):
+        """
+        Check if value is between 0 to 255. If not, raise an exception
+
+        Parameters:
+            value - an integer.
+        """
+        if not value in range(0, 256):
+            raise RoboticsnetException("You can send things in range of 0 to 255 only")

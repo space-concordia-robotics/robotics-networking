@@ -6,11 +6,12 @@ import argparse
 from roboticsnet.client.rover_client import RoverClient
 from roboticsnet.byte_helpers.queryproc_byte_arr_helper import QueryprocByteArrHelper
 from roboticsnet.gateway_constants import *
+from roboticsnet.roboticsnet_exception import RoboticsnetException
 
 from colorama import Fore
 
 # Configuration
-parser = argparse.ArgumentParser('Manually send commands to listener.')
+parser = argparse.ArgumentParser('roboticsnet-client')
 
 parser.add_argument('--forward',
         help='send forward command, given a value from 0 to 255',
@@ -117,12 +118,21 @@ def _testAll():
     for c in calls:
         c()
 
-if   args.forward:      _forward()
-elif args.turn:      _turn()
-elif args.reverse:   _reverse()
-elif args.queryproc: _queryproc()
-elif args.graceful:  _graceful()
-elif args.testall:   _testAll()
-elif args.stopvid:   _stopVideo()
-elif args.startvid:  _startVideo()
+try:
+    if   args.forward:      _forward()
+    elif args.turn:      _turn()
+    elif args.reverse:   _reverse()
+    elif args.queryproc: _queryproc()
+    elif args.graceful:  _graceful()
+    elif args.testall:   _testAll()
+    elif args.stopvid:   _stopVideo()
+    elif args.startvid:  _startVideo()
 
+except RoboticsnetException as e:
+    print "Something wrong happened!"
+    print Fore.RED, e.message, Fore.RESET
+
+except Exception as e:
+    print Fore.RED, "Something terribly wrong happened."
+    print "It would probably be a good idea to file a bug report", Fore.RESET
+    print e.message
