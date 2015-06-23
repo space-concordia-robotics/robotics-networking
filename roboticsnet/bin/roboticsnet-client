@@ -10,7 +10,7 @@ from roboticsnet.gateway_constants import *
 from colorama import Fore
 
 # Configuration
-parser = argparse.ArgumentParser('Manually send commands to listener.')
+parser = argparse.ArgumentParser('roboticsnet-client')
 
 parser.add_argument('--forward',
         help='send forward command, given a value from 0 to 255',
