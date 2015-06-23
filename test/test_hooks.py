@@ -2,7 +2,8 @@ import unittest
 
 from roboticsnet.session import Session
 from roboticsnet.commands.forward_command import ForwardCommand
-from roboticsnet.commands.turn_command import TurnCommand
+from roboticsnet.commands.turn_left_command import TurnLeftCommand
+from roboticsnet.commands.turn_right_command import TurnRightCommand
 from roboticsnet.commands.reverse_command import ReverseCommand
 from roboticsnet.commands.start_video_command import StartVideoCommand
 from roboticsnet.commands.stop_video_command import StopVideoCommand
@@ -28,10 +29,17 @@ class Counter:
     def get(self):
         return self.count
 
+freeFuncFired = False
+freeFuncParamsFired = False
+
 def freefunc():
+    global freeFuncFired
+    freeFuncFired = True
     return True
 
 def freefuncParams(params):
+    global freeFuncParamsFired
+    freeFuncParamsFired = True
     return True
 
 class TestHooks(unittest.TestCase):
@@ -49,9 +57,14 @@ class TestHooks(unittest.TestCase):
         ReverseCommand(0x33, CommandHook(reverse=vc.put)).execute()
         self.assertEqual(vc.get()["value"], 0x33)
 
-    def testTurnCommand(self):
+    def testTurnLeftCommand(self):
         vc = ValContainer()
-        TurnCommand(0x44, CommandHook(turn=vc.put)).execute()
+        TurnLeftCommand(0x44, CommandHook(turnLeft=vc.put)).execute()
+        self.assertEqual(vc.get()["value"], 0x44)
+
+    def testTurnRightCommand(self):
+        vc = ValContainer()
+        TurnRightCommand(0x44, CommandHook(turnRight=vc.put)).execute()
         self.assertEqual(vc.get()["value"], 0x44)
 
     def testStartVideoCommand(self):
@@ -71,14 +84,12 @@ class TestHooks(unittest.TestCase):
         self.assertEqual(c.get(), 100)
 
     def testFreeFuncNoParams(self):
-        """ TODO: maybe we can have some way to make sure the free func fired
-        for sure. This could probably be done with glob vars ONLY IN THIS FILE
-        of course"""
+        global freeFuncFired
         ReverseCommand(0x33, CommandHook(reverse=freefunc)).execute()
+        self.assertEqual(freeFuncFired, True)
 
     def testFreeFuncParams(self):
-        """ TODO: maybe we can have some way to make sure the free func fired
-        for sure. This could probably be done with glob vars ONLY IN THIS FILE
-        of course"""
+        global freeFuncParamsFired
         ReverseCommand(0x33, CommandHook(reverse=freefuncParams)).execute()
+        self.assertEqual(freeFuncParamsFired, True)
 

@@ -1,6 +1,7 @@
 import unittest
 
 from roboticsnet.client.rover_client import RoverClient
+from roboticsnet.roboticsnet_exception import RoboticsnetException
 
 class ClientMock(RoverClient):
     """ Do nothing when actually sending things """
@@ -32,8 +33,11 @@ class TestClientValidation(unittest.TestCase):
     def testForward(self):
         self.cm.forward(12)
 
-    def testTurn(self):
-        self.cm.turn(12)
+    def testTurnLeft(self):
+        self.cm.turnLeft(12)
+
+    def testTurnRight(self):
+        self.cm.turnRight(12)
 
     def testQuery(self):
         self.cm.query()
@@ -50,8 +54,46 @@ class TestClientValidation(unittest.TestCase):
     # BADVALS now
 
     def testForwardBadValueBig(self):
-        self.cm.forward(300)
+        with self.assertRaises(RoboticsnetException):
+            self.cm.forward(300)
 
     def testForwardBadValueSmall(self):
-        self.cm.forward(-300)
+        with self.assertRaises(RoboticsnetException):
+            self.cm.forward(-300)
+
+    def testForwardZero(self):
+        self.cm.forward(0)
+
+    def testTurnRightBadValueBig(self):
+        with self.assertRaises(RoboticsnetException):
+            self.cm.turnRight(300)
+
+    def testTurnRightBadValueSmall(self):
+        with self.assertRaises(RoboticsnetException):
+            self.cm.turnLeft(-300)
+
+    def testTurnRightZero(self):
+        self.cm.turnRight(0)
+
+    def testTurnLeftZero(self):
+        self.cm.turnLeft(0)
+
+    def testTurnLeftBadValueBig(self):
+        with self.assertRaises(RoboticsnetException):
+            self.cm.turnLeft(300)
+
+    def testTurnLeftBadValueSmall(self):
+        with self.assertRaises(RoboticsnetException):
+            self.cm.turnLeft(-300)
+
+    def testReverseBadValueBig(self):
+        with self.assertRaises(RoboticsnetException):
+            self.cm.reverse(300)
+
+    def testReverseBadValueSmall(self):
+        with self.assertRaises(RoboticsnetException):
+            self.cm.reverse(-300)
+
+    def testReverseZero(self):
+        self.cm.reverse(0)
 

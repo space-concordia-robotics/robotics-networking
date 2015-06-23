@@ -15,8 +15,6 @@ class CommandHook:
         self.turnLeft = turnLeft
         self.turnRight = turnRight
         self.stop = stop
-
         self.queryproc = queryproc
-
         self.startVideo = startVideo
         self.stopVideo = stopVideo
