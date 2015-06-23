@@ -46,3 +46,12 @@ class TestClientValidation(unittest.TestCase):
 
     def testStopVideo(self):
         self.cm.stopVideo()
+
+    # BADVALS now
+
+    def testForwardBadValueBig(self):
+        self.cm.forward(300)
+
+    def testForwardBadValueSmall(self):
+        self.cm.forward(-300)
+
