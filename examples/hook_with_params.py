@@ -51,7 +51,7 @@ myCounter = Counter()
 # First you would need to define your hooks using CommandHook
 cmd_hook = CommandHook(
         forward=_forwardHook,
-        turn=_turnHook,
+        turnLeft=_turnHook,
         # reverse=_someOtherHook,
         startVideo=myCounter.incr
         )
