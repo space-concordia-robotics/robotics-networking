@@ -1,7 +1,20 @@
 #!/usr/bin/env python2.7
 
+import argparse
 import roboticsnet
 from roboticsnet.rover_listener import RoverListener
+from roboticsnet.gateway_constants import *
+
+sp = ROBOTICSNET_PORT
+
+parser = argparse.ArgumentParser('roboticsnet-server')
+
+parser.add_argument('--port',
+        help='set the listening port. If not specified, standard ' + sp + 'is used.',
+        type=int)
+
+if parser.port:
+    setPort = parser.port
 
 l = RoverListener()
 
