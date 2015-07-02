@@ -1,9 +1,24 @@
 #!/usr/bin/env python2.7
 
+import argparse
 import roboticsnet
 from roboticsnet.rover_listener import RoverListener
+from roboticsnet.gateway_constants import *
 
-l = RoverListener()
+setPort = sp = ROBOTICSNET_PORT
+
+parser = argparse.ArgumentParser('roboticsnet-server')
+
+parser.add_argument('--port',
+        help='set the listening port. If not specified, standard ' + str(sp) + 'is used.',
+        type=int)
+
+args = parser.parse_args()
+
+if args.port:
+    setPort = args.port
+
+l = RoverListener(default_port=setPort)
 
 print roboticsnet.__appname__, " ",  roboticsnet.__version__
 print "Starting command dispatcher..."
