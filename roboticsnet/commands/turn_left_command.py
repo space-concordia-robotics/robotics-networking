@@ -2,7 +2,7 @@ from roboticsnet.commands.commandable import Commandable
 
 class TurnLeftCommand(Commandable):
     """
-    author: psyomn
+    author: msnidal
     """
 
     def __init__(self, value, hooks):

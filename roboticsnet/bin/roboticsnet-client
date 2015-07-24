@@ -14,16 +14,24 @@ from colorama import Fore
 parser = argparse.ArgumentParser('roboticsnet-client')
 
 parser.add_argument('--forward',
-        help='send forward command, given a value from 0 to 255',
+        help='send forward command, given a value from 1 to 63',
         type=int)
 
 parser.add_argument('--reverse',
-        help='send reverse command, given a value from 0 to 255',
+        help='send reverse command, given a value from 1 to 63',
         type=int)
 
-parser.add_argument('--turn',
-        help='send turn command, given a value from 0 to 255',
+parser.add_argument('--turnLeft',
+        help='send turn left command, given a value from 1 to 63',
         type=int)
+        
+parser.add_argument('--turnRight',
+        help='send turn right command, given a value from 1 to 63',
+        type=int)
+        
+parser.add_argument('--stop',
+        help='send command to stop all motors',
+        action='store_true')
 
 parser.add_argument('--queryproc',
         help='send query about what is currently running',
@@ -73,14 +81,24 @@ def _forward():
     client.forward(args.forward)
     print Fore.GREEN, "Done!", Fore.RESET
 
-def _turn():
-    print "Send " + Fore.BLUE + "turn" + Fore.RESET+ " command...",
-    client.turn(args.turn)
-    print Fore.GREEN, "Done!", Fore.RESET
-
 def _reverse():
     print "Send " + Fore.BLUE + "reverse" + Fore.RESET + " command...",
     client.reverse(args.reverse)
+    print Fore.GREEN, "Done!", Fore.RESET
+
+def _turnLeft():
+    print "Send " + Fore.BLUE + "turn left" + Fore.RESET+ " command...",
+    client.turnLeft(args.turnLeft)
+    print Fore.GREEN, "Done!", Fore.RESET
+
+def _turnRight():
+    print "Send " + Fore.BLUE + "turn right" + Fore.RESET+ " command...",
+    client.turnRight(args.turnRight)
+    print Fore.GREEN, "Done!", Fore.RESET
+
+def _stop():
+    print "Send " + Fore.BLUE + "stop" + Fore.RESET+ " command...",
+    client.stop()
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _queryproc():
@@ -120,13 +138,15 @@ def _testAll():
 
 try:
     if   args.forward:      _forward()
-    elif args.turn:      _turn()
-    elif args.reverse:   _reverse()
-    elif args.queryproc: _queryproc()
-    elif args.graceful:  _graceful()
-    elif args.testall:   _testAll()
-    elif args.stopvid:   _stopVideo()
-    elif args.startvid:  _startVideo()
+    elif args.turnLeft:     _turnLeft()
+    elif args.turnRight:    _turnRight()
+    elif args.stop:         _stop()
+    elif args.reverse:      _reverse()
+    elif args.queryproc:    _queryproc()
+    elif args.graceful:     _graceful()
+    elif args.testall:      _testAll()
+    elif args.stopvid:      _stopVideo()
+    elif args.startvid:     _startVideo()
 
 except RoboticsnetException as e:
     print "Something wrong happened!"

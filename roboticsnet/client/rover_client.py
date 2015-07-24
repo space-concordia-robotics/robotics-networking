@@ -32,6 +32,12 @@ class RoverClient:
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_FORWARD, magnitude])
         self._sendMessage(message)
 
+    def reverse(self, magnitude):
+        """ Issue a reverse command """
+        self._validateByteValue(magnitude)
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_REVERSE, magnitude])
+        return self._sendMessage(message)
+
     def turnLeft(self, magnitude):
         """
         Parameters:
@@ -50,24 +56,15 @@ class RoverClient:
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_TURNRIGHT,magnitude])
         self._sendMessage(message)
 
-    def stop(self, magnitude):
-        """
-        Parameters:
-            magnitude - is a byte; 0x0 to 0xFF
-        """
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_STOP, magnitude])
+    def stop(self):
+        """ Issue a stop command """
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_STOP])
         self._sendMessage(message)
 
     def query(self):
         """ Issue a queryproc request """
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_QUERYPROC])
         return self._sendMessageAwaitReply(message)
-
-    def reverse(self, magnitude):
-        """ Issue a reverse command """
-        self._validateByteValue(magnitude)
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_REVERSE, magnitude])
-        return self._sendMessage(message)
 
     def startVideo(self):
         """ Send a request to start the video process - what happens if there is

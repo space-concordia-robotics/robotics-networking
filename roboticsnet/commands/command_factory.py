@@ -51,7 +51,7 @@ class CommandFactory:
             return CommandFactory._makeTurnRight(params, hooks)
 
         elif cmd == ROBOTICSNET_COMMAND_STOP:
-            return CommandFactory._makeStop(params, hooks)
+            return StopCommand(hooks)
 
         elif cmd == ROBOTICSNET_COMMAND_QUERYPROC:
             return QueryprocCommand(conn, session, hooks)
