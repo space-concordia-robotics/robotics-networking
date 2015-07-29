@@ -28,7 +28,7 @@ class RoverListener:
         """ main entry point """
         print "Listening on port: ", self.port
 
-        address = ('localhost', self.port)
+        address = ('', self.port)
 
         l = Listener(address)
 
