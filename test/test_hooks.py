@@ -2,8 +2,10 @@ import unittest
 
 from roboticsnet.session import Session
 from roboticsnet.commands.forward_command import ForwardCommand
-from roboticsnet.commands.turn_left_command import TurnLeftCommand
-from roboticsnet.commands.turn_right_command import TurnRightCommand
+from roboticsnet.commands.forward_left_command import ForwardLeftCommand
+from roboticsnet.commands.forward_right_command import ForwardRightCommand
+from roboticsnet.commands.reverse_left_command import ReverseLeftCommand
+from roboticsnet.commands.reverse_right_command import ReverseRightCommand
 from roboticsnet.commands.reverse_command import ReverseCommand
 from roboticsnet.commands.start_video_command import StartVideoCommand
 from roboticsnet.commands.stop_video_command import StopVideoCommand
@@ -57,15 +59,25 @@ class TestHooks(unittest.TestCase):
         ReverseCommand(0x33, CommandHook(reverse=vc.put)).execute()
         self.assertEqual(vc.get()["value"], 0x33)
 
-    def testTurnLeftCommand(self):
+    def testForwardLeftCommand(self):
         vc = ValContainer()
-        TurnLeftCommand(0x44, CommandHook(turnLeft=vc.put)).execute()
+        ForwardLeftCommand(0x44, CommandHook(forwardLeft=vc.put)).execute()
         self.assertEqual(vc.get()["value"], 0x44)
 
-    def testTurnRightCommand(self):
+    def testForwardRightCommand(self):
         vc = ValContainer()
-        TurnRightCommand(0x44, CommandHook(turnRight=vc.put)).execute()
+        ForwardRightCommand(0x44, CommandHook(forwardRight=vc.put)).execute()
         self.assertEqual(vc.get()["value"], 0x44)
+
+    def testReverseLeftCommand(self):
+        vc = ValContainer()
+        ReverseLeftCommand(0x44, CommandHook(reverseLeft=vc.put)).execute()
+        self.assertEqual(vc.get()["value"], 0x55)
+
+    def testReverseRightCommand(self):
+        vc = ValContainer()
+        ReverseRightCommand(0x44, CommandHook(reverseRight=vc.put)).execute()
+        self.assertEqual(vc.get()["value"], 0x55)
 
     def testStartVideoCommand(self):
         vc = ValContainer()

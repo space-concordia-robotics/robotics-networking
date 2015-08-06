@@ -38,22 +38,40 @@ class RoverClient:
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_REVERSE, magnitude])
         return self._sendMessage(message)
 
-    def turnLeft(self, magnitude):
+    def forwardLeft(self, magnitude):
         """
         Parameters:
             magnitude - is a byte; 0x0 to 0xFF
         """
         self._validateByteValue(magnitude)
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_TURNLEFT, magnitude])
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_FORWARDLEFT, magnitude])
         self._sendMessage(message)
 
-    def turnRight(self, magnitude):
+    def forwardRight(self, magnitude):
         """
         Parameters:
             magnitude - is a byte; 0x0 to 0xFF
         """
         self._validateByteValue(magnitude)
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_TURNRIGHT,magnitude])
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_FORWARDRIGHT,magnitude])
+        self._sendMessage(message)
+
+    def reverseLeft(self, magnitude):
+        """
+        Parameters:
+            magnitude - is a byte; 0x0 to 0xFF
+        """
+        self._validateByteValue(magnitude)
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_REVERSELEFT, magnitude])
+        self._sendMessage(message)
+
+    def reverseRight(self, magnitude):
+        """
+        Parameters:
+            magnitude - is a byte; 0x0 to 0xFF
+        """
+        self._validateByteValue(magnitude)
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_REVERSERIGHT,magnitude])
         self._sendMessage(message)
 
     def stop(self):

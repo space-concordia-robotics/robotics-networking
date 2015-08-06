@@ -33,11 +33,17 @@ class TestClientValidation(unittest.TestCase):
     def testForward(self):
         self.cm.forward(12)
 
-    def testTurnLeft(self):
-        self.cm.turnLeft(12)
+    def testForwardLeft(self):
+        self.cm.forwardLeft(12)
 
-    def testTurnRight(self):
-        self.cm.turnRight(12)
+    def testForwardRight(self):
+        self.cm.forwardRight(12)
+
+    def testReverseLeft(self):
+        self.cm.reverseLeft(12)
+
+    def testReverseRight(self):
+        self.cm.reverseRight(12)
 
     def testQuery(self):
         self.cm.query()
@@ -64,27 +70,49 @@ class TestClientValidation(unittest.TestCase):
     def testForwardZero(self):
         self.cm.forward(0)
 
-    def testTurnRightBadValueBig(self):
+    def testForwardRightBadValueBig(self):
         with self.assertRaises(RoboticsnetException):
-            self.cm.turnRight(300)
+            self.cm.forwardRight(300)
 
-    def testTurnRightBadValueSmall(self):
+    def testForwardRightBadValueSmall(self):
         with self.assertRaises(RoboticsnetException):
-            self.cm.turnLeft(-300)
+            self.cm.forwardRight(-300)
 
-    def testTurnRightZero(self):
-        self.cm.turnRight(0)
+    def testForwardRightZero(self):
+        self.cm.forwardRight(0)
 
-    def testTurnLeftZero(self):
-        self.cm.turnLeft(0)
+    def testForwardLeftZero(self):
+        self.cm.forwardLeft(0)
 
-    def testTurnLeftBadValueBig(self):
+    def testForwardLeftBadValueBig(self):
         with self.assertRaises(RoboticsnetException):
-            self.cm.turnLeft(300)
+            self.cm.forwardLeft(300)
 
-    def testTurnLeftBadValueSmall(self):
+    def testForwardLeftBadValueSmall(self):
         with self.assertRaises(RoboticsnetException):
-            self.cm.turnLeft(-300)
+            self.cm.forwardLeft(-300)
+
+    def testReverseRightBadValueBig(self):
+        with self.assertRaises(RoboticsnetException):
+            self.cm.reverseRight(300)
+
+    def testReverseRightBadValueSmall(self):
+        with self.assertRaises(RoboticsnetException):
+            self.cm.reverseRight(-300)
+
+    def testReverseRightZero(self):
+        self.cm.reverseRight(0)
+
+    def testReverseLeftZero(self):
+        self.cm.reverseLeft(0)
+
+    def testReverseLeftBadValueBig(self):
+        with self.assertRaises(RoboticsnetException):
+            self.cm.reverseLeft(300)
+
+    def testReverseLeftBadValueSmall(self):
+        with self.assertRaises(RoboticsnetException):
+            self.cm.reverseLeft(-300)
 
     def testReverseBadValueBig(self):
         with self.assertRaises(RoboticsnetException):

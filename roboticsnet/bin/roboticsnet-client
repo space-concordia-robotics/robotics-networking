@@ -21,12 +21,20 @@ parser.add_argument('--reverse',
         help='send reverse command, given a value from 1 to 63',
         type=int)
 
-parser.add_argument('--turnLeft',
-        help='send turn left command, given a value from 1 to 63',
+parser.add_argument('--forwardLeft',
+        help='send forward left command, given a value from 1 to 63',
         type=int)
         
-parser.add_argument('--turnRight',
-        help='send turn right command, given a value from 1 to 63',
+parser.add_argument('--forwardRight',
+        help='send forward right command, given a value from 1 to 63',
+        type=int)
+
+parser.add_argument('--reverseLeft',
+        help='send reverse left command, given a value from 1 to 63',
+        type=int)
+        
+parser.add_argument('--reverseRight',
+        help='send reverse right command, given a value from 1 to 63',
         type=int)
         
 parser.add_argument('--stop',
@@ -86,14 +94,24 @@ def _reverse():
     client.reverse(args.reverse)
     print Fore.GREEN, "Done!", Fore.RESET
 
-def _turnLeft():
-    print "Send " + Fore.BLUE + "turn left" + Fore.RESET+ " command...",
-    client.turnLeft(args.turnLeft)
+def _forwardLeft():
+    print "Send " + Fore.BLUE + "forward left" + Fore.RESET+ " command...",
+    client.forwardLeft(args.forwardLeft)
     print Fore.GREEN, "Done!", Fore.RESET
 
-def _turnRight():
-    print "Send " + Fore.BLUE + "turn right" + Fore.RESET+ " command...",
-    client.turnRight(args.turnRight)
+def _forwardRight():
+    print "Send " + Fore.BLUE + "forward right" + Fore.RESET+ " command...",
+    client.forwardRight(args.forwardRight)
+    print Fore.GREEN, "Done!", Fore.RESET
+
+def _reverseLeft():
+    print "Send " + Fore.BLUE + "reverse left" + Fore.RESET+ " command...",
+    client.reverseLeft(args.reverseLeft)
+    print Fore.GREEN, "Done!", Fore.RESET
+
+def _reverseRight():
+    print "Send " + Fore.BLUE + "reverse right" + Fore.RESET+ " command...",
+    client.reverseRight(args.reverseRight)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _stop():
@@ -125,11 +143,12 @@ def _graceful():
 def _testAll():
     """ Test all commands with dummy data """
     args.forward = 233
-    args.turn = 22
+    #args.turn = 22
+    #should all of the commands be here???
     args.reverse = 0xbb
 
     # Make sure _graceful is in the end
-    calls = [_forward, _reverse, _turn, _startVideo, _stopVideo,
+    calls = [_forward, _reverse, _forwardLeft, _forwardRight, _reverseLeft, _reverseRight, _stop, _startVideo, _stopVideo,
              _queryproc, _graceful]
 
     print Fore.MAGENTA + "Testing all commands..." + Fore.RESET
@@ -138,8 +157,10 @@ def _testAll():
 
 try:
     if   args.forward:      _forward()
-    elif args.turnLeft:     _turnLeft()
-    elif args.turnRight:    _turnRight()
+    elif args.forwardLeft:     _forwardLeft()
+    elif args.forwardRight:    _forwardRight()
+    elif args.reverseLeft:  _reverseLeft()
+    elif args.reverseRight: _reverseRight()
     elif args.stop:         _stop()
     elif args.reverse:      _reverse()
     elif args.queryproc:    _queryproc()

@@ -6,8 +6,10 @@ from roboticsnet.commands.reverse_command import ReverseCommand
 from roboticsnet.commands.start_video_command import StartVideoCommand
 from roboticsnet.commands.stop_video_command import StopVideoCommand
 from roboticsnet.command_hook import CommandHook
-from roboticsnet.commands.turn_left_command import TurnLeftCommand
-from roboticsnet.commands.turn_right_command import TurnRightCommand
+from roboticsnet.commands.forward_left_command import ForwardLeftCommand
+from roboticsnet.commands.forward_right_command import ForwardRightCommand
+from roboticsnet.commands.reverse_left_command import ReverseLeftCommand
+from roboticsnet.commands.reverse_right_command import ReverseRightCommand
 
 class TestCommands(unittest.TestCase):
     """ These just make sure that the commands, once executed, don't raise exceptions
@@ -25,11 +27,17 @@ class TestCommands(unittest.TestCase):
     def testReverseCommand(self):
         ReverseCommand(0x33, self._makeEmptyHook()).execute()
 
-    def testTurnLeftCommand(self):
-        TurnLeftCommand(0x44, self._makeEmptyHook()).execute()
+    def testForwardLeftCommand(self):
+        ForwardLeftCommand(0x44, self._makeEmptyHook()).execute()
 
-    def testTurnRightCommand(self):
-        TurnRightCommand(0x44, self._makeEmptyHook()).execute()
+    def testForwardRightCommand(self):
+        ForwardRightCommand(0x44, self._makeEmptyHook()).execute()
+
+    def testReverseLeftCommand(self):
+        ReverseLeftCommand(0x44, self._makeEmptyHook()).execute()
+
+    def testReverseRightCommand(self):
+        ReverseRightCommand(0x44, self._makeEmptyHook()).execute()
 
     def testStartVideoCommand(self):
         StartVideoCommand(self._makeEmptyHook()).execute()

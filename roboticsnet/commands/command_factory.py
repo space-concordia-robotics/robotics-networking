@@ -1,7 +1,9 @@
 from roboticsnet.commands.command_validator import validate
 from roboticsnet.commands.forward_command import ForwardCommand
-from roboticsnet.commands.turn_left_command import TurnLeftCommand
-from roboticsnet.commands.turn_right_command import TurnRightCommand
+from roboticsnet.commands.forward_left_command import ForwardLeftCommand
+from roboticsnet.commands.forward_right_command import ForwardRightCommand
+from roboticsnet.commands.reverse_left_command import ReverseLeftCommand
+from roboticsnet.commands.reverse_right_command import ReverseRightCommand
 from roboticsnet.commands.stop_command import StopCommand
 from roboticsnet.commands.reverse_command import ReverseCommand
 from roboticsnet.commands.queryproc_command import QueryprocCommand
@@ -44,11 +46,17 @@ class CommandFactory:
         elif cmd == ROBOTICSNET_COMMAND_REVERSE:
             return CommandFactory._makeReverse(params, hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_TURNLEFT:
-            return CommandFactory._makeTurnLeft(params, hooks)
+        elif cmd == ROBOTICSNET_COMMAND_FORWARDLEFT:
+            return CommandFactory._makeForwardLeft(params, hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_TURNRIGHT:
-            return CommandFactory._makeTurnRight(params, hooks)
+        elif cmd == ROBOTICSNET_COMMAND_FORWARDRIGHT:
+            return CommandFactory._makeForwardRight(params, hooks)
+
+        elif cmd == ROBOTICSNET_COMMAND_REVERSELEFT:
+            return CommandFactory._makeReverseLeft(params, hooks)
+
+        elif cmd == ROBOTICSNET_COMMAND_REVERSERIGHT:
+            return CommandFactory._makeReverseRight(params, hooks)
 
         elif cmd == ROBOTICSNET_COMMAND_STOP:
             return StopCommand(hooks)
@@ -68,14 +76,24 @@ class CommandFactory:
         return ForwardCommand(magnitude, hooks)
 
     @staticmethod
-    def _makeTurnLeft(rcv_bytes, hooks):
+    def _makeForwardLeft(rcv_bytes, hooks):
         magnitude = ord(rcv_bytes[0])
-        return TurnLeftCommand(magnitude, hooks)
+        return ForwardLeftCommand(magnitude, hooks)
 
     @staticmethod
-    def _makeTurnRight(rcv_bytes, hooks):
+    def _makeForwardRight(rcv_bytes, hooks):
         magnitude = ord(rcv_bytes[0])
-        return TurnRightCommand(magnitude, hooks)
+        return ForwardRightCommand(magnitude, hooks)
+
+    @staticmethod
+    def _makeReverseLeft(rcv_bytes, hooks):
+        magnitude = ord(rcv_bytes[0])
+        return ReverseLeftCommand(magnitude, hooks)
+
+    @staticmethod
+    def _makeReverseRight(rcv_bytes, hooks):
+        magnitude = ord(rcv_bytes[0])
+        return ReverseRightCommand(magnitude, hooks)
 
     @staticmethod
     def _makeReverse(rcv_bytes, hooks):
