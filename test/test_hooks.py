@@ -71,12 +71,12 @@ class TestHooks(unittest.TestCase):
 
     def testReverseLeftCommand(self):
         vc = ValContainer()
-        ReverseLeftCommand(0x44, CommandHook(reverseLeft=vc.put)).execute()
+        ReverseLeftCommand(0x55, CommandHook(reverseLeft=vc.put)).execute()
         self.assertEqual(vc.get()["value"], 0x55)
 
     def testReverseRightCommand(self):
         vc = ValContainer()
-        ReverseRightCommand(0x44, CommandHook(reverseRight=vc.put)).execute()
+        ReverseRightCommand(0x55, CommandHook(reverseRight=vc.put)).execute()
         self.assertEqual(vc.get()["value"], 0x55)
 
     def testStartVideoCommand(self):
