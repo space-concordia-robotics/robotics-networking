@@ -30,28 +30,31 @@ supported manually.
 
 
     usage: roboticsnet-client [-h] [--forward FORWARD] [--reverse REVERSE]
-                              [--turn TURN] [--queryproc] [--graceful]
+                              [--forwardLeft FORWARDLEFT] [--queryproc] [--graceful]
                               [--host HOST] [--port PORT] [--testall] [--startvid]
                               [--stopvid]
 
     optional arguments:
-      -h, --help         show this help message and exit
-      --forward FORWARD  send forward command, given a value from 0 to 255
-      --reverse REVERSE  send reverse command, given a value from 0 to 255
-      --turn TURN        send turn command, given a value from 0 to 255
-      --queryproc        send query about what is currently running
-      --graceful         shutdown server gracefully
-      --host HOST        specify an alternate host to default localhost
-      --port PORT        specify an alternate port to default 5000
-      --testall          sends a command of each
-      --startvid         request video to start running
-      --stopvid          request video to stop running
+      -h, --help         	  show this help message and exit
+      --forward FORWARD  	  send forward command, given a value from 1 to 63
+      --reverse REVERSE  	  send reverse command, given a value from 1 to 63
+      --forwardLeft FORWARDLEFT   send forwardLeft command, given a value from 1 to 63
+      --forwardRight FORWARDRIGHT send forwardRight command, given a value from 1 to 63
+      --reverseLeft REVERSELEFT   send reverseLeft command, given a value from 1 to 63
+      --reverseRight REVERSERIGHT send reverseRight command, given a value from 1 to 63
+      --queryproc        	  send query about what is currently running
+      --graceful         	  shutdown server gracefully
+      --host HOST        	  specify an alternate host to default localhost
+      --port PORT        	  specify an alternate port to default 5000
+      --testall          	  sends a command of each
+      --startvid         	  request video to start running
+      --stopvid          	  request video to stop running
 
 
 So after running the server, with the above command (roboticsnet-server), you can
 send a packet this way:
 
-    $ roboticsnet-client --move 23
+    $ roboticsnet-client --forward 23
 
     Using port:  5000
 

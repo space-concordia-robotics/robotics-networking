@@ -9,12 +9,14 @@ Full Table of Commands
 +--------------+-------+
 |forward       | 0x01  |
 |reverse       | 0x02  |
-|turnLeft      | 0x03  |
-|turnRight     | 0x04  |
+|forwardLeft   | 0x03  |
+|forwardRight  | 0x04  |
 |stop          | 0x05  |
 |queryproc     | 0x06  |
 |startvid      | 0x07  |
 |stopvid       | 0x08  |
+|reverseLeft   | 0x09  |
+|reverseRight  | 0x10  |
 |graceful      | 0xFF  |
 +--------------+-------+
 
@@ -43,9 +45,13 @@ speed, and wheel rotation (rotation for turns).
   Movement backwards:
     reverse <number>
 
-  Rotate wheels:
-    turnLeft <number>
-    turnRight <number>
+  Turning forward:
+    forwardLeft <number>
+    forwardRight <number>
+
+  Turning backwards:
+    reverseLeft <number>
+    reverseRight <number>
   
   Stoping motor wheels:
     stop <number>
@@ -59,9 +65,11 @@ Therefore we can bind hex values to the commands in this manner:
 +--------------+-------------+
 | forward      | 0x01        |
 | reverse      | 0x02        |
-| turnLeft     | 0x03        |
-| turnRight    | 0x04        |
+| forwardLeft  | 0x03        |
+| forwardRight | 0x04        |
 | stop         | 0x05        |
+| reverseLeft  | 0x09        |
+| reverseRight | 0x10        |
 +--------------+-------------+
 
 
