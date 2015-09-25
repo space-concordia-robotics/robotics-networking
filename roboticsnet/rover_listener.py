@@ -44,14 +44,12 @@ class RoverListener:
                 if ord(received_bytes[0]) == ROBOTICSNET_COMMAND_GRACEFUL:
                     self.end_listen = True
                 else:
-                    cmd = CommandFactory.makeFromByteArray(
+                    cmd = CommandFactory.makeFromByteArray(\
                             received_bytes,
                             conn,
                             self.session,
                             self.hooks)
                     cmd.execute()
-
-                conn.close()
 
             except KeyboardInterrupt:
                 print "Shutting down ..."
@@ -61,6 +59,9 @@ class RoverListener:
                 # TODO: logging would be a good idea here
                 print "There was some error. Ignoring last command"
                 print traceback.format_exc()
+
+            finally:
+                conn.close()
 
 
         print "BYE."
