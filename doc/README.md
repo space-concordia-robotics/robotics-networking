@@ -183,6 +183,9 @@ The above attaches the free functions as hooks. The functions in question simply
 count how many times a message has been intercepted. When the server shuts down,
 the script will report how many times different requests have been received.
 
+The user of this project/library is not required to set every single hook.
+Operations which need no extra behavior may be omitted.
+
 # References
 
 * \[1\] Design patterns: elements of reusable object-oriented software, Erich
