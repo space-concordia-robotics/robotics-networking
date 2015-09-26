@@ -54,7 +54,7 @@ particular project. This means that:
    Therefore it has access to the server. In order to make this server able to
    perform different operations, without tampering the internals, we made it
    possible to attach hooks to different events that are received. More
-   information will be discoled in Section \ref{sec:hooks}.
+   information will be disclosed in Section \ref{sec:hooks}.
 
 2. The Base Station project will pull in the networking project. Since the
    networking project also includes a client, the basestation will be able to
