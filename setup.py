@@ -8,7 +8,7 @@ setup(
 
     description='Common network code for Rover',
     long_description=open('README.rst').read(),
-    # url='http://www.github.com/psyomn/pypsylbm',
+    url='http://www.github.com/space-concordia-robotics/robotics-networkingp',
     license='MIT',
 
     author='Simon Symeonidis',
@@ -18,15 +18,15 @@ setup(
         "colorama>=0.3.3"
         ],
 
-    packages=[
-          'roboticsnet'
-        , 'roboticsnet.commands'
-        , 'roboticsnet.client'
-        , 'roboticsnet.byte_helpers'
+    packages=[\
+          'roboticsnet'\
+        , 'roboticsnet.commands'\
+        , 'roboticsnet.client'\
+        , 'roboticsnet.byte_helpers'\
         ],
 
-    scripts=[
-          'roboticsnet/bin/roboticsnet-server'
+    scripts=[\
+          'roboticsnet/bin/roboticsnet-server'\
         , 'roboticsnet/bin/roboticsnet-client'],
 
     test_suite="test"
