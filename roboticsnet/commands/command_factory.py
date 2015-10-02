@@ -9,6 +9,7 @@ from roboticsnet.commands.reverse_command import ReverseCommand
 from roboticsnet.commands.queryproc_command import QueryprocCommand
 from roboticsnet.commands.start_video_command import StartVideoCommand
 from roboticsnet.commands.stop_video_command import StopVideoCommand
+from roboticsnet.commands.sensinfo_command import SensinfoCommand
 from roboticsnet.gateway_constants import *
 
 class CommandFactory:
@@ -69,6 +70,9 @@ class CommandFactory:
 
         elif cmd == ROBOTICSNET_COMMAND_STOP_VID:
             return StopVideoCommand(hooks)
+
+        elif cmd == ROBOTICSNET_COMMAND_SENSEINFO:
+            return SensinfoCommand(conn, session, hooks)
 
     @staticmethod
     def _makeForward(rcv_bytes, hooks):
