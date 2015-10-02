@@ -8,7 +8,9 @@ class CommandHook:
     Author: psyomn
     """
 
-    def __init__(self, forward=None, reverse=None, forwardLeft=None, forwardRight=None, reverseLeft=None, reverseRight=None, stop=None, queryproc=None, startVideo=None, stopVideo=None):
+    def __init__(self, forward=None, reverse=None, forwardLeft=None,
+            forwardRight=None, reverseLeft=None, reverseRight=None,
+            stop=None, queryproc=None, startVideo=None, stopVideo=None):
         self.forward = forward
         self.reverse = reverse
         self.forwardLeft = forwardLeft
