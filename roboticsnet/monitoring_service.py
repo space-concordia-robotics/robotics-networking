@@ -31,4 +31,4 @@ class MonitoringService:
             time.sleep(self.sleeptime)
 
     def _poll(self):
-        self.monitoringCall(self.container)
+        self.container = self.monitoringCall()
