@@ -18,7 +18,28 @@ class RoverListener:
     first to the validator, and then to the dispatcher.
     """
 
-    def __init__(self, default_port=ROBOTICSNET_PORT, hooks=None):
+    def __init__(self, default_port=ROBOTICSNET_PORT, hooks=None,
+            monitorProcs=None):
+        """
+        default_port:
+            The port that the server monitors on in default.
+
+        hooks:
+            Depending on what we receive on the server, we can bind different
+            behavior. There's two examples you can consult and see how this
+            mechanism works in robotics-networking/examples.
+
+        monitorProcs:
+            An array of lambdas, which have arity of 1 (they take in one
+            parameter).
+
+            On top of hooks, we define some functions to be executed on and on
+            during the whole lifetime of the system. These should be able to set
+            some value, and return that value when these services are asked for
+            system information.
+
+        author: psyomn
+        """
         self.port = default_port
         self.end_listen = False
         self.session = Session()
