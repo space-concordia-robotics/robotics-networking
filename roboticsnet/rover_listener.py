@@ -99,9 +99,12 @@ class RoverListener:
             return
 
         for lamb in monitorProcs:
+            print "Init polling service [", lamb.func_name, "]"
+            print "  [Service Info] ", lamb.__doc__
             monServ = MonitoringService(0, lamb)
             self.monitorServices.append(monServ)
             thrd = threading.Thread(target=monServ.run)
             self.monitorServices.append(thrd)
+            thrd.run()
 
 
