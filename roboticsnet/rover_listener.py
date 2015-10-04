@@ -1,4 +1,5 @@
 import traceback
+import threading
 
 from multiprocessing.connection import Listener
 from colorama import Fore
@@ -8,6 +9,7 @@ from roboticsnet.sanitizer import sanitize
 from roboticsnet.session import Session
 from roboticsnet.gateway_constants import *
 from roboticsnet.rover_utils import RoverUtils
+from roboticsnet.monitoring_service import MonitoringService
 
 class RoverListener:
     """
@@ -44,6 +46,9 @@ class RoverListener:
         self.end_listen = False
         self.session = Session()
         self.hooks = hooks
+        self.monitorServices = []
+        self.serviceHandles = []
+        self._spawnMonitoringServices(monitorProcs)
 
     def listen(self):
         """ main entry point """
@@ -86,4 +91,17 @@ class RoverListener:
 
 
         print "BYE."
+
+
+    def _spawnMonitoringServices(self, monitorProcs):
+        """ This starts all the monitoring services (as threads) """
+        if not monitorProcs:
+            return
+
+        for lamb in monitorProcs:
+            monServ = MonitoringService(0, lamb)
+            self.monitorServices.append(monServ)
+            thrd = threading.Thread(target=monServ.run)
+            self.monitorServices.append(thrd)
+
 
