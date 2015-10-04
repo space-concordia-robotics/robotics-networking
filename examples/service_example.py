@@ -22,12 +22,17 @@ def polling_service():
     """ Returns the same number all the time; for testing purposes """
     return 42
 
+def polling_service_2():
+    """ Just another service """
+    return 24
+
 # First you would need to define your hooks using CommandHook
 cmd_hook = CommandHook(
         forward=_forwardHook
         )
 
-l = RoverListener(hooks=cmd_hook, monitorProcs=[polling_service])
+l = RoverListener(hooks=cmd_hook,
+        monitorProcs=[polling_service_2, polling_service_2])
 
 print roboticsnet.__appname__, " ",  roboticsnet.__version__
 print "Starting command dispatcher..."

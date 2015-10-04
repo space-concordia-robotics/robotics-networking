@@ -80,15 +80,29 @@ class RoverListener:
             except KeyboardInterrupt:
                 print "Shutting down ..."
                 self.end_listen = True
-
+                print "Attempting to stop services"
+                print self.monitorServices
+                for service in self.monitorServices:
+                    print "Send stop to: ", service
+                    service.stop()
+                for service in self.monitorServices:
+                    print "Join: ", service
+                    service.join()
             except:
                 # TODO: logging would be a good idea here
                 print "There was some error. Ignoring last command"
                 print traceback.format_exc()
-
+                self.end_listen = True
+                print "Attempting to stop services"
+                print self.monitorServices
+                for service in self.monitorServices:
+                    print "Send stop to: ", service.func_name
+                    service.stop()
+                for service in self.monitorServices:
+                    print "Join: ", service.func_name
+                    service.join()
             finally:
                 conn.close()
-
 
         print "BYE."
 
@@ -103,8 +117,7 @@ class RoverListener:
             print "  [Service Info] ", lamb.__doc__
             monServ = MonitoringService(0, lamb)
             self.monitorServices.append(monServ)
-            thrd = threading.Thread(target=monServ.run)
-            self.monitorServices.append(thrd)
-            thrd.run()
+            monServ.start()
 
+        print "All services started"
 
