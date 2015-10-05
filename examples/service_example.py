@@ -2,7 +2,8 @@
 
 """
 Simple example demonstrating services being runned in order to poll different
-aspects of a system. These are intended
+aspects of a system. These are intended to be used against parts of a system
+which may be monitored. For example, values of a sensor.
 
 Author: psyomn
 """
