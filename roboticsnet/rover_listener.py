@@ -104,7 +104,10 @@ class RoverListener:
                     print "Join: ", service.func_name
                     service.join()
             finally:
-                conn.close()
+                """ It is the case that conn might not be set if nothing is
+                received """
+                if 'conn' in vars() or 'conn' in globals():
+                    conn.close()
 
         print "BYE."
 
