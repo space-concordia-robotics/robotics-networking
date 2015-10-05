@@ -93,15 +93,7 @@ class RoverListener:
                 # TODO: logging would be a good idea here
                 print "There was some error. Ignoring last command"
                 print traceback.format_exc()
-                self.end_listen = True
-                print "Attempting to stop services"
-                print self.monitorServices
-                for service in self.monitorServices:
-                    print "Send stop to: ", service.func_name
-                    service.stop()
-                for service in self.monitorServices:
-                    print "Join: ", service.func_name
-                    service.join()
+
             finally:
                 """ It is the case that conn might not be set if nothing is
                 received """
