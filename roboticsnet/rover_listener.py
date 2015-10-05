@@ -76,19 +76,12 @@ class RoverListener:
                             self.hooks)
                     cmd.execute()
 
-            # TODO: two exception blocks should be factored out when I resolve
-            # the exception/issue
             except KeyboardInterrupt:
+                """ User hits C^c """
                 print "Shutting down ..."
                 self.end_listen = True
-                print "Attempting to stop services"
-                print self.monitorServices
-                for service in self.monitorServices:
-                    print "Send stop to: ", service
-                    service.stop()
-                for service in self.monitorServices:
-                    print "Join: ", service
-                    service.join()
+                self._stopRunningServices()
+
             except:
                 # TODO: logging would be a good idea here
                 print "There was some error. Ignoring last command"
@@ -102,6 +95,17 @@ class RoverListener:
 
         print "BYE."
 
+    def _stopRunningServices(self):
+        """ If there exists any running services (like sensor polling
+        functions), this method will stop them """
+        print "Attempting to stop services"
+        print self.monitorServices
+        for service in self.monitorServices:
+            print "Send stop to: ", service
+            service.stop()
+        for service in self.monitorServices:
+            print "Join: ", service
+            service.join()
 
     def _spawnMonitoringServices(self, monitorProcs):
         """ This starts all the monitoring services (as threads) """
