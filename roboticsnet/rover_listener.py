@@ -77,6 +77,8 @@ class RoverListener:
                             self.hooks)
                     cmd.execute()
 
+            # TODO: two exception blocks should be factored out when I resolve
+            # the exception/issue
             except KeyboardInterrupt:
                 print "Shutting down ..."
                 self.end_listen = True
