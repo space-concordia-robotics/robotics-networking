@@ -32,7 +32,7 @@ cmd_hook = CommandHook(
         )
 
 l = RoverListener(hooks=cmd_hook,
-        monitorProcs=[polling_service_2, polling_service_2])
+        monitorProcs=[polling_service, polling_service_2])
 
 print roboticsnet.__appname__, " ",  roboticsnet.__version__
 print "Starting command dispatcher..."

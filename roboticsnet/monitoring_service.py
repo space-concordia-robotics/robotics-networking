@@ -31,7 +31,6 @@ class MonitoringService(Thread):
     def run(self):
         """ The service should be running here """
         while not self.stopped():
-            print "."
             self._poll()
             time.sleep(self.sleeptime)
 
