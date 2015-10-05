@@ -80,7 +80,6 @@ class RoverListener:
                 """ User hits C^c """
                 print "Shutting down ..."
                 self.end_listen = True
-                self._stopRunningServices()
 
             except:
                 # TODO: logging would be a good idea here
@@ -92,7 +91,7 @@ class RoverListener:
                 received """
                 if 'conn' in vars() or 'conn' in globals():
                     conn.close()
-
+        self._stopRunningServices()
         print "BYE."
 
     def _stopRunningServices(self):
