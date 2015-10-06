@@ -68,6 +68,10 @@ parser.add_argument('--stopvid',
         help='request video to stop running',
         action='store_true')
 
+parser.add_argument('--sensinfo',
+        help='request sensor information',
+        action='store_true')
+
 args = parser.parse_args()
 
 # These will be overwritten if --port, or --host is supplied
@@ -140,6 +144,11 @@ def _graceful():
     client.graceful()
     print Fore.GREEN, "Done!", Fore.RESET
 
+def _sensInfo():
+    print "Requesting any service information..."
+    result = client.sensInfo()
+    print result
+
 def _testAll():
     """ Test all commands with dummy data """
     args.forward = 233
@@ -168,6 +177,7 @@ try:
     elif args.testall:      _testAll()
     elif args.stopvid:      _stopVideo()
     elif args.startvid:     _startVideo()
+    elif args.sensinfo:     _sensInfo()
 
 except RoboticsnetException as e:
     print "Something wrong happened!"
