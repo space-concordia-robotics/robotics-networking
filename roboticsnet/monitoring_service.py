@@ -44,4 +44,4 @@ class MonitoringService(Thread):
         return self._stop.isSet()
 
     def getValue(self):
-        self.container
+        return self.container

@@ -27,8 +27,14 @@ class SensinfoCommand(Commandable):
             values.append(ix)
             service.getValue()
 
-        reply = RoverUtils.hexArr2Str(values)
+        print "Sending ... "
+        for x in ms:
+            print "   ", x.getValue()
+
+        reply = ''.join(RoverUtils.hexArr2Str(values))
         self.remote_client.send_bytes(reply)
+
+        # TODO hooks for this?
 
 
 

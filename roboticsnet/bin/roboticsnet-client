@@ -147,7 +147,12 @@ def _graceful():
 def _sensInfo():
     print "Requesting any service information..."
     result = client.sensInfo()
-    print result
+    print "Received", len(result), "bytes!"
+    result_a = list(result)
+    while len(result_a) != 0:
+        print ord(result_a[0]), " ",
+        del result_a[0]
+    print ""
 
 def _testAll():
     """ Test all commands with dummy data """
