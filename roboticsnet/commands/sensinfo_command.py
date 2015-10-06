@@ -25,11 +25,11 @@ class SensinfoCommand(Commandable):
 
         for ix, service in enumerate(ms):
             values.append(ix)
-            service.getValue()
+            values.append(service.getValue())
 
         print "Sending ... "
-        for x in ms:
-            print "   ", x.getValue()
+        for x in values:
+            print "   ", x
 
         reply = ''.join(RoverUtils.hexArr2Str(values))
         self.remote_client.send_bytes(reply)

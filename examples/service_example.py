@@ -32,7 +32,7 @@ def polling_service_2():
 def cat():
     """ somehow a cat made it into the software! """
     print "MEW MEW MEW MEW"
-    return 'cat'
+    return 123
 
 # First you would need to define your hooks using CommandHook
 cmd_hook = CommandHook(
