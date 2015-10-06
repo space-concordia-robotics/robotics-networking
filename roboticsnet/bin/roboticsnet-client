@@ -24,7 +24,7 @@ parser.add_argument('--reverse',
 parser.add_argument('--forwardLeft',
         help='send forward left command, given a value from 1 to 63',
         type=int)
-        
+
 parser.add_argument('--forwardRight',
         help='send forward right command, given a value from 1 to 63',
         type=int)
@@ -32,11 +32,11 @@ parser.add_argument('--forwardRight',
 parser.add_argument('--reverseLeft',
         help='send reverse left command, given a value from 1 to 63',
         type=int)
-        
+
 parser.add_argument('--reverseRight',
         help='send reverse right command, given a value from 1 to 63',
         type=int)
-        
+
 parser.add_argument('--stop',
         help='send command to stop all motors',
         action='store_true')
