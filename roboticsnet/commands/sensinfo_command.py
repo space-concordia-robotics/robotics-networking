@@ -18,8 +18,6 @@ class SensinfoCommand(Commandable):
     def execute(self):
         values = []
         ms = self.session.get("monitoringService")
-        print "Execute sensinfo command"
-        print "Services: ", len(ms)
 
         values.append(ROBOTICSNET_COMMAND_SENSEINFO_RESP)
 
@@ -27,14 +25,7 @@ class SensinfoCommand(Commandable):
             values.append(ix)
             values.append(service.getValue())
 
-        print "Sending ... "
-        for x in values:
-            print "   ", x
-
         reply = ''.join(RoverUtils.hexArr2Str(values))
         self.remote_client.send_bytes(reply)
 
         # TODO hooks for this?
-
-
-
