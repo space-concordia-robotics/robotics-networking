@@ -47,6 +47,7 @@ class RoverListener:
         self.session = Session()
         self.hooks = hooks
         self.monitorServices = []
+        self.session.put("monitoringService", self.session)
         self._spawnMonitoringServices(monitorProcs)
 
     def listen(self):

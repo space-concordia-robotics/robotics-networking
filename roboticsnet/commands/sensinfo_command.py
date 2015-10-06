@@ -1,4 +1,6 @@
 from roboticsnet.commands.commandable import Commandable
+from roboticsnet.gateway_constants import *
+from roboticsnet.rover_utils import RoverUtils
 
 class SensinfoCommand(Commandable):
     """
@@ -14,4 +16,19 @@ class SensinfoCommand(Commandable):
         self.hooks = hooks
 
     def execute(self):
+        values = []
+        ms = self.session.get("monitorService")
         print "Execute sensinfo command"
+        print "Services: ", len(ms)
+
+        values.append(ROBOTICSNET_COMMAND_SENSEINFO_RESP)
+
+        for ix, service in enumerate(ms):
+            values.append(ix)
+            service.getValue()
+
+        reply = RoverUtils.hexArr2Str(values)
+        self.remote_client.send_bytes(reply)
+
+
+
