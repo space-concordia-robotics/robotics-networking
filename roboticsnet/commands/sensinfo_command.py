@@ -17,7 +17,7 @@ class SensinfoCommand(Commandable):
 
     def execute(self):
         values = []
-        ms = self.session.get("monitorService")
+        ms = self.session.get("monitoringService")
         print "Execute sensinfo command"
         print "Services: ", len(ms)
 

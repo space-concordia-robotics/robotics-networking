@@ -1,3 +1,4 @@
+import sys
 import traceback
 import threading
 
@@ -47,7 +48,7 @@ class RoverListener:
         self.session = Session()
         self.hooks = hooks
         self.monitorServices = []
-        self.session.put("monitoringService", self.session)
+        self.session.put("monitoringService", self.monitorServices)
         self._spawnMonitoringServices(monitorProcs)
 
     def listen(self):
@@ -85,6 +86,7 @@ class RoverListener:
             except:
                 # TODO: logging would be a good idea here
                 print "There was some error. Ignoring last command"
+                print sys.exc_info()[0]
                 print traceback.format_exc()
 
             finally:
