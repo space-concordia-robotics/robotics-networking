@@ -185,3 +185,76 @@ another example which is located in 'examples/hook_with_params.py'.
     print "The startvideo command was received this many times: ", myCounter.get()
 
 That should conclude most of what you need to know about hooks!
+
+Polling Services
+================
+
+Polling services have been added to the networking library. What this means is
+that you're able to pass code blocks, which will then be spawned as monitoring
+services.
+
+The way this is achieved is by creating a monitoring service object which
+contains the code block you pass. It waits every specified time unit, and will
+then invoke the code block.
+
+Essentially the code block you pass must return the value you need. How this
+ties all together in the end is that when the client will request for sensor
+info (see sensinfo in PROTOCOL), the networking library will go over all the
+monitoring services, and get the last value obtained from the polling. Then all
+of that information is packaged appropriately, and sent back to the client for
+consumption.
+
+A sample file for these monitoring services may be found in
+
+    robotics-networking/examples/service_example.py
+
+.. code:: python
+
+    import roboticsnet
+    from roboticsnet.command_hook import CommandHook
+    from roboticsnet.rover_listener import RoverListener
+
+    forward_count = 0
+
+    def _forwardHook():
+        global forward_count
+        print "This is my custom forward hook!"
+        forward_count += 1
+
+    def polling_service():
+        """ Returns the same number all the time; for testing purposes """
+        print "polling service 1 is executed!"
+        return 42
+
+    def polling_service_2():
+        """ Just another service """
+        print "Service 2!"
+        return 24
+
+    def cat():
+        """ somehow a cat made it into the software! """
+        print "MEW MEW MEW MEW"
+        return 'cat'
+
+    # You don't need hooks in this case, but just to show that you can use them
+    # anyway.
+    cmd_hook = CommandHook(
+            forward=_forwardHook
+            )
+
+    l = RoverListener(\
+            hooks=cmd_hook,
+            # And again we bind the polling services here
+            monitorProcs=[\
+                polling_service,
+                polling_service_2,
+                cat])
+
+    print roboticsnet.__appname__, " ",  roboticsnet.__version__
+    print "Starting command dispatcher..."
+    l.listen()
+
+    print "The server is completely oblivious to the following information:"
+    print "  - forward commands received: ", forward_count
+
+

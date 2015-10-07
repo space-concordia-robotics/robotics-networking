@@ -1,5 +1,5 @@
 ROVER PROTOCOLS
-===============
+===============================================================================
 
 Full Table of Commands
 ----------------------
@@ -17,6 +17,7 @@ Full Table of Commands
 |stopvid       | 0x08  |
 |reverseLeft   | 0x09  |
 |reverseRight  | 0x10  |
+|sensinfo      | 0x11  |
 |graceful      | 0xFF  |
 +--------------+-------+
 
@@ -52,10 +53,10 @@ speed, and wheel rotation (rotation for turns).
   Turning backwards:
     reverseLeft <number>
     reverseRight <number>
-  
+
   Stoping motor wheels:
     stop <number>
-    
+
 When we're actually sending the commands, we want to turn the above into udp
 packets. It would not make sense to send whole strings over the network.
 Therefore we can bind hex values to the commands in this manner:
@@ -74,7 +75,7 @@ Therefore we can bind hex values to the commands in this manner:
 
 
 PROCESS MANAGER (QUERYPROC)
-===========================
+===============================================================================
 
 We are able to query about different running processes with the following
 messages:
@@ -126,7 +127,7 @@ would mean that the rovercore is in `running` state, the `first camera` process
 is running, but the `third` one is in `bad state`.
 
 START / STOP VIDEO
-==================
+===============================================================================
 
 To start the video, we just need to send the start and stop constants. There is
 no response. If we want to find out status of the video process, we use the
@@ -138,3 +139,41 @@ queryproc command (discussed in this document).
 | startvid          | 0x07        |
 | stopvid           | 0x08        |
 +-------------------+-------------+
+
+SENSINFO
+===============================================================================
+
+This is to return information from different sensors on the rover. Invoke this
+command on the server. Await for a response. The response contains all the
+information needed in order to parse the complete reply.
+
++-------------------+-------------+
+| Label             | Hex ID      |
++-------------------+-------------+
+| sensinfo          | 0x11        |
++-------------------+-------------+
+
+Once this is invoked, a reply is sent back. The reply starts with the following
+byte.
+
++-------------------+-------------+
+| Label             | Hex ID      |
++-------------------+-------------+
+| sensinforesp      | 0x12        |
++-------------------+-------------+
+
+The second byte lists how many sensor information we'll be receiving back. If we
+receive information about 3 sensors, we'll receive 6 total bytes (one byte for
+sensor id, and the other byte for the magnitude recorded).
+
+  [0x12, 0x03,
+         0x01, 0x30,
+         0x02, 0x43,
+         0x04, 0x120]
+
+First byte: 0x12: sensifo command response
+[sensinfo] 0x03: 3 sensors to received/parsed
+[sensinfo:1] temperature: value 30 (hex) received
+[sensinfo:2] somesensor1: value 43 (hex) received
+[sensinfo:3] somesensor2: value 120 (hex) received
+

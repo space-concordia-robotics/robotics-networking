@@ -65,7 +65,7 @@ def _startVideoCount():
 # First you would need to define your hooks using CommandHook
 cmd_hook = CommandHook(
         forward=_forwardHook,
-        turnLeft=_turnHook,
+        forwardLeft=_turnHook,
         queryproc=_queryProcHook,
         reverse=_reverseHook,
         startVideo=_startVideoCount

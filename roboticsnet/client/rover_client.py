@@ -127,6 +127,11 @@ class RoverClient:
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_GRACEFUL])
         self._sendMessage(message)
 
+    def sensInfo(self):
+        """ Request information about sensors """
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_SENSEINFO])
+        return self._sendMessageAwaitReply(message)
+
     def _validateByteValue(self, value):
         """
         Check if value is between 0 to 255. If not, raise an exception
