@@ -36,7 +36,7 @@ class RoverClient:
         """ Issue a reverse command """
         self._validateByteValue(magnitude)
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_REVERSE, magnitude])
-        return self._sendMessage(message)
+        self._sendMessage(message)
 
     def forwardLeft(self, magnitude):
         """
