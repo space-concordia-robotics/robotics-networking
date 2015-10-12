@@ -15,7 +15,7 @@ class RoverUtils:
     def hexArrToTimestampedString(hexArr):
         """
         Similar to hexArr2Str, but includes a byte-sized (he he he) timestamp
-        along with the message.
+        used for diffs along with the message.
         """
         hexArr.append(RoverUtils.timeModulusToHex())
         return RoverUtils.hexArr2Str(hexArr)
@@ -39,4 +39,4 @@ class RoverUtils:
         sent over roboticsnet. I'm using a bitwise operator here since I suspect
         it might be a bit (he he he) faster.
         """
-        return hex(int(time()) & 255)
+        return int(time()) & 255
