@@ -29,13 +29,13 @@ class RoverClient:
             magnitude - is a byte; 0x0 to 0xFF
         """
         self._validateByteValue(magnitude)
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_FORWARD, magnitude])
+        message = RoverUtils.hexArrToTimestampedString([ROBOTICSNET_COMMAND_FORWARD, magnitude])
         self._sendMessage(message)
 
     def reverse(self, magnitude):
         """ Issue a reverse command """
         self._validateByteValue(magnitude)
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_REVERSE, magnitude])
+        message = RoverUtils.hexArrToTimestampedString([ROBOTICSNET_COMMAND_REVERSE, magnitude])
         self._sendMessage(message)
 
     def forwardLeft(self, magnitude):
@@ -44,7 +44,7 @@ class RoverClient:
             magnitude - is a byte; 0x0 to 0xFF
         """
         self._validateByteValue(magnitude)
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_FORWARDLEFT, magnitude])
+        message = RoverUtils.hexArrToTimestampedString([ROBOTICSNET_COMMAND_FORWARDLEFT, magnitude])
         self._sendMessage(message)
 
     def forwardRight(self, magnitude):
@@ -53,7 +53,7 @@ class RoverClient:
             magnitude - is a byte; 0x0 to 0xFF
         """
         self._validateByteValue(magnitude)
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_FORWARDRIGHT,magnitude])
+        message = RoverUtils.hexArrToTimestampedString([ROBOTICSNET_COMMAND_FORWARDRIGHT,magnitude])
         self._sendMessage(message)
 
     def reverseLeft(self, magnitude):
@@ -62,7 +62,7 @@ class RoverClient:
             magnitude - is a byte; 0x0 to 0xFF
         """
         self._validateByteValue(magnitude)
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_REVERSELEFT, magnitude])
+        message = RoverUtils.hexArrToTimestampedString([ROBOTICSNET_COMMAND_REVERSELEFT, magnitude])
         self._sendMessage(message)
 
     def reverseRight(self, magnitude):
@@ -71,12 +71,12 @@ class RoverClient:
             magnitude - is a byte; 0x0 to 0xFF
         """
         self._validateByteValue(magnitude)
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_REVERSERIGHT,magnitude])
+        message = RoverUtils.hexArrToTimestampedString([ROBOTICSNET_COMMAND_REVERSERIGHT,magnitude])
         self._sendMessage(message)
 
     def stop(self):
         """ Issue a stop command """
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_STOP])
+        message = RoverUtils.hexArrToTimestampedString([ROBOTICSNET_COMMAND_STOP])
         self._sendMessage(message)
 
     def query(self):
