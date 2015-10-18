@@ -17,11 +17,15 @@ class RoverClient:
             port - is the port we are sending to
             host - to who to connect - default is localhost
         """
-        self.port = port
-        self.host = host
 
     def getPort(self): return self.port
     def getHost(self): return self.host
+    
+    def setHost(self, host):
+        self.host = host
+    
+    def setPort(self, port):
+        self.port = port
 
     def forward(self, magnitude):
         """
