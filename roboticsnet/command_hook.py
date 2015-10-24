@@ -22,3 +22,5 @@ class CommandHook:
         self.queryproc = queryproc
         self.startVideo = startVideo
         self.stopVideo = stopVideo
+        self.snapshot = snapshot
+        self.panoramicSnapshot = panoramicSnapshot
