@@ -57,6 +57,12 @@ class TestClientValidation(unittest.TestCase):
     def testStopVideo(self):
         self.cm.stopVideo()
 
+    def testSnapshot(self):
+        self.cm.snapshot()
+
+    def testPanoramicSnapshot(self):
+        self.cm.panoramicSnapshot()
+
     # BADVALS now
 
     def testForwardBadValueBig(self):
@@ -124,4 +130,3 @@ class TestClientValidation(unittest.TestCase):
 
     def testReverseZero(self):
         self.cm.reverse(0)
-
