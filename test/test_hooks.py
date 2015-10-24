@@ -97,7 +97,7 @@ class TestHooks(unittest.TestCase):
         SnapshotCommand(CommandHook(snapshot=vc.put)).execute()
         self.assertEqual(vc.get(), None)
 
-    def testSnapshotCommand(self):
+    def testPanoramicSnapshotCommand(self):
         vc = ValContainer()
         PanoramicSnapshotCommand(CommandHook(panoramicSnapshot=vc.put)).execute()
         self.assertEqual(vc.get(), None)
