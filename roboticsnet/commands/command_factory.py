@@ -10,6 +10,9 @@ from roboticsnet.commands.queryproc_command import QueryprocCommand
 from roboticsnet.commands.start_video_command import StartVideoCommand
 from roboticsnet.commands.stop_video_command import StopVideoCommand
 from roboticsnet.commands.sensinfo_command import SensinfoCommand
+from roboticsnet.commands.snapshot_command import SnapshotCommand
+from roboticsnet.commands.panoramic_snapshot_command import PanoramicSnapshotCommand
+
 from roboticsnet.gateway_constants import *
 
 class CommandFactory:
@@ -74,6 +77,12 @@ class CommandFactory:
         elif cmd == ROBOTICSNET_COMMAND_SENSEINFO:
             return SensinfoCommand(conn, session, hooks)
 
+        elif cmd == ROBOTICSNET_COMMAND_SNAPSHOT:
+            return SnapshotCommand(hooks)
+
+        elif cmd == ROBOTICSNET_COMMAND_PANORAMICSNAPSHOT:
+            return PanoramicSnapshotCommand(hooks)
+
     @staticmethod
     def _makeForward(rcv_bytes, hooks):
         magnitude = ord(rcv_bytes[0])
@@ -103,4 +112,3 @@ class CommandFactory:
     def _makeReverse(rcv_bytes, hooks):
         magnitude = ord(rcv_bytes[0])
         return ReverseCommand(magnitude, hooks)
-

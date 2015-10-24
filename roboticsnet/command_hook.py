@@ -10,7 +10,8 @@ class CommandHook:
 
     def __init__(self, forward=None, reverse=None, forwardLeft=None,
             forwardRight=None, reverseLeft=None, reverseRight=None,
-            stop=None, queryproc=None, startVideo=None, stopVideo=None):
+            stop=None, queryproc=None, startVideo=None, stopVideo=None,
+            snapshot=None, panoramicSnapshot=None):
         self.forward = forward
         self.reverse = reverse
         self.forwardLeft = forwardLeft

@@ -95,6 +95,16 @@ class RoverClient:
         message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_STOP_VID])
         self._sendMessage(message)
 
+    def snapshot(self):
+        """ Sends a request to take a picture """
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_SNAPSHOT])
+        self._sendMessage(message)
+
+    def panoramicSnapshot(self):
+        """ Sends a request to take a panoramic snapshot """
+        message = RoverUtils.hexArr2Str([ROBOTICSNET_COMMAND_PANORAMICSNAPSHOT])
+        self._sendMessage(message)
+
     def _sendMessage(self, message):
         """
         Given the host, and port, we build the connection. Don't call this
