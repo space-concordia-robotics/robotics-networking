@@ -2,6 +2,7 @@ from multiprocessing.connection import Client
 from roboticsnet.gateway_constants import *
 from roboticsnet.rover_utils import RoverUtils
 from roboticsnet.roboticsnet_exception import RoboticsnetException
+import socket
 
 class RoverClient:
     """
@@ -27,6 +28,7 @@ class RoverClient:
     def setPort(self, port):
         self.port = port
 
+    #all of the movement commands will be send with UDP
     def forward(self, magnitude):
         """
         Parameters:
@@ -34,13 +36,13 @@ class RoverClient:
         """
         self._validateByteValue(magnitude)
         message = RoverUtils.hexArr2Str([ROBOTICSNET_DRIVE_FORWARD, magnitude])
-        self._sendMessage(message)
+        self._sendMessage(message, False)
 
     def reverse(self, magnitude):
         """ Issue a reverse command """
         self._validateByteValue(magnitude)
         message = RoverUtils.hexArr2Str([ROBOTICSNET_DRIVE_REVERSE, magnitude])
-        self._sendMessage(message)
+        self._sendMessage(message, False)
 
     def forwardLeft(self, magnitude):
         """
@@ -49,7 +51,7 @@ class RoverClient:
         """
         self._validateByteValue(magnitude)
         message = RoverUtils.hexArr2Str([ROBOTICSNET_DRIVE_FORWARDLEFT, magnitude])
-        self._sendMessage(message)
+        self._sendMessage(message, False)
 
     def forwardRight(self, magnitude):
         """
@@ -58,7 +60,7 @@ class RoverClient:
         """
         self._validateByteValue(magnitude)
         message = RoverUtils.hexArr2Str([ROBOTICSNET_DRIVE_FORWARDRIGHT,magnitude])
-        self._sendMessage(message)
+        self._sendMessage(message, False)
 
     def reverseLeft(self, magnitude):
         """
@@ -67,7 +69,7 @@ class RoverClient:
         """
         self._validateByteValue(magnitude)
         message = RoverUtils.hexArr2Str([ROBOTICSNET_DRIVE_REVERSELEFT, magnitude])
-        self._sendMessage(message)
+        self._sendMessage(message, False)
 
     def reverseRight(self, magnitude):
         """
@@ -76,7 +78,7 @@ class RoverClient:
         """
         self._validateByteValue(magnitude)
         message = RoverUtils.hexArr2Str([ROBOTICSNET_DRIVE_REVERSERIGHT,magnitude])
-        self._sendMessage(message)
+        self._sendMessage(message, False)
 
     def stop(self):
         """ Issue a stop command """
@@ -109,7 +111,7 @@ class RoverClient:
         message = RoverUtils.hexArr2Str([ROBOTICSNET_CAMERA_PANORAMICSNAPSHOT])
         self._sendMessage(message)
 
-    def _sendMessage(self, message):
+    def _sendMessage(self, message, TCP=True):
         """
         Given the host, and port, we build the connection. Don't call this
         outside the constructor, unless you know what you are doing.
@@ -118,9 +120,14 @@ class RoverClient:
             message - is the bytearray to send, in string format
         """
         address = (self.host, self.port)
-        conn = Client(address)
-        conn.send_bytes(message)
-        conn.close()
+        if TCP:
+            conn = Client(address)
+            conn.send_bytes(message)
+            conn.close()
+        else:
+            #from UdpCommunication on the Python wiki
+            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            sock.sendto(message, address)
 
     def _sendMessageAwaitReply(self, message):
         """

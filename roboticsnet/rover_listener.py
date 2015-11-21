@@ -3,8 +3,9 @@ import traceback
 import threading
 
 from multiprocessing.connection import Listener
+from multprocessing import Process, Pipe
 from colorama import Fore
-
+from roboticslogger.logger import Logger
 from roboticsnet.commands.command_factory import CommandFactory
 from roboticsnet.sanitizer import sanitize
 from roboticsnet.session import Session
@@ -50,19 +51,26 @@ class RoverListener:
         self.monitorServices = []
         self.session.put("monitoringService", self.monitorServices)
         self._spawnMonitoringServices(monitorProcs)
+        self.myLogger = Logger()
 
     def listen(self):
         """ main entry point """
         print "Listening on port: ", self.port
 
         address = ('', self.port)
-
+        
         l = Listener(address)
-
+        
+        parent_conn, child_conn = Pipe()
+        p = Process(target=myLogger.run, args=(child_conn,))
+    
+        p.start()
+        
         while not self.end_listen:
             try:
                 conn = l.accept()
                 received_bytes = conn.recv_bytes()
+                
 
                 print "Received: ",
                 print(Fore.GREEN + RoverUtils.hexArrToHumanReadableString(received_bytes))
@@ -82,18 +90,19 @@ class RoverListener:
                 """ User hits C^c """
                 print "Shutting down ..."
                 self.end_listen = True
+                
 
             except:
-                # TODO: logging would be a good idea here
-                print "There was some error. Ignoring last command"
-                print sys.exc_info()[0]
-                print traceback.format_exc()
+                parent_conn.send(["err", "There was some error. Ignoring last command"])
+                parent_conn.send(["err", sys.exc_info()[0]])
+                parent_conn.send(["err", traceback.format_exc())
 
             finally:
                 """ It is the case that conn might not be set if nothing is
                 received """
                 if 'conn' in vars() or 'conn' in globals():
                     conn.close()
+           
         self._stopRunningServices()
         print "BYE."
 
@@ -102,6 +111,9 @@ class RoverListener:
         functions), this method will stop them """
         print "Attempting to stop services"
         print self.monitorServices
+        #stopping logger
+        parent_conn.send(["done"])
+        parent_conn.close()
         for service in self.monitorServices:
             print "Send stop to: ", service
             service.stop()
