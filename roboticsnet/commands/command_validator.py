@@ -1,3 +1,5 @@
+from roboticsnet.rover_utils import RoverUtils
+
 """
 author: psyomn
 
@@ -20,3 +22,7 @@ def _command_exists(str):
     cmd = str.split()[0]
     return cmd in cmds
 
+def calculate_time_diff(str):
+    """ Gets time diff on timestamped command. """
+    diff = (RoverUtils.timeModulusToHex() - str)
+    return diff

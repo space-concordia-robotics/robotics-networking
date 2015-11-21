@@ -1,3 +1,5 @@
+from time import time
+
 class RoverUtils:
 
     @staticmethod
@@ -8,6 +10,15 @@ class RoverUtils:
         255, or 0xFF
         """
         return ''.join(map(lambda x: chr(x), hexArr))
+
+    @staticmethod
+    def hexArrToTimestampedString(hexArr):
+        """
+        Similar to hexArr2Str, but includes a byte-sized (he he he) timestamp
+        used for diffs along with the message.
+        """
+        hexArr.append(RoverUtils.timeModulusToHex())
+        return RoverUtils.hexArr2Str(hexArr)
 
     @staticmethod
     def hexArrToHumanReadableString(hexArr):
@@ -21,3 +32,11 @@ class RoverUtils:
         """
         return ' '.join(map(lambda x: hex(ord(x)), hexArr))
 
+    @staticmethod
+    def timeModulusToHex():
+        """
+        This gets the system time mod 256 as a hex, for attaching to messages
+        sent over roboticsnet. I'm using a bitwise operator here since I suspect
+        it might be a bit (he he he) faster.
+        """
+        return int(time()) & 255
