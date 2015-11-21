@@ -1,4 +1,5 @@
 from roboticsnet.commands.command_validator import validate
+from roboticsnet.commands.command_validator import calculate_time_diff
 from roboticsnet.commands.forward_command import ForwardCommand
 from roboticsnet.commands.forward_left_command import ForwardLeftCommand
 from roboticsnet.commands.forward_right_command import ForwardRightCommand
@@ -60,7 +61,7 @@ class CommandFactory:
             return CommandFactory._makeReverseRight(params, hooks)
 
         elif cmd == ROBOTICSNET_COMMAND_STOP:
-            return StopCommand(hooks)
+            return CommandFactory._makeStop(params, hooks)
 
         elif cmd == ROBOTICSNET_COMMAND_QUERYPROC:
             return QueryprocCommand(conn, session, hooks)
@@ -77,30 +78,40 @@ class CommandFactory:
     @staticmethod
     def _makeForward(rcv_bytes, hooks):
         magnitude = ord(rcv_bytes[0])
-        return ForwardCommand(magnitude, hooks)
+        timediff = ord(rcv_bytes[1])
+        return ForwardCommand(magnitude, hooks, calculate_time_diff(timediff))
 
     @staticmethod
     def _makeForwardLeft(rcv_bytes, hooks):
         magnitude = ord(rcv_bytes[0])
-        return ForwardLeftCommand(magnitude, hooks)
+        timediff = ord(rcv_bytes[1])
+        return ForwardLeftCommand(magnitude, hooks, calculate_time_diff(timediff))
 
     @staticmethod
     def _makeForwardRight(rcv_bytes, hooks):
         magnitude = ord(rcv_bytes[0])
-        return ForwardRightCommand(magnitude, hooks)
+        timediff = ord(rcv_bytes[1])
+        return ForwardRightCommand(magnitude, hooks, calculate_time_diff(timediff))
 
     @staticmethod
     def _makeReverseLeft(rcv_bytes, hooks):
         magnitude = ord(rcv_bytes[0])
-        return ReverseLeftCommand(magnitude, hooks)
+        timediff = ord(rcv_bytes[1])
+        return ReverseLeftCommand(magnitude, hooks, calculate_time_diff(timediff))
 
     @staticmethod
     def _makeReverseRight(rcv_bytes, hooks):
         magnitude = ord(rcv_bytes[0])
-        return ReverseRightCommand(magnitude, hooks)
+        timediff = ord(rcv_bytes[1])
+        return ReverseRightCommand(magnitude, hooks, calculate_time_diff(timediff))
 
     @staticmethod
     def _makeReverse(rcv_bytes, hooks):
         magnitude = ord(rcv_bytes[0])
-        return ReverseCommand(magnitude, hooks)
+        timediff = ord(rcv_bytes[1])
+        return ReverseCommand(magnitude, hooks, calculate_time_diff(timediff))
 
+    @staticmethod
+    def _makeStop(rcv_bytes, hooks):
+        timediff = ord(rcv_bytes[0])
+        return StopCommand(hooks, calculate_time_diff(timediff))
