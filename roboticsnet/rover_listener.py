@@ -68,7 +68,7 @@ class RoverListener:
                 print(Fore.GREEN + RoverUtils.hexArrToHumanReadableString(received_bytes))
                 print(Fore.RESET)
 
-                if ord(received_bytes[0]) == ROBOTICSNET_COMMAND_GRACEFUL:
+                if ord(received_bytes[0]) == ROBOTICSNET_SYSTEM_GRACEFUL:
                     self.end_listen = True
                 else:
                     cmd = CommandFactory.makeFromByteArray(\

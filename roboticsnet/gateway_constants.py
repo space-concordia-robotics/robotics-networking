@@ -7,41 +7,63 @@ Author:
 """
 
 # The listener listens to this port if we specify nothing else
-ROBOTICSNET_PORT = 5000
-# The command bound to this hex for a graceful shutdown in the main server loop.
-ROBOTICSNET_COMMAND_GRACEFUL = 0xFF
+ROBOTICSNET_PORT = 10666
 
-ROBOTICSNET_COMMAND_FORWARD = 0x01
-ROBOTICSNET_COMMAND_REVERSE = 0X02
-ROBOTICSNET_COMMAND_FORWARDLEFT = 0X03
-ROBOTICSNET_COMMAND_FORWARDRIGHT = 0X04
-ROBOTICSNET_COMMAND_REVERSELEFT = 0X09
-ROBOTICSNET_COMMAND_REVERSERIGHT = 0X10
-ROBOTICSNET_COMMAND_STOP = 0x05
+# Drive Commands (Range: 0x00 - 0x1F) 
+ROBOTICSNET_DRIVE_STOP =                0x00
+ROBOTICSNET_DRIVE_FORWARD =             0x01
+ROBOTICSNET_DRIVE_REVERSE =             0x02
+ROBOTICSNET_DRIVE_FORWARDLEFT =         0x03
+ROBOTICSNET_DRIVE_FORWARDRIGHT =        0x04
+ROBOTICSNET_DRIVE_REVERSELEFT =         0x05
+ROBOTICSNET_DRIVE_REVERSERIGHT =        0x06
 
-ROBOTICSNET_COMMAND_QUERYPROC = 0x06
+# Camera Commands (Range: 0x20 - 0x2F)
+ROBOTICSNET_CAMERA_START_VID =          0x20
+ROBOTICSNET_CAMERA_STOP_VID =           0x21
+ROBOTICSNET_CAMERA_SNAPSHOT =           0x22
+ROBOTICSNET_CAMERA_PANORAMICSNAPSHOT =  0x23
 
-ROBOTICSNET_COMMAND_START_VID = 0x07
-ROBOTICSNET_COMMAND_STOP_VID = 0x08
+# Sensor Commands (Range: 0x30 - 0x5F)
+ROBOTICSNET_SENSOR_INFO =               0x30
+ROBOTICSNET_SENSOR_INFO_RESP =          0x31
 
-ROBOTICSNET_COMMAND_SENSEINFO = 0x11
-ROBOTICSNET_COMMAND_SENSEINFO_RESP = 0x12
+
+# Arm Commands (Range: 0x60 - 0x7F)
+#ROBOTICSNET_ARM_STOP =                  0X60
+#ROBOTICSNET_ARM_DRILL                   0XED
+#ROBOTICSNET_ARM_GRAB =                  0X7E
+#ROBOTICSNET_ARM_RESET =                 0x7F
+
+# System Commands (Range: 0xE0 - 0xFF)
+ROBOTICSNET_SYSTEM_QUERYPROC =          0xE0
+ROBOTICSNET_SYSTEM_GRACEFUL =           0xFF
+
 
 ROBOTICSNET_STRCMD_LOOKUP = {
-          'graceful': ROBOTICSNET_COMMAND_GRACEFUL
+          'stop':                       ROBOTICSNET_DRIVE_STOP
+        , 'forward':                    ROBOTICSNET_DRIVE_FORWARD
+        , 'reverse':                    ROBOTICSNET_DRIVE_REVERSE
+        , 'forwardLeft':                ROBOTICSNET_DRIVE_FORWARDLEFT
+        , 'forwardRight':               ROBOTICSNET_DRIVE_FORWARDRIGHT
+        , 'reverseLeft':                ROBOTICSNET_DRIVE_REVERSELEFT
+        , 'reverseRight':               ROBOTICSNET_DRIVE_REVERSERIGHT
 
-        , 'forward': ROBOTICSNET_COMMAND_FORWARD
-        , 'reverse': ROBOTICSNET_COMMAND_REVERSE
-        , 'forwardLeft': ROBOTICSNET_COMMAND_FORWARDLEFT
-        , 'forwardRight': ROBOTICSNET_COMMAND_FORWARDRIGHT
-        , 'reverseLeft': ROBOTICSNET_COMMAND_REVERSELEFT
-        , 'reverseRight': ROBOTICSNET_COMMAND_REVERSERIGHT
-        , 'stop': ROBOTICSNET_COMMAND_STOP
+        , 'startvid':                   ROBOTICSNET_CAMERA_START_VID
+        , 'stopvid':                    ROBOTICSNET_CAMERA_STOP_VID
+        , 'snapshot':                   ROBOTICSNET_CAMERA_SNAPSHOT
+        , 'panoramicsnapshot':          ROBOTICSNET_CAMERA_PANORAMICSNAPSHOT
 
-        , 'queryproc': ROBOTICSNET_COMMAND_QUERYPROC
+        , 'sensorinfo':                 ROBOTICSNET_SENSOR_INFO
+        , 'sensorinforesp':             ROBOTICSNET_SENSOR_INFO_RESP
 
-        , 'startvid': ROBOTICSNET_COMMAND_START_VID
-        , 'stopvid': ROBOTICSNET_COMMAND_STOP_VID
+#        , 'armstop':                    ROBOTICSNET_ARM_STOP
+#        , 'armdrill':                   ROBOTICSNET_ARM_DRILL
+#        , 'armgrab':                    ROBOTICSNET_ARM_GRAB
+#        , 'armreset':                   ROBOTICSNET_ARM_RESET
+
+        , 'queryproc':                  ROBOTICSNET_SYSTEM_QUERYPROC
+        , 'graceful':                   ROBOTICSNET_SYSTEM_GRACEFUL
         }
 
 

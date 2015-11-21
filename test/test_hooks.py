@@ -9,6 +9,9 @@ from roboticsnet.commands.reverse_right_command import ReverseRightCommand
 from roboticsnet.commands.reverse_command import ReverseCommand
 from roboticsnet.commands.start_video_command import StartVideoCommand
 from roboticsnet.commands.stop_video_command import StopVideoCommand
+from roboticsnet.commands.snapshot_command import SnapshotCommand
+from roboticsnet.commands.panoramic_snapshot_command import PanoramicSnapshotCommand
+
 from roboticsnet.command_hook import CommandHook
 
 class ValContainer:
@@ -87,6 +90,16 @@ class TestHooks(unittest.TestCase):
     def testStopVideoCommand(self):
         vc = ValContainer()
         StopVideoCommand(CommandHook(stopVideo=vc.put)).execute()
+        self.assertEqual(vc.get(), None)
+
+    def testSnapshotCommand(self):
+        vc = ValContainer()
+        SnapshotCommand(CommandHook(snapshot=vc.put)).execute()
+        self.assertEqual(vc.get(), None)
+
+    def testPanoramicSnapshotCommand(self):
+        vc = ValContainer()
+        PanoramicSnapshotCommand(CommandHook(panoramicSnapshot=vc.put)).execute()
         self.assertEqual(vc.get(), None)
 
     def testMultipleCalls(self):

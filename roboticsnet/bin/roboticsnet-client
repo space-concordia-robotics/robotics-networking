@@ -72,6 +72,14 @@ parser.add_argument('--sensinfo',
         help='request sensor information',
         action='store_true')
 
+parser.add_argument('--snapshot',
+        help='take snapshot on rover',
+        action='store_true')
+
+parser.add_argument('--panoramicSnapshot',
+        help='take panoramic snapshot on rover',
+        action='store_true')
+
 args = parser.parse_args()
 
 # These will be overwritten if --port, or --host is supplied
@@ -139,6 +147,16 @@ def _stopVideo():
     client.stopVideo()
     print Fore.GREEN, "Done!", Fore.RESET
 
+def _snapshot():
+    print "Send " + Fore.BLUE + "snapshot" + Fore.RESET + " to listener...",
+    client.snapshot()
+    print Fore.GREEN, "Done!", Fore.RESET
+
+def _panoramicSnapshot():
+    print "Send " + Fore.BLUE + "panoramic snapshot" + Fore.RESET + " to listener...",
+    client.panoramicSnapshot()
+    print Fore.GREEN, "Done!", Fore.RESET
+
 def _graceful():
     print "Requesting " + Fore.BLUE + "shutdown" + Fore.RESET + "...",
     client.graceful()
@@ -183,6 +201,8 @@ try:
     elif args.stopvid:      _stopVideo()
     elif args.startvid:     _startVideo()
     elif args.sensinfo:     _sensInfo()
+    elif args.snapshot:     _snapshot()
+    elif args.panoramicSnapshot:    _panoramicSnapshot()
     else: raise RoboticsnetException("Unable to associate parsed args: " + ", ".join(sys.argv))
 
 except RoboticsnetException as e:

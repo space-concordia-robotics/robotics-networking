@@ -11,6 +11,9 @@ from roboticsnet.commands.queryproc_command import QueryprocCommand
 from roboticsnet.commands.start_video_command import StartVideoCommand
 from roboticsnet.commands.stop_video_command import StopVideoCommand
 from roboticsnet.commands.sensinfo_command import SensinfoCommand
+from roboticsnet.commands.snapshot_command import SnapshotCommand
+from roboticsnet.commands.panoramic_snapshot_command import PanoramicSnapshotCommand
+
 from roboticsnet.gateway_constants import *
 
 class CommandFactory:
@@ -42,38 +45,44 @@ class CommandFactory:
         cmd = ord(rcv_bytes[0])
         params = rcv_bytes[1:]
 
-        if cmd == ROBOTICSNET_COMMAND_FORWARD:
+        if cmd == ROBOTICSNET_DRIVE_FORWARD:
             return CommandFactory._makeForward(params, hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_REVERSE:
+        elif cmd == ROBOTICSNET_DRIVE_REVERSE:
             return CommandFactory._makeReverse(params, hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_FORWARDLEFT:
+        elif cmd == ROBOTICSNET_DRIVE_FORWARDLEFT:
             return CommandFactory._makeForwardLeft(params, hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_FORWARDRIGHT:
+        elif cmd == ROBOTICSNET_DRIVE_FORWARDRIGHT:
             return CommandFactory._makeForwardRight(params, hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_REVERSELEFT:
+        elif cmd == ROBOTICSNET_DRIVE_REVERSELEFT:
             return CommandFactory._makeReverseLeft(params, hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_REVERSERIGHT:
+        elif cmd == ROBOTICSNET_DRIVE_REVERSERIGHT:
             return CommandFactory._makeReverseRight(params, hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_STOP:
+        elif cmd == ROBOTICSNET_DRIVE_STOP:
             return CommandFactory._makeStop(params, hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_QUERYPROC:
-            return QueryprocCommand(conn, session, hooks)
-
-        elif cmd == ROBOTICSNET_COMMAND_START_VID:
+        elif cmd == ROBOTICSNET_CAMERA_START_VID:
             return StartVideoCommand(hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_STOP_VID:
+        elif cmd == ROBOTICSNET_CAMERA_STOP_VID:
             return StopVideoCommand(hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_SENSEINFO:
+        elif cmd == ROBOTICSNET_CAMERA_SNAPSHOT:
+            return SnapshotCommand(hooks)
+
+        elif cmd == ROBOTICSNET_CAMERA_PANORAMICSNAPSHOT:
+            return PanoramicSnapshotCommand(hooks)
+
+        elif cmd == ROBOTICSNET_SENSOR_INFO:
             return SensinfoCommand(conn, session, hooks)
+
+        elif cmd == ROBOTICSNET_SYSTEM_QUERYPROC:
+            return QueryprocCommand(conn, session, hooks)
 
     @staticmethod
     def _makeForward(rcv_bytes, hooks):

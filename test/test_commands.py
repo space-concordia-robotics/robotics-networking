@@ -10,6 +10,8 @@ from roboticsnet.commands.forward_left_command import ForwardLeftCommand
 from roboticsnet.commands.forward_right_command import ForwardRightCommand
 from roboticsnet.commands.reverse_left_command import ReverseLeftCommand
 from roboticsnet.commands.reverse_right_command import ReverseRightCommand
+from roboticsnet.commands.snapshot_command import SnapshotCommand
+from roboticsnet.commands.panoramic_snapshot_command import PanoramicSnapshotCommand
 
 class TestCommands(unittest.TestCase):
     """ These just make sure that the commands, once executed, don't raise exceptions
@@ -44,3 +46,9 @@ class TestCommands(unittest.TestCase):
 
     def testStopVideoCommand(self):
         StopVideoCommand(self._makeEmptyHook()).execute()
+
+    def testSnapshotCommand(self):
+        SnapshotCommand(self._makeEmptyHook()).execute()
+
+    def testPanoramicSnapshotCommand(self):
+        PanoramicSnapshotCommand(self._makeEmptyHook()).execute()
