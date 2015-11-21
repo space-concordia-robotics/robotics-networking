@@ -44,44 +44,44 @@ class CommandFactory:
         cmd = ord(rcv_bytes[0])
         params = rcv_bytes[1:]
 
-        if cmd == ROBOTICSNET_COMMAND_FORWARD:
+        if cmd == ROBOTICSNET_DRIVE_FORWARD:
             return CommandFactory._makeForward(params, hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_REVERSE:
+        elif cmd == ROBOTICSNET_DRIVE_REVERSE:
             return CommandFactory._makeReverse(params, hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_FORWARDLEFT:
+        elif cmd == ROBOTICSNET_DRIVE_FORWARDLEFT:
             return CommandFactory._makeForwardLeft(params, hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_FORWARDRIGHT:
+        elif cmd == ROBOTICSNET_DRIVE_FORWARDRIGHT:
             return CommandFactory._makeForwardRight(params, hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_REVERSELEFT:
+        elif cmd == ROBOTICSNET_DRIVE_REVERSELEFT:
             return CommandFactory._makeReverseLeft(params, hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_REVERSERIGHT:
+        elif cmd == ROBOTICSNET_DRIVE_REVERSERIGHT:
             return CommandFactory._makeReverseRight(params, hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_STOP:
+        elif cmd == ROBOTICSNET_DRIVE_STOP:
             return StopCommand(hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_QUERYPROC:
-            return QueryprocCommand(conn, session, hooks)
-
-        elif cmd == ROBOTICSNET_COMMAND_START_VID:
+        elif cmd == ROBOTICSNET_CAMERA_START_VID:
             return StartVideoCommand(hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_STOP_VID:
+        elif cmd == ROBOTICSNET_CAMERA_STOP_VID:
             return StopVideoCommand(hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_SENSEINFO:
-            return SensinfoCommand(conn, session, hooks)
-
-        elif cmd == ROBOTICSNET_COMMAND_SNAPSHOT:
+        elif cmd == ROBOTICSNET_CAMERA_SNAPSHOT:
             return SnapshotCommand(hooks)
 
-        elif cmd == ROBOTICSNET_COMMAND_PANORAMICSNAPSHOT:
+        elif cmd == ROBOTICSNET_CAMERA_PANORAMICSNAPSHOT:
             return PanoramicSnapshotCommand(hooks)
+
+        elif cmd == ROBOTICSNET_SENSOR_INFO:
+            return SensinfoCommand(conn, session, hooks)
+
+        elif cmd == ROBOTICSNET_SYSTEM_QUERYPROC:
+            return QueryprocCommand(conn, session, hooks)
 
     @staticmethod
     def _makeForward(rcv_bytes, hooks):
@@ -112,3 +112,4 @@ class CommandFactory:
     def _makeReverse(rcv_bytes, hooks):
         magnitude = ord(rcv_bytes[0])
         return ReverseCommand(magnitude, hooks)
+
