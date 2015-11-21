@@ -51,32 +51,32 @@ class TestHooks(unittest.TestCase):
 
     def testForwardCommand(self):
         vc = ValContainer()
-        ForwardCommand(0x22, CommandHook(forward=vc.put)).execute()
+        ForwardCommand(0x22, CommandHook(forward=vc.put), 0).execute()
         self.assertEqual(vc.get()["value"], 0x22)
 
     def testReverseCommand(self):
         vc = ValContainer()
-        ReverseCommand(0x33, CommandHook(reverse=vc.put)).execute()
+        ReverseCommand(0x33, CommandHook(reverse=vc.put), 12).execute()
         self.assertEqual(vc.get()["value"], 0x33)
 
     def testForwardLeftCommand(self):
         vc = ValContainer()
-        ForwardLeftCommand(0x44, CommandHook(forwardLeft=vc.put)).execute()
+        ForwardLeftCommand(0x44, CommandHook(forwardLeft=vc.put), 2).execute()
         self.assertEqual(vc.get()["value"], 0x44)
 
     def testForwardRightCommand(self):
         vc = ValContainer()
-        ForwardRightCommand(0x44, CommandHook(forwardRight=vc.put)).execute()
+        ForwardRightCommand(0x44, CommandHook(forwardRight=vc.put), 22).execute()
         self.assertEqual(vc.get()["value"], 0x44)
 
     def testReverseLeftCommand(self):
         vc = ValContainer()
-        ReverseLeftCommand(0x55, CommandHook(reverseLeft=vc.put)).execute()
+        ReverseLeftCommand(0x55, CommandHook(reverseLeft=vc.put), 500).execute()
         self.assertEqual(vc.get()["value"], 0x55)
 
     def testReverseRightCommand(self):
         vc = ValContainer()
-        ReverseRightCommand(0x55, CommandHook(reverseRight=vc.put)).execute()
+        ReverseRightCommand(0x55, CommandHook(reverseRight=vc.put), 12).execute()
         self.assertEqual(vc.get()["value"], 0x55)
 
     def testStartVideoCommand(self):
@@ -92,16 +92,15 @@ class TestHooks(unittest.TestCase):
     def testMultipleCalls(self):
         c = Counter()
         for x in range(0, 100):
-            ReverseCommand(0x33, CommandHook(reverse=c.incr())).execute()
+            ReverseCommand(0x33, CommandHook(reverse=c.incr()), 0).execute()
         self.assertEqual(c.get(), 100)
 
     def testFreeFuncNoParams(self):
         global freeFuncFired
-        ReverseCommand(0x33, CommandHook(reverse=freefunc)).execute()
+        ReverseCommand(0x33, CommandHook(reverse=freefunc), 1).execute()
         self.assertEqual(freeFuncFired, True)
 
     def testFreeFuncParams(self):
         global freeFuncParamsFired
-        ReverseCommand(0x33, CommandHook(reverse=freefuncParams)).execute()
+        ReverseCommand(0x33, CommandHook(reverse=freefuncParams), 123).execute()
         self.assertEqual(freeFuncParamsFired, True)
-
