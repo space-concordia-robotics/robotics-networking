@@ -22,22 +22,22 @@ class TestCommands(unittest.TestCase):
         return CommandHook()
 
     def testForwardCommand(self):
-        ForwardCommand(0x22, self._makeEmptyHook()).execute()
+        ForwardCommand(0x22, self._makeEmptyHook(), 0).execute()
 
     def testReverseCommand(self):
-        ReverseCommand(0x33, self._makeEmptyHook()).execute()
+        ReverseCommand(0x33, self._makeEmptyHook(), 1).execute()
 
     def testForwardLeftCommand(self):
-        ForwardLeftCommand(0x44, self._makeEmptyHook()).execute()
+        ForwardLeftCommand(0x44, self._makeEmptyHook(), 255).execute()
 
     def testForwardRightCommand(self):
-        ForwardRightCommand(0x44, self._makeEmptyHook()).execute()
+        ForwardRightCommand(0x44, self._makeEmptyHook(), 123).execute()
 
     def testReverseLeftCommand(self):
-        ReverseLeftCommand(0x55, self._makeEmptyHook()).execute()
+        ReverseLeftCommand(0x55, self._makeEmptyHook(), 3).execute()
 
     def testReverseRightCommand(self):
-        ReverseRightCommand(0x55, self._makeEmptyHook()).execute()
+        ReverseRightCommand(0x55, self._makeEmptyHook(), 2).execute()
 
     def testStartVideoCommand(self):
         StartVideoCommand(self._makeEmptyHook()).execute()
