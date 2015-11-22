@@ -9,7 +9,7 @@ class ClientMock(RoverClient):
     def __init__(self, host, port):
         RoverClient.__init__(self, host, port)
 
-    def _sendMessage(self, message):
+    def _sendMessage(self, message, TCP=True):
         pass
 
     def _sendMessageAwaitReply(self, message):
