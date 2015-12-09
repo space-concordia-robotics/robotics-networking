@@ -29,62 +29,6 @@ class RoverClient:
         self.port = port
 
     #all of the movement commands will be send with UDP
-    def forward(self, magnitude):
-        """
-        Parameters:
-            magnitude - is a byte; 0x0 to 0xFF
-        """
-        self._validateByteValue(magnitude)
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_DRIVE_FORWARD, magnitude])
-        self._sendMessage(message, False)
-
-    def reverse(self, magnitude):
-        """ Issue a reverse command """
-        self._validateByteValue(magnitude)
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_DRIVE_REVERSE, magnitude])
-        self._sendMessage(message, False)
-
-    def forwardLeft(self, magnitude):
-        """
-        Parameters:
-            magnitude - is a byte; 0x0 to 0xFF
-        """
-        self._validateByteValue(magnitude)
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_DRIVE_FORWARDLEFT, magnitude])
-        self._sendMessage(message, False)
-
-    def forwardRight(self, magnitude):
-        """
-        Parameters:
-            magnitude - is a byte; 0x0 to 0xFF
-        """
-        self._validateByteValue(magnitude)
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_DRIVE_FORWARDRIGHT,magnitude])
-        self._sendMessage(message, False)
-
-    def reverseLeft(self, magnitude):
-        """
-        Parameters:
-            magnitude - is a byte; 0x0 to 0xFF
-        """
-        self._validateByteValue(magnitude)
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_DRIVE_REVERSELEFT, magnitude])
-        self._sendMessage(message, False)
-
-    def reverseRight(self, magnitude):
-        """
-        Parameters:
-            magnitude - is a byte; 0x0 to 0xFF
-        """
-        self._validateByteValue(magnitude)
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_DRIVE_REVERSERIGHT,magnitude])
-        self._sendMessage(message, False)
-
-    def stop(self):
-        """ Issue a stop command """
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_DRIVE_STOP])
-        self._sendMessage(message)
-
     def query(self):
         """ Issue a queryproc request """
         message = RoverUtils.hexArr2Str([ROBOTICSNET_SYSTEM_QUERYPROC])
@@ -110,6 +54,16 @@ class RoverClient:
         """ Sends a request to take a panoramic snapshot """
         message = RoverUtils.hexArr2Str([ROBOTICSNET_CAMERA_PANORAMICSNAPSHOT])
         self._sendMessage(message)
+        
+    def sendCommand(self, command):
+        """ Sends a request to the server """
+        message = RoverUtils.hexArr2Str([command])
+        self._sendMessage(message)
+        
+    def timedCommand(self, command):
+        """ Sends a request to the server """
+        message = RoverUtils.hexArrToTimestampedString([command])
+        self._sendMessage(message, False)
 
     def _sendMessage(self, message, TCP=True):
         """
