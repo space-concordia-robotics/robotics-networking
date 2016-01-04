@@ -32,11 +32,9 @@ class TestClientValidation(unittest.TestCase):
 
     def testForward(self):
         self.cm.timedCommand(ROBOTICSNET_DRIVE_FORWARD,12)
-        self.cm.forward(12)
 
     def testForwardLeft(self):
         self.cm.timedCommand(ROBOTICSNET_DRIVE_FORWARDLEFT, 12)
-        self.cm.forwardLeft(12)
 
     def testForwardRight(self):
         self.cm.timedCommand(ROBOTICSNET_DRIVE_FORWARDRIGHT,12)
