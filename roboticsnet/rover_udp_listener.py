@@ -1,14 +1,10 @@
 import sys
 import traceback
 import threading
+import socket
 
-from multiprocessing.connection import Listener
 from colorama import Fore
-from multiprocessing.connection import Listener
 from multprocessing import Process, Pipe
-from roboticsnet.commands.command_factory import CommandFactory
-from roboticsnet.sanitizer import sanitize
-from roboticsnet.session import Session
 from roboticsnet.gateway_constants import *
 from roboticsnet.rover_utils import RoverUtils
 from roboticsnet.monitoring_service import MonitoringService
@@ -22,16 +18,14 @@ class RoverUdpListener:
     first to the validator, and then to the dispatcher.
     """
 
-    def __init__(self, default_port=ROBOTICSNET_PORT, hooks=None,
+    def __init__(self, default_port=ROBOTICSNET_PORT, hook=None,
             monitorProcs=None):
         """
         default_port:
             The port that the server monitors on in default.
-
-        hooks:
-            Depending on what we receive on the server, we can bind different
-            behavior. There's two examples you can consult and see how this
-            mechanism works in robotics-networking/examples.
+            
+        hook: 
+            This is really just a placeholder name for the initialization of the Commands class the listener uses.
 
         monitorProcs:
             An array of lambdas, which have arity of 1 (they take in one
@@ -46,9 +40,8 @@ class RoverUdpListener:
         """
         self.port = default_port
         self.end_listen = False
-        self.session = Session()
-        self.hooks = hooks
         self.monitorServices = []
+        self.commandable = hook #again, just a placeholder name. could be anything
         self.session.put("monitoringService", self.monitorServices)
         self._spawnMonitoringServices(monitorProcs)
         self.myLogger = Logger()
@@ -74,12 +67,7 @@ class RoverUdpListener:
                 print "Received: ",
                 print(Fore.GREEN + RoverUtils.hexArrToHumanReadableString(received_bytes))
                 print(Fore.RESET)
-                cmd = CommandFactory.makeFromByteArray(\
-                        received_bytes,
-                        conn,
-                        self.session,
-                        self.hooks)
-                cmd.execute()
+                self.commandable.execute(received_bytes)
 
             except KeyboardInterrupt:
                 """ User hits C^c """

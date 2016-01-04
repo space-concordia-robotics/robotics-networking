@@ -162,15 +162,6 @@ def _graceful():
     client.graceful()
     print Fore.GREEN, "Done!", Fore.RESET
 
-def _sensInfo():
-    print "Requesting any service information..."
-    result = client.sensInfo()
-    print "Received", len(result), "bytes!"
-    result_a = list(result)
-    while len(result_a) != 0:
-        print ord(result_a[0]), " ",
-        del result_a[0]
-    print ""
 
 def _testAll():
     """ Test all commands with dummy data """
@@ -200,7 +191,6 @@ try:
     elif args.testall:      _testAll()
     elif args.stopvid:      _stopVideo()
     elif args.startvid:     _startVideo()
-    elif args.sensinfo:     _sensInfo()
     elif args.snapshot:     _snapshot()
     elif args.panoramicSnapshot:    _panoramicSnapshot()
 

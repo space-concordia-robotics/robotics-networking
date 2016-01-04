@@ -8,7 +8,7 @@ setup(
 
     description='Common network code for Rover',
     long_description=open('README.rst').read(),
-    url='http://www.github.com/space-concordia-robotics/robotics-networkingp',
+    url='http://www.github.com/space-concordia-robotics/robotics-networking',
     license='MIT',
 
     author='Simon Symeonidis',
@@ -20,8 +20,6 @@ setup(
 
     packages=[\
           'roboticsnet'\
-        , 'roboticsnet.commands'\
-        , 'roboticsnet.client'\
         , 'roboticsnet.byte_helpers'\
         ],
 

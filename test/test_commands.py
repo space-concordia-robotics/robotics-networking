@@ -1,17 +1,6 @@
 import unittest
 
-from roboticsnet.session import Session
-from roboticsnet.commands.forward_command import ForwardCommand
-from roboticsnet.commands.reverse_command import ReverseCommand
-from roboticsnet.commands.start_video_command import StartVideoCommand
-from roboticsnet.commands.stop_video_command import StopVideoCommand
-from roboticsnet.command_hook import CommandHook
-from roboticsnet.commands.forward_left_command import ForwardLeftCommand
-from roboticsnet.commands.forward_right_command import ForwardRightCommand
-from roboticsnet.commands.reverse_left_command import ReverseLeftCommand
-from roboticsnet.commands.reverse_right_command import ReverseRightCommand
-from roboticsnet.commands.snapshot_command import SnapshotCommand
-from roboticsnet.commands.panoramic_snapshot_command import PanoramicSnapshotCommand
+from roboticsnet.commands import Commands
 
 class TestCommands(unittest.TestCase):
     """ These just make sure that the commands, once executed, don't raise exceptions
@@ -19,36 +8,34 @@ class TestCommands(unittest.TestCase):
         to fix this
     """
 
-    @staticmethod
-    def _makeEmptyHook():
-        return CommandHook()
+    self.commands = Commands()
 
     def testForwardCommand(self):
-        ForwardCommand(0x22, self._makeEmptyHook()).execute()
+        self.commands.execute([ROBOTICSNET_DRIVE_FORWARD,10,5])
 
     def testReverseCommand(self):
-        ReverseCommand(0x33, self._makeEmptyHook()).execute()
+        self.commands.execute([ROBOTICSNET_DRIVE_REVERSE,10,5])
 
     def testForwardLeftCommand(self):
-        ForwardLeftCommand(0x44, self._makeEmptyHook()).execute()
+        self.commands.execute([ROBOTICSNET_DRIVE_FORWARDLEFT,10,5])
 
     def testForwardRightCommand(self):
-        ForwardRightCommand(0x44, self._makeEmptyHook()).execute()
+        self.commands.execute([ROBOTICSNET_DRIVE_FORWARDRIGHT,10,5])
 
     def testReverseLeftCommand(self):
-        ReverseLeftCommand(0x55, self._makeEmptyHook()).execute()
+        self.commands.execute([ROBOTICSNET_DRIVE_REVERSELEFT,10,5])
 
     def testReverseRightCommand(self):
-        ReverseRightCommand(0x55, self._makeEmptyHook()).execute()
+        self.commands.execute([ROBOTICSNET_DRIVE_REVERSERIGHT,10,5])
 
     def testStartVideoCommand(self):
-        StartVideoCommand(self._makeEmptyHook()).execute()
+        self.commands.execute([ROBOTICSNET_CAMERA_START_VID])
 
     def testStopVideoCommand(self):
-        StopVideoCommand(self._makeEmptyHook()).execute()
+        self.commands.execute([ROBOTICSNET_CAMERA_STOP_VID])
 
     def testSnapshotCommand(self):
-        SnapshotCommand(self._makeEmptyHook()).execute()
+        self.commands.execute([ROBOTICSNET_CAMERA_SNAPSHOT])
 
     def testPanoramicSnapshotCommand(self):
-        PanoramicSnapshotCommand(self._makeEmptyHook()).execute()
+        self.commands.execute([ROBOTICSNET_CAMERA_PANORAMICSNAPSHOT])
