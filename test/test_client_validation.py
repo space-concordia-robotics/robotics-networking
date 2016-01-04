@@ -1,6 +1,6 @@
 import unittest
 
-from roboticsnet.client.rover_client import RoverClient
+from roboticsnet.rover_client import RoverClient
 from roboticsnet.roboticsnet_exception import RoboticsnetException
 
 class ClientMock(RoverClient):
