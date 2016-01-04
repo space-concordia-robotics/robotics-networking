@@ -1,6 +1,6 @@
 import unittest
 
-from roboticsnet.gateway_constants.py import *
+from roboticsnet.gateway_constants import *
 from roboticsnet.rover_client import RoverClient
 from roboticsnet.roboticsnet_exception import RoboticsnetException
 
@@ -127,7 +127,7 @@ class TestClientValidation(unittest.TestCase):
 
     def testReverseBadValueSmall(self):
         with self.assertRaises(RoboticsnetException):
-            self.cm.timedCommand(ROBOTICSNET_DRIVE_REVERESE,-300)
+            self.cm.timedCommand(ROBOTICSNET_DRIVE_REVERSE,-300)
 
     def testReverseZero(self):
             self.cm.timedCommand(ROBOTICSNET_DRIVE_REVERSE,0)
