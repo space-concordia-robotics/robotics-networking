@@ -1,5 +1,6 @@
 import unittest
 
+from roboticsnet.gateway_constants.py import *
 from roboticsnet.rover_client import RoverClient
 from roboticsnet.roboticsnet_exception import RoboticsnetException
 
