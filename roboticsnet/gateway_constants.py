@@ -9,7 +9,7 @@ Author:
 # The listener listens to this port if we specify nothing else
 ROBOTICSNET_PORT = 10666
 
-# Drive Commands (Range: 0x00 - 0x1F) 
+# Drive Commands (Range: 0x00 - 0x1F)
 ROBOTICSNET_DRIVE_STOP =                0x00
 ROBOTICSNET_DRIVE_FORWARD =             0x01
 ROBOTICSNET_DRIVE_REVERSE =             0x02
@@ -37,6 +37,8 @@ ROBOTICSNET_SENSOR_INFO_RESP =          0x31
 
 # System Commands (Range: 0xE0 - 0xFF)
 ROBOTICSNET_SYSTEM_QUERYPROC =          0xE0
+ROBOTICSNET_SYSTEM_SETPORT =            0xF0
+ROBOTICSNET_SYSTEM_SETHOST =            0xF1
 ROBOTICSNET_SYSTEM_GRACEFUL =           0xFF
 
 
@@ -63,6 +65,8 @@ ROBOTICSNET_STRCMD_LOOKUP = {
 #        , 'armreset':                   ROBOTICSNET_ARM_RESET
 
         , 'queryproc':                  ROBOTICSNET_SYSTEM_QUERYPROC
+        , 'setport':                    ROBOTICSNET_SYSTEM_SETPORT
+        , 'sethost':                    ROBOTICSNET_SYSTEM_SETHOST
         , 'graceful':                   ROBOTICSNET_SYSTEM_GRACEFUL
         }
 
