@@ -20,8 +20,7 @@ setup(
         ],
 
     packages=[\
-          'roboticsnet'\
-        , 'roboticsnet.byte_helpers'\
+          'roboticsnet'
         ],
 
     scripts=[\

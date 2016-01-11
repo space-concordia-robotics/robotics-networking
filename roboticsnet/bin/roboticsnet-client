@@ -3,8 +3,7 @@
 import sys
 import argparse
 
-from roboticsnet.client.rover_client import RoverClient
-from roboticsnet.byte_helpers.queryproc_byte_arr_helper import QueryprocByteArrHelper
+from roboticsnet.rover_client import RoverClient
 from roboticsnet.gateway_constants import *
 from roboticsnet.roboticsnet_exception import RoboticsnetException
 
@@ -135,31 +134,30 @@ def _queryproc():
     print "Send " + Fore.BLUE + "query" + Fore.RESET + " to listener...",
     reply = client.query()
     print Fore.GREEN, "Done!", Fore.RESET
-    print QueryprocByteArrHelper.format(reply)
 
 def _startVideo():
     print "Send " + Fore.BLUE + "startvid" + Fore.RESET + " to listener...",
-    client.startVideo()
+    client.sendCommand(ROBOTICSNET_CAMERA_START_VID)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _stopVideo():
     print "Send " + Fore.BLUE + "stopvid" + Fore.RESET + " to listener...",
-    client.stopVideo()
+    client.sendCommand(ROBOTICSNET_CAMERA_STOP_VID)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _snapshot():
     print "Send " + Fore.BLUE + "snapshot" + Fore.RESET + " to listener...",
-    client.snapshot()
+    client.sendCommand(ROBOTICSNET_CAMERA_SNAPSHOT)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _panoramicSnapshot():
     print "Send " + Fore.BLUE + "panoramic snapshot" + Fore.RESET + " to listener...",
-    client.panoramicSnapshot()
+    client.sendCommand(ROBOTICSNET_CAMERA_PANORAMICSNAPSHOT)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _graceful():
     print "Requesting " + Fore.BLUE + "shutdown" + Fore.RESET + "...",
-    client.graceful()
+    client.sendCommand(ROBOTICSNET_SYSTEM_GRACEFUL)
     print Fore.GREEN, "Done!", Fore.RESET
 
 

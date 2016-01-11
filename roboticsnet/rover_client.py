@@ -64,7 +64,7 @@ class RoverClient:
         else:
             #from UdpCommunication on the Python wiki
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            sock.sendto(message, address)
+            sock.sendto(message, (self.host,10667))
 
     def _sendMessageAwaitReply(self, message):
         """
