@@ -39,6 +39,7 @@ ROBOTICSNET_SENSOR_INFO_RESP =          0x31
 ROBOTICSNET_SYSTEM_QUERYPROC =          0xE0
 ROBOTICSNET_SYSTEM_SETPORT =            0xF0
 ROBOTICSNET_SYSTEM_SETHOST =            0xF1
+ROBOTICSNET_SYSTEM_KILLCLIENT =         0xF2
 ROBOTICSNET_SYSTEM_GRACEFUL =           0xFF
 
 
@@ -67,6 +68,7 @@ ROBOTICSNET_STRCMD_LOOKUP = {
         , 'queryproc':                  ROBOTICSNET_SYSTEM_QUERYPROC
         , 'setport':                    ROBOTICSNET_SYSTEM_SETPORT
         , 'sethost':                    ROBOTICSNET_SYSTEM_SETHOST
+        , 'killclient':                 ROBOTICSNET_SYSTEM_KILLCLIENT
         , 'graceful':                   ROBOTICSNET_SYSTEM_GRACEFUL
         }
 
