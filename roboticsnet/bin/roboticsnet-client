@@ -82,7 +82,7 @@ parser.add_argument('--panoramicSnapshot',
 args = parser.parse_args()
 
 # These will be overwritten if --port, or --host is supplied
-host, port = 'localhost', ROBOTICSNET_PORT
+host, port = 'localhost', ROBOTICSNET_TCP_PORT
 
 if args.host:
     host = args.host

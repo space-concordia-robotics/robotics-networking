@@ -12,10 +12,10 @@ from roboticsnet.monitoring_service import MonitoringService
 
 class UdpListener(RoverListener):
 
-    def __init__(self, default_port=ROBOTICSNET_PORT, hook=None,
+    def __init__(self, default_port=ROBOTICSNET_UDP_PORT, hook=None,
             monitorProcs=None):
-        
-        
+
+
         self.port = default_port
         self.end_listen = False
         self.monitorServices = []
@@ -26,8 +26,8 @@ class UdpListener(RoverListener):
     def start(self):
         logging.info("listening on port: %d" % (self.port))
         print "listening on port",self.port
-        
-        
+
+
         address = ('', self.port)
         #UDP
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -43,7 +43,7 @@ class UdpListener(RoverListener):
                     self.end_listen = True
                 else:
                     self.commandable.execute(received_bytes)
-                
+
 
             except KeyboardInterrupt:
                 """ User hits C^c """
@@ -60,4 +60,3 @@ class UdpListener(RoverListener):
                 if 'conn' in vars() or 'conn' in globals():
                     conn.close()
         self._stopRunningServices()
-

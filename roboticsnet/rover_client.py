@@ -11,12 +11,16 @@ class RoverClient:
     author: psyomn
     """
 
-    def __init__(self, host='localhost', port=ROBOTICSNET_PORT):
+    def __init__(self, host='localhost', tcp_port=ROBOTICSNET_TCP_PORT, udp_port=ROBOTICSNET_UDP_PORT):
         self.host = host
-        self.port = port
+        self.tcp_port = tcp_port
+        self.udp_port = udp_port
 
-    def getPort(self):
-        return self.port
+    def getPort(self, TCP = True):
+        if (TCP):
+            return self.tcp_port
+        else:
+            return self.udp_port
 
     def getHost(self):
         return self.host
@@ -24,20 +28,23 @@ class RoverClient:
     def setHost(self, host):
         self.host = host
 
-    def setPort(self, port):
-        self.port = port
+    def setPort(self, port, TCP = True):
+        if (TCP):
+            self.tcp_port = port
+        else:
+            self.udp_port = port
 
 
     def query(self):
         """ Issue a queryproc request """
         message = RoverUtils.hexArr2Str([ROBOTICSNET_SYSTEM_QUERYPROC])
         return self._sendMessageAwaitReply(message)
-        
+
     def sendCommand(self, command):
         """ Sends a request to the server """
         message = RoverUtils.hexArr2Str([command])
         self._sendMessage(message)
-        
+
     def timedCommand(self, command, magnitude=0):
         """ Sends a request to the server """
         """ This is only for movement commands """
@@ -55,9 +62,10 @@ class RoverClient:
             message - is the bytearray to send, in string format
             TCP     - whether or not it will be sent with TCP. true by default
         """
-        address = (self.host, self.port)
         if TCP:
-            print "Using port: " + Fore.GREEN, self.port, Fore.RESET
+            address = (self.host, self.tcp_port)
+
+            print "Using port: " + Fore.GREEN, self.tcp_port, Fore.RESET
             print "Using host: " + Fore.GREEN, self.host, Fore.RESET
 
             #from TCPCommunication on the Python wiki
@@ -67,11 +75,11 @@ class RoverClient:
             tsock.close()
         else:
             #from UdpCommunication on the Python wiki
-            print "Using port: " + Fore.GREEN, self.port+1, Fore.RESET
+            print "Using port: " + Fore.GREEN, self.udp_port, Fore.RESET
             print "Using host: " + Fore.GREEN, self.host, Fore.RESET
 
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            sock.sendto(message, (self.host,self.port+1))
+            sock.sendto(message, (self.host,self.udp_port))
 
     def _sendMessageAwaitReply(self, message):
         """
@@ -80,7 +88,7 @@ class RoverClient:
         Parameters:
             message - is the bytearray to send, in string format
         """
-        address = (self.host, self.port)
+        address = (self.host, self.tcp_port)
         tsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         tsock.connect(address)
         tsock.send(message)
@@ -92,4 +100,3 @@ class RoverClient:
         """ Request information about sensors """
         message = RoverUtils.hexArr2Str([ROBOTICSNET_SENSOR_INFO])
         return self._sendMessageAwaitReply(message)
-
