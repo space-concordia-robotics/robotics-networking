@@ -5,6 +5,7 @@ import roboticsnet
 setup(
     name=roboticsnet.__appname__,
     version=roboticsnet.__version__,
+    
 
     description='Common network code for Rover',
     long_description=open('README.rst').read(),
@@ -19,10 +20,7 @@ setup(
         ],
 
     packages=[\
-          'roboticsnet'\
-        , 'roboticsnet.commands'\
-        , 'roboticsnet.client'\
-        , 'roboticsnet.byte_helpers'\
+          'roboticsnet'
         ],
 
     scripts=[\

@@ -1,18 +1,17 @@
 import sys
 import traceback
 import threading
+import socket
+import logging
 
-from multiprocessing.connection import Listener
+from multiprocessing import Process, Pipe
 from colorama import Fore
-
-from roboticsnet.commands.command_factory import CommandFactory
-from roboticsnet.sanitizer import sanitize
-from roboticsnet.session import Session
+from roboticslogger.logger import Logger
 from roboticsnet.gateway_constants import *
 from roboticsnet.rover_utils import RoverUtils
 from roboticsnet.monitoring_service import MonitoringService
 
-class RoverListener:
+class RoverListener():
     """
     author: psyomn
 
@@ -21,77 +20,65 @@ class RoverListener:
     first to the validator, and then to the dispatcher.
     """
 
-    def __init__(self, default_port=ROBOTICSNET_PORT, hooks=None,
-            monitorProcs=None):
+    def __init__(self, default_port=ROBOTICSNET_PORT,
+            monitorProcs=None, hook=None):
         """
         default_port:
             The port that the server monitors on in default.
-
-        hooks:
-            Depending on what we receive on the server, we can bind different
-            behavior. There's two examples you can consult and see how this
-            mechanism works in robotics-networking/examples.
+        
+        hook:
+            This is really just a placeholder name for the initialization of the Commands class the listener uses.
 
         monitorProcs:
             An array of lambdas, which have arity of 1 (they take in one
             parameter).
 
-            On top of hooks, we define some functions to be executed on and on
-            during the whole lifetime of the system. These should be able to set
-            some value, and return that value when these services are asked for
-            system information.
 
         author: psyomn
         """
         self.port = default_port
         self.end_listen = False
-        self.session = Session()
-        self.hooks = hooks
         self.monitorServices = []
-        self.session.put("monitoringService", self.monitorServices)
         self._spawnMonitoringServices(monitorProcs)
+        self.commandable = hook #again, just a placeholder name. could be changed
+        logging.basicConfig(filename='rover_listener.log',level=logging.DEBUG)
 
-    def listen(self):
+
+    def start(self):
+    
         """ main entry point """
-        print "Listening on port: ", self.port
+        logging.info("listening on port: %d" % (self.port))
 
         address = ('', self.port)
-
-        l = Listener(address)
-
+        
+        s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        s.bind(address)
+        s.listen(1)
+        
+        """To kill the Udp listener when this one receives graceful"""
+        sock2 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        
         while not self.end_listen:
             try:
-                conn = l.accept()
-                received_bytes = conn.recv_bytes()
-
-                print "Received: ",
-                print(Fore.GREEN + RoverUtils.hexArrToHumanReadableString(received_bytes))
-                print(Fore.RESET)
-
+                conn, addr = s.accept()
+                received_bytes = conn.recv(1024)
+                logging.info("Received: "+RoverUtils.hexArrToHumanReadableString(received_bytes))
+                print RoverUtils.hexArrToHumanReadableString(received_bytes)
+                
                 if ord(received_bytes[0]) == ROBOTICSNET_SYSTEM_GRACEFUL:
+                    message = RoverUtils.hexArr2Str([ROBOTICSNET_SYSTEM_GRACEFUL])
+                    sock2.sendto(message, ("localhost",10667))
                     self.end_listen = True
                 else:
-                    cmd = CommandFactory.makeFromByteArray(\
-                            received_bytes,
-                            conn,
-                            self.session,
-                            self.hooks)
-                    cmd.execute()
-
-            except KeyboardInterrupt:
-                """ User hits C^c """
-                print "Shutting down ..."
-                self.end_listen = True
+                    self.commandable.execute(received_bytes)
 
             except:
-                # TODO: logging would be a good idea here
-                print "There was some error. Ignoring last command"
-                print sys.exc_info()[0]
-                print traceback.format_exc()
+                logging.error("There was some error. Ignoring last command")
+                logging.error(sys.exc_info()[0])
+                logging.error(traceback.format_exc())
 
             finally:
-                """ It is the case that conn might not be set if nothing is
-                received """
+                """ Conn might not be set if nothing is received """
                 if 'conn' in vars() or 'conn' in globals():
                     conn.close()
         self._stopRunningServices()
@@ -108,6 +95,9 @@ class RoverListener:
         for service in self.monitorServices:
             print "Join: ", service
             service.join()
+    
+    def stop(self):
+        self.end_listen = True
 
     def _spawnMonitoringServices(self, monitorProcs):
         """ This starts all the monitoring services (as threads) """

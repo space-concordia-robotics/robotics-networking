@@ -3,8 +3,7 @@
 import sys
 import argparse
 
-from roboticsnet.client.rover_client import RoverClient
-from roboticsnet.byte_helpers.queryproc_byte_arr_helper import QueryprocByteArrHelper
+from roboticsnet.rover_client import RoverClient
 from roboticsnet.gateway_constants import *
 from roboticsnet.roboticsnet_exception import RoboticsnetException
 
@@ -93,84 +92,72 @@ if args.port:
 
 ##### RUN
 client = RoverClient(host, port)
-print "Using port: " + Fore.GREEN, client.getPort(), Fore.RESET
-print "Using host: " + Fore.GREEN, client.getHost(), Fore.RESET
 
 def _forward():
     print "Send " + Fore.BLUE + "forward" + Fore.RESET + " command...",
-    client.forward(args.forward)
+    client.timedCommand(ROBOTICSNET_DRIVE_FORWARD,args.forward)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _reverse():
     print "Send " + Fore.BLUE + "reverse" + Fore.RESET + " command...",
-    client.reverse(args.reverse)
+    client.timedCommand(ROBOTICSNET_DRIVE_REVERSE,args.reverse)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _forwardLeft():
     print "Send " + Fore.BLUE + "forward left" + Fore.RESET+ " command...",
-    client.forwardLeft(args.forwardLeft)
+    client.timedCommand(ROBOTICSNET_DRIVE_FORWARDLEFT,args.forwardLeft)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _forwardRight():
     print "Send " + Fore.BLUE + "forward right" + Fore.RESET+ " command...",
-    client.forwardRight(args.forwardRight)
+    client.timedCommand(ROBOTICSNET_DRIVE_FORWARDRIGHT,args.forwardRight)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _reverseLeft():
     print "Send " + Fore.BLUE + "reverse left" + Fore.RESET+ " command...",
-    client.reverseLeft(args.reverseLeft)
+    client.timedCommand(ROBOTICSNET_DRIVE_REVERSELEFT,args.reverseleft)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _reverseRight():
     print "Send " + Fore.BLUE + "reverse right" + Fore.RESET+ " command...",
-    client.reverseRight(args.reverseRight)
+    client.timedCommand(ROBOTICSNET_DRIVE_REVERSERIGHT,args.reverseRight)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _stop():
     print "Send " + Fore.BLUE + "stop" + Fore.RESET+ " command...",
-    client.stop()
+    client.timedCommand(ROBOTICSNET_DRIVE_STOP)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _queryproc():
     print "Send " + Fore.BLUE + "query" + Fore.RESET + " to listener...",
     reply = client.query()
     print Fore.GREEN, "Done!", Fore.RESET
-    print QueryprocByteArrHelper.format(reply)
 
 def _startVideo():
     print "Send " + Fore.BLUE + "startvid" + Fore.RESET + " to listener...",
-    client.startVideo()
+    client.sendCommand(ROBOTICSNET_CAMERA_START_VID)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _stopVideo():
     print "Send " + Fore.BLUE + "stopvid" + Fore.RESET + " to listener...",
-    client.stopVideo()
+    client.sendCommand(ROBOTICSNET_CAMERA_STOP_VID)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _snapshot():
     print "Send " + Fore.BLUE + "snapshot" + Fore.RESET + " to listener...",
-    client.snapshot()
+    client.sendCommand(ROBOTICSNET_CAMERA_SNAPSHOT)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _panoramicSnapshot():
     print "Send " + Fore.BLUE + "panoramic snapshot" + Fore.RESET + " to listener...",
-    client.panoramicSnapshot()
+    client.sendCommand(ROBOTICSNET_CAMERA_PANORAMICSNAPSHOT)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _graceful():
     print "Requesting " + Fore.BLUE + "shutdown" + Fore.RESET + "...",
-    client.graceful()
+    client.sendCommand(ROBOTICSNET_SYSTEM_GRACEFUL)
     print Fore.GREEN, "Done!", Fore.RESET
 
-def _sensInfo():
-    print "Requesting any service information..."
-    result = client.sensInfo()
-    print "Received", len(result), "bytes!"
-    result_a = list(result)
-    while len(result_a) != 0:
-        print ord(result_a[0]), " ",
-        del result_a[0]
-    print ""
 
 def _testAll():
     """ Test all commands with dummy data """
@@ -200,7 +187,6 @@ try:
     elif args.testall:      _testAll()
     elif args.stopvid:      _stopVideo()
     elif args.startvid:     _startVideo()
-    elif args.sensinfo:     _sensInfo()
     elif args.snapshot:     _snapshot()
     elif args.panoramicSnapshot:    _panoramicSnapshot()
     else: raise RoboticsnetException("Unable to associate parsed args: " + ", ".join(sys.argv))

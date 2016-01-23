@@ -1,3 +1,6 @@
+
+"""author: msnidal"""
+
 from time import time
 
 class RoverUtils:
@@ -25,7 +28,6 @@ class RoverUtils:
         """
         Parameters:
             hexArr - is an array that is known to contain byte data.
-
         Return:
             a string representing the bytes, in human readable form (this is
             used when you want to print the information)
