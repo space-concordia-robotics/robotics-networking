@@ -57,6 +57,9 @@ class RoverClient:
         """
         address = (self.host, self.port)
         if TCP:
+            print "Using port: " + Fore.GREEN, self.port, Fore.RESET
+            print "Using host: " + Fore.GREEN, self.host, Fore.RESET
+
             #from TCPCommunication on the Python wiki
             tsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             tsock.connect(address)
@@ -64,8 +67,11 @@ class RoverClient:
             tsock.close()
         else:
             #from UdpCommunication on the Python wiki
+            print "Using port: " + Fore.GREEN, self.port+1, Fore.RESET
+            print "Using host: " + Fore.GREEN, self.host, Fore.RESET
+
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            sock.sendto(message, (self.host,10667))
+            sock.sendto(message, (self.host,self.port+1))
 
     def _sendMessageAwaitReply(self, message):
         """

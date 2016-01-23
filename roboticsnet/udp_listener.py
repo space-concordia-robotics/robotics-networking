@@ -16,7 +16,7 @@ class UdpListener(RoverListener):
             monitorProcs=None):
         
         
-        self.port = default_port+1
+        self.port = default_port
         self.end_listen = False
         self.monitorServices = []
         self._spawnMonitoringServices(monitorProcs)
@@ -25,6 +25,7 @@ class UdpListener(RoverListener):
 
     def start(self):
         logging.info("listening on port: %d" % (self.port))
+        print "listening on port",self.port
         
         
         address = ('', self.port)

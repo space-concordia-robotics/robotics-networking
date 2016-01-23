@@ -19,8 +19,9 @@ if args.port:
     setPort = args.port
 
 l = RoverListener(default_port=setPort)
+l2 = UdpListener(default_port=setPort)
 
 print roboticsnet.__appname__, " ",  roboticsnet.__version__
 print "Starting command dispatcher..."
-l.listen()
+l.start()
 
