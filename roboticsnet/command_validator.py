@@ -11,18 +11,18 @@ file for now
 def validate(cmd_str):
     return _valid_arg_size(cmd_str) and _command_exists(cmd_str)
 
-def _valid_arg_size(str):
+def _valid_arg_size(args):
     # TODO this might need fixing/removing
     """ Is the command 2 or more? """
-    return len(str.split()) >= 2
+    return len(args.split()) >= 2
 
-def _command_exists(str):
+def _command_exists(args):
     """ Is this a command that exists? """
     cmds = ['forward', 'reverse', 'forwardLeft', 'forwardRight','reverseLeft','reverseRight', 'stop']
-    cmd = str.split()[0]
+    cmd = args.split()[0]
     return cmd in cmds
 
-def calculate_time_diff(str):
+def calculate_time_diff(string):
     """ Gets time diff on timestamped command. """
-    diff = (RoverUtils.timeModulusToHex() - str)
+    diff = (RoverUtils.timeModulusToHex() - string)
     return diff

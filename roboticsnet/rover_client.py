@@ -38,10 +38,11 @@ class RoverClient:
         message = RoverUtils.hexArr2Str([command])
         self._sendMessage(message)
         
-    def timedCommand(self, command, magnitude):
+    def timedCommand(self, command, magnitude=0):
         """ Sends a request to the server """
         """ This is only for movement commands """
-        self._validateByteValue(magnitude)
+        if not magnitude in range(0, 65):
+            raise RoboticsnetException("You can send things in range of 0 to 255 only")
         message = RoverUtils.hexArrToTimestampedString([command, magnitude])
         self._sendMessage(message, False) #sent with udp
 
@@ -85,14 +86,4 @@ class RoverClient:
         """ Request information about sensors """
         message = RoverUtils.hexArr2Str([ROBOTICSNET_SENSOR_INFO])
         return self._sendMessageAwaitReply(message)
-
-    def _validateByteValue(self, value):
-        """
-        Check if value is between 0 to 255. If not, raise an exception
-
-        Parameters:
-            value - an integer.
-        """
-        if not value in range(0, 256):
-            raise RoboticsnetException("You can send things in range of 0 to 255 only")
 

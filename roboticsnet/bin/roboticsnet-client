@@ -97,32 +97,32 @@ print "Using host: " + Fore.GREEN, client.getHost(), Fore.RESET
 
 def _forward():
     print "Send " + Fore.BLUE + "forward" + Fore.RESET + " command...",
-    client.timedCommand(args.forward, ROBOTICSNET_DRIVE_FORWARD)
+    client.timedCommand(ROBOTICSNET_DRIVE_FORWARD,args.forward)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _reverse():
     print "Send " + Fore.BLUE + "reverse" + Fore.RESET + " command...",
-    client.timedCommand(args.reverse, ROBOTICSNET_DRIVE_REVERSE)
+    client.timedCommand(ROBOTICSNET_DRIVE_REVERSE,args.reverse)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _forwardLeft():
     print "Send " + Fore.BLUE + "forward left" + Fore.RESET+ " command...",
-    client.timedCommand(args.forwardLeft, ROBOTICSNET_DRIVE_FORWARDLEFT)
+    client.timedCommand(ROBOTICSNET_DRIVE_FORWARDLEFT,args.forwardLeft)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _forwardRight():
     print "Send " + Fore.BLUE + "forward right" + Fore.RESET+ " command...",
-    client.timedCommand(args.forwardRight, ROBOTICSNET_DRIVE_FORWARDRIGHT)
+    client.timedCommand(ROBOTICSNET_DRIVE_FORWARDRIGHT,args.forwardRight)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _reverseLeft():
     print "Send " + Fore.BLUE + "reverse left" + Fore.RESET+ " command...",
-    client.timedCommand(args.reverseLeft, ROBOTICSNET_DRIVE_REVERSELEFT)
+    client.timedCommand(ROBOTICSNET_DRIVE_REVERSELEFT,args.reverseleft)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _reverseRight():
     print "Send " + Fore.BLUE + "reverse right" + Fore.RESET+ " command...",
-    client.timedCommand(args.reverseRight, ROBOTICSNET_DRIVE_REVERSERIGHT)
+    client.timedCommand(ROBOTICSNET_DRIVE_REVERSERIGHT,args.reverseRight)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _stop():

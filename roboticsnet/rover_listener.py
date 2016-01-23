@@ -2,15 +2,16 @@ import sys
 import traceback
 import threading
 import socket
+import logging
 
 from multiprocessing import Process, Pipe
 from colorama import Fore
-#from roboticslogger.logger import Logger
+from roboticslogger.logger import Logger
 from roboticsnet.gateway_constants import *
 from roboticsnet.rover_utils import RoverUtils
 from roboticsnet.monitoring_service import MonitoringService
 
-class RoverListener(threading.Thread):
+class RoverListener():
     """
     author: psyomn
 
@@ -35,67 +36,51 @@ class RoverListener(threading.Thread):
 
         author: psyomn
         """
-        threading.Thread.__init__(self)
         self.port = default_port
         self.end_listen = False
         self.monitorServices = []
         self._spawnMonitoringServices(monitorProcs)
-        #self.myLogger = Logger()
         self.commandable = hook #again, just a placeholder name. could be changed
+        logging.basicConfig(filename='rover_listener.log',level=logging.DEBUG)
 
 
-    def run(self):
-    
-        #parent_conn, child_conn = Pipe()
-        #p = Process(target=self.myLogger.run, args=(child_conn,))
-    
-        #p.start()
+    def start(self):
     
         """ main entry point """
-        #parent_conn.send(["info","listening on port: %d" % (self.port)])
+        logging.info("listening on port: %d" % (self.port))
 
         address = ('', self.port)
         
         s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         s.bind(address)
         s.listen(1)
-        conn, addr = s.accept()
         
-
+        """To kill the Udp listener when this one receives graceful"""
+        sock2 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         
         while not self.end_listen:
             try:
+                conn, addr = s.accept()
                 received_bytes = conn.recv(1024)
-                #parent_conn.send("info","Received: "+RoverUtils.hexArrToHumanReadableString(received_bytes))
+                logging.info("Received: "+RoverUtils.hexArrToHumanReadableString(received_bytes))
                 print RoverUtils.hexArrToHumanReadableString(received_bytes)
-                print "received", len(received_bytes)
-
-                #conn.send(received_bytes)
-
+                
                 if ord(received_bytes[0]) == ROBOTICSNET_SYSTEM_GRACEFUL:
+                    message = RoverUtils.hexArr2Str([ROBOTICSNET_SYSTEM_GRACEFUL])
+                    sock2.sendto(message, ("localhost",10667))
                     self.end_listen = True
                 else:
                     self.commandable.execute(received_bytes)
 
-            except KeyboardInterrupt:
-                """ User hits C^c """
-                print "keyboard interrupt"
-                #parent_conn.send("info", "Shutting down listener")
-                self.end_listen = True
-                
-                
-
             except:
-                print "There was some error. Ignoring last command"
-                print sys.exc_info()[0]
-                print traceback.format_exc()
-                self.end_listen = True
+                logging.error("There was some error. Ignoring last command")
+                logging.error(sys.exc_info()[0])
+                logging.error(traceback.format_exc())
 
             finally:
                 """ Conn might not be set if nothing is received """
                 if 'conn' in vars() or 'conn' in globals():
                     conn.close()
-           
         self._stopRunningServices()
         print "BYE."
 
@@ -104,15 +89,15 @@ class RoverListener(threading.Thread):
         functions), this method will stop them """
         print "Attempting to stop services"
         print self.monitorServices
-        #stopping logger
-        #parent_conn.send(["done"])
-        #parent_conn.close()
         for service in self.monitorServices:
             print "Send stop to: ", service
             service.stop()
         for service in self.monitorServices:
             print "Join: ", service
             service.join()
+    
+    def stop(self):
+        self.end_listen = True
 
     def _spawnMonitoringServices(self, monitorProcs):
         """ This starts all the monitoring services (as threads) """
