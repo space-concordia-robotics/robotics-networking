@@ -1,7 +1,4 @@
-<<<<<<< HEAD:roboticsnet/command_validator.py
 
-=======
->>>>>>> master:roboticsnet/commands/command_validator.py
 from roboticsnet.rover_utils import RoverUtils
 
 """
@@ -25,13 +22,8 @@ def _command_exists(args):
     cmd = args.split()[0]
     return cmd in cmds
 
-<<<<<<< HEAD:roboticsnet/command_validator.py
+
 def calculate_time_diff(string):
     """ Gets time diff on timestamped command. """
     diff = (RoverUtils.timeModulusToHex() - string)
-=======
-def calculate_time_diff(str):
-    """ Gets time diff on timestamped command. """
-    diff = (RoverUtils.timeModulusToHex() - str)
->>>>>>> master:roboticsnet/commands/command_validator.py
     return diff
