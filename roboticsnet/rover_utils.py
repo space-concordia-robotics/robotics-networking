@@ -1,4 +1,6 @@
+
 """author: msnidal"""
+
 from time import time
 
 class RoverUtils:

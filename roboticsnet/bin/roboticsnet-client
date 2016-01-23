@@ -189,6 +189,7 @@ try:
     elif args.startvid:     _startVideo()
     elif args.snapshot:     _snapshot()
     elif args.panoramicSnapshot:    _panoramicSnapshot()
+    else: raise RoboticsnetException("Unable to associate parsed args: " + ", ".join(sys.argv))
 
 except RoboticsnetException as e:
     print "Something wrong happened!"
