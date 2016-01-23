@@ -2,26 +2,48 @@
 
 import argparse
 import roboticsnet
+import threading
 from roboticsnet.rover_listener import RoverListener
+from roboticsnet.udp_listener import UdpListener
 from roboticsnet.gateway_constants import *
 
-setPort = sp = ROBOTICSNET_PORT
+tcp_port = ROBOTICSNET_TCP_PORT
+udp_port = ROBOTICSNET_UDP_PORT
 
 parser = argparse.ArgumentParser('roboticsnet-server')
 
-parser.add_argument('--port',
-        help='set the listening port. If not specified, standard ' + str(sp) + 'is used.',
+parser.add_argument('--tcpport',
+        help='set the listening TCP port. If not specified, standard ' + str(tcp_port) + 'is used.',
+        type=int)
+
+parser.add_argument('--udpport',
+        help='set the listening UDP port. If not specified, standard ' + str(udp_port) + 'is used.',
         type=int)
 
 args = parser.parse_args()
 
-if args.port:
-    setPort = args.port
+if args.tcpport:
+    tcp_port = args.tcp_port
+if args.udpport:
+    udp_port = args.udp_port
 
-l = RoverListener(default_port=setPort)
-l2 = UdpListener(default_port=setPort)
+tcpserver = RoverListener(default_port=tcp_port)
+udpserver = UdpListener(default_port=udp_port)
 
 print roboticsnet.__appname__, " ",  roboticsnet.__version__
 print "Starting command dispatcher..."
-l.start()
 
+t1 = threading.Thread(target=tcpserver.start, args=())
+t2 = threading.Thread(target=udpserver.start, args=())
+
+t1.daemon=True
+t2.daemon=True
+
+t1.start()
+t2.start()
+
+try:
+    while t1.is_alive():
+        pass
+except(KeyboardInterrupt):
+    print "Quitting..."

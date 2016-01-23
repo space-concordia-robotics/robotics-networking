@@ -2,6 +2,7 @@ from roboticsnet.gateway_constants import *
 from roboticsnet.rover_utils import RoverUtils
 from roboticsnet.roboticsnet_exception import RoboticsnetException
 import socket
+from colorama import Fore
 
 class RoverClient:
     """

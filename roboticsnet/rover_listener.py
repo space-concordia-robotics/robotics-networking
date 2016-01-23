@@ -47,7 +47,8 @@ class RoverListener():
     def start(self):
 
         """ main entry point """
-        logging.info("listening on port: %d" % (self.port))
+        logging.info("TCP listening on port: %d" % (self.port))
+        print "TCP listening on port: %d" % (self.port)
 
         address = ('', self.port)
 

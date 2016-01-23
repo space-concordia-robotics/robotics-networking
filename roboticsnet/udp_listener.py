@@ -24,8 +24,8 @@ class UdpListener(RoverListener):
         logging.basicConfig(filename='udp_listener.log',level=logging.DEBUG)
 
     def start(self):
-        logging.info("listening on port: %d" % (self.port))
-        print "listening on port",self.port
+        logging.info("UDP listening on port: %d" % (self.port))
+        print "UDP listening on port:",self.port
 
 
         address = ('', self.port)
