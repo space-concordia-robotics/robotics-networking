@@ -20,12 +20,12 @@ class RoverListener():
     first to the validator, and then to the dispatcher.
     """
 
-    def __init__(self, default_port=ROBOTICSNET_PORT,
+    def __init__(self, default_port=ROBOTICSNET_TCP_PORT,
             monitorProcs=None, hook=None):
         """
         default_port:
             The port that the server monitors on in default.
-        
+
         hook:
             This is really just a placeholder name for the initialization of the Commands class the listener uses.
 
@@ -45,26 +45,27 @@ class RoverListener():
 
 
     def start(self):
-    
+
         """ main entry point """
-        logging.info("listening on port: %d" % (self.port))
+        logging.info("TCP listening on port: %d" % (self.port))
+        print "TCP listening on port: %d" % (self.port)
 
         address = ('', self.port)
-        
+
         s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         s.bind(address)
         s.listen(1)
-        
+
         """To kill the Udp listener when this one receives graceful"""
         sock2 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        
+
         while not self.end_listen:
             try:
                 conn, addr = s.accept()
                 received_bytes = conn.recv(1024)
                 logging.info("Received: "+RoverUtils.hexArrToHumanReadableString(received_bytes))
                 print RoverUtils.hexArrToHumanReadableString(received_bytes)
-                
+
                 if ord(received_bytes[0]) == ROBOTICSNET_SYSTEM_GRACEFUL:
                     message = RoverUtils.hexArr2Str([ROBOTICSNET_SYSTEM_GRACEFUL])
                     sock2.sendto(message, ("localhost",10667))
@@ -95,7 +96,7 @@ class RoverListener():
         for service in self.monitorServices:
             print "Join: ", service
             service.join()
-    
+
     def stop(self):
         self.end_listen = True
 
@@ -112,4 +113,3 @@ class RoverListener():
             monServ.start()
 
         print "All services started"
-
