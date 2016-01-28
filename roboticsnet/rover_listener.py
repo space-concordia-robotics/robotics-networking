@@ -10,6 +10,7 @@ from roboticslogger.logger import Logger
 from roboticsnet.gateway_constants import *
 from roboticsnet.rover_utils import RoverUtils
 from roboticsnet.monitoring_service import MonitoringService
+from roboticsnet.command_validator import calculate_time_diff
 
 class RoverListener():
     """
@@ -63,13 +64,19 @@ class RoverListener():
             try:
                 conn, addr = s.accept()
                 received_bytes = conn.recv(1024)
-                logging.info("Received: "+RoverUtils.hexArrToHumanReadableString(received_bytes))
-                print RoverUtils.hexArrToHumanReadableString(received_bytes)
+                
+                readable = RoverUtils.hexArrToHumanReadableString(received_bytes)
+                logging.info("{0}: {1}".format(addr, readable)) 
+                print readable
 
                 if ord(received_bytes[0]) == ROBOTICSNET_SYSTEM_GRACEFUL:
                     message = RoverUtils.hexArr2Str([ROBOTICSNET_SYSTEM_GRACEFUL])
                     sock2.sendto(message, ("localhost",10667))
                     self.end_listen = True
+                elif ord(received_bytes[0]) == ROBOTICSNET_SYSTEM_PING:
+                    diff = calculate_time_diff(ord(received_bytes[1]))
+                    logging.info("Received ping from {0} in {1}s".format(addr, diff))
+                    conn.send(str(diff))
                 else:
                     self.commandable.execute(received_bytes)
 
@@ -82,8 +89,10 @@ class RoverListener():
                 """ Conn might not be set if nothing is received """
                 if 'conn' in vars() or 'conn' in globals():
                     conn.close()
+        
+        conn.close()
         self._stopRunningServices()
-        print "BYE."
+        print "Server closed."
 
     def _stopRunningServices(self):
         """ If there exists any running services (like sensor polling

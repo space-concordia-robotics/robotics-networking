@@ -79,6 +79,10 @@ parser.add_argument('--panoramicSnapshot',
         help='take panoramic snapshot on rover',
         action='store_true')
 
+parser.add_argument('--ping',
+        help='ping the rover with a timestamp',
+        action='store_true')
+
 args = parser.parse_args()
 
 # These will be overwritten if --port, or --host is supplied
@@ -153,6 +157,11 @@ def _panoramicSnapshot():
     client.sendCommand(ROBOTICSNET_CAMERA_PANORAMICSNAPSHOT)
     print Fore.GREEN, "Done!", Fore.RESET
 
+def _ping():
+    print "Send " + Fore.BLUE + "ping" + Fore.RESET + " to listener...",
+    reply = client.ping()
+    print Fore.GREEN, "Rover received ping in {0}s".format(reply), Fore.RESET
+
 def _graceful():
     print "Requesting " + Fore.BLUE + "shutdown" + Fore.RESET + "...",
     client.sendCommand(ROBOTICSNET_SYSTEM_GRACEFUL)
@@ -168,7 +177,7 @@ def _testAll():
 
     # Make sure _graceful is in the end
     calls = [_forward, _reverse, _forwardLeft, _forwardRight, _reverseLeft, _reverseRight, _stop, _startVideo, _stopVideo,
-             _queryproc, _graceful]
+             _queryproc, _ping, _graceful]
 
     print Fore.MAGENTA + "Testing all commands..." + Fore.RESET
     for c in calls:
@@ -189,6 +198,7 @@ try:
     elif args.startvid:     _startVideo()
     elif args.snapshot:     _snapshot()
     elif args.panoramicSnapshot:    _panoramicSnapshot()
+    elif args.ping:         _ping()
     else: raise RoboticsnetException("Unable to associate parsed args: " + ", ".join(sys.argv))
 
 except RoboticsnetException as e:
