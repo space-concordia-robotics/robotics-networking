@@ -64,7 +64,7 @@ class TestClientValidation(unittest.TestCase):
     def testPanoramicSnapshot(self):
         self.cm.sendCommand(ROBOTICSNET_CAMERA_PANORAMICSNAPSHOT)
 
-    def testPint(self):
+    def testPing(self):
         self.cm.ping()
 
     # BADVALS now
