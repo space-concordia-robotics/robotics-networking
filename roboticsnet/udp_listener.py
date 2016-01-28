@@ -60,3 +60,4 @@ class UdpListener(RoverListener):
                 if 'conn' in vars() or 'conn' in globals():
                     conn.close()
         self._stopRunningServices()
+        conn.close()

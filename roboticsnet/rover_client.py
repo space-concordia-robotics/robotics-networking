@@ -35,7 +35,6 @@ class RoverClient:
         else:
             self.udp_port = port
 
-
     def query(self):
         """ Issue a queryproc request """
         message = RoverUtils.hexArr2Str([ROBOTICSNET_SYSTEM_QUERYPROC])
@@ -82,7 +81,7 @@ class RoverClient:
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             sock.sendto(message, (self.host,self.udp_port))
 
-    def _sendMessageAwaitReply(self, message):
+    def _sendMessageAwaitReply(self, message, buffer_size = 20):
         """
         As _sendMessage, but this method waits for a reply
 
@@ -93,11 +92,16 @@ class RoverClient:
         tsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         tsock.connect(address)
         tsock.send(message)
-        data = tsock.recv(20)
+        data = tsock.recv(buffer_size)
         tsock.close()
         return data
 
     def sensInfo(self):
         """ Request information about sensors """
         message = RoverUtils.hexArr2Str([ROBOTICSNET_SENSOR_INFO])
+        return self._sendMessageAwaitReply(message)
+
+    def ping(self):
+        """ Pings the rover with a timestamp """
+        message = RoverUtils.hexArrToTimestampedString([ROBOTICSNET_SYSTEM_PING])
         return self._sendMessageAwaitReply(message)

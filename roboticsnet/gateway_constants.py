@@ -41,6 +41,7 @@ ROBOTICSNET_SYSTEM_QUERYPROC =          0xE0
 ROBOTICSNET_SYSTEM_SETPORT =            0xF0
 ROBOTICSNET_SYSTEM_SETHOST =            0xF1
 ROBOTICSNET_SYSTEM_KILLCLIENT =         0xF2
+ROBOTICSNET_SYSTEM_PING =               0xF3
 ROBOTICSNET_SYSTEM_GRACEFUL =           0xFF
 
 
@@ -70,6 +71,7 @@ ROBOTICSNET_STRCMD_LOOKUP = {
         , 'setport':                    ROBOTICSNET_SYSTEM_SETPORT
         , 'sethost':                    ROBOTICSNET_SYSTEM_SETHOST
         , 'killclient':                 ROBOTICSNET_SYSTEM_KILLCLIENT
+        , 'ping':                       ROBOTICSNET_SYSTEM_PING
         , 'graceful':                   ROBOTICSNET_SYSTEM_GRACEFUL
         }
 
