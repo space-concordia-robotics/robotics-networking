@@ -70,6 +70,7 @@ class RoverClient:
 
             #from TCPCommunication on the Python wiki
             tsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            tsock.settimeout(3)
             tsock.connect(address)
             tsock.send(message)
             tsock.close()
