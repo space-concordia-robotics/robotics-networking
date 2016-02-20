@@ -20,23 +20,23 @@ DRIVE_REVERSELEFT =             0x05
 DRIVE_REVERSERIGHT =            0x06
 
 # Camera Commands (Range: 0x20 - 0x2F)
-CAMERA_STARTVID =               0x20
-CAMERA_STOPVID =                0x21
+CAMERA_START_VID =              0x20
+CAMERA_STOP_VID =               0x21
 CAMERA_SNAPSHOT =               0x22
-CAMERA_PANORAMICSNAPSHOT =      0x23
+CAMERA_PANORAMIC =              0x23
 
 # Sensor Commands (Range: 0x30 - 0x5F)
 SENSOR_INFO =                   0x30
-SENSOR_INFORESP =               0x31
+SENSOR_INFO_RESP =              0x31
 
 # Arm Commands (Range: 0x60 - 0x7F)
 #ARM_STOP =                     0X60
-#ARM_DRILL                      0X6D
-#ARM_GRAB =                     0X7E
-#ARM_RESET =                    0x7F
+#ARM_DRILL                      0X61
+#ARM_GRAB =                     0X62
+#ARM_RESET =                    0x63
 
 # Client Commands (Range: 0xE0 - 0xEF)
-CLIENT_KILLCLIENT =             0xE0
+CLIENT_KILL =                   0xE0
 #CLIENT_SETPORT =               0xE1
 #CLIENT_SETHOST =               0xE2
 #CLIENT_GETPORT =               0xE3
@@ -57,13 +57,13 @@ ROBOTICSNET_STRCMD_LOOKUP = {
         , 'reverseLeft':                DRIVE_REVERSELEFT
         , 'reverseRight':               DRIVE_REVERSERIGHT
 
-        , 'startvid':                   CAMERA_STARTVID
-        , 'stopvid':                    CAMERA_STOPVID
+        , 'startvid':                   CAMERA_START_VID
+        , 'stopvid':                    CAMERA_STOP_VID
         , 'snapshot':                   CAMERA_SNAPSHOT
-        , 'panoramicsnapshot':          CAMERA_PANORAMICSNAPSHOT
+        , 'panoramic':                  CAMERA_PANORAMIC
 
         , 'sensorinfo':                 SENSOR_INFO
-        , 'sensorinforesp':             SENSOR_INFORESP
+        , 'sensorinforesp':             SENSOR_INFO_RESP
 
 #        , 'armstop':                    ARM_STOP
 #        , 'armdrill':                   ARM_DRILL

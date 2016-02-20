@@ -37,7 +37,7 @@ class RoverClient:
 
     def query(self):
         """ Issue a queryproc request """
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_SYSTEM_QUERYPROC])
+        message = RoverUtils.hexArr2Str([SYSTEM_QUERYPROC])
         return self._sendMessageAwaitReply(message)
 
     def sendCommand(self, command):
@@ -99,10 +99,10 @@ class RoverClient:
 
     def sensInfo(self):
         """ Request information about sensors """
-        message = RoverUtils.hexArr2Str([ROBOTICSNET_SENSOR_INFO])
+        message = RoverUtils.hexArr2Str([SENSOR_INFO])
         return self._sendMessageAwaitReply(message)
 
     def ping(self):
         """ Pings the rover with a timestamp """
-        message = RoverUtils.hexArrToTimestampedString([ROBOTICSNET_SYSTEM_PING])
+        message = RoverUtils.hexArrToTimestampedString([SYSTEM_PING])
         return self._sendMessageAwaitReply(message)

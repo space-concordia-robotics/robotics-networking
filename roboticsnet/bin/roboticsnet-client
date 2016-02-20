@@ -99,37 +99,37 @@ client = RoverClient(host, port)
 
 def _forward():
     print "Send " + Fore.BLUE + "forward" + Fore.RESET + " command...",
-    client.timedCommand(ROBOTICSNET_DRIVE_FORWARD,args.forward)
+    client.timedCommand(DRIVE_FORWARD,args.forward)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _reverse():
     print "Send " + Fore.BLUE + "reverse" + Fore.RESET + " command...",
-    client.timedCommand(ROBOTICSNET_DRIVE_REVERSE,args.reverse)
+    client.timedCommand(DRIVE_REVERSE,args.reverse)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _forwardLeft():
     print "Send " + Fore.BLUE + "forward left" + Fore.RESET+ " command...",
-    client.timedCommand(ROBOTICSNET_DRIVE_FORWARDLEFT,args.forwardLeft)
+    client.timedCommand(DRIVE_FORWARDLEFT,args.forwardLeft)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _forwardRight():
     print "Send " + Fore.BLUE + "forward right" + Fore.RESET+ " command...",
-    client.timedCommand(ROBOTICSNET_DRIVE_FORWARDRIGHT,args.forwardRight)
+    client.timedCommand(DRIVE_FORWARDRIGHT,args.forwardRight)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _reverseLeft():
     print "Send " + Fore.BLUE + "reverse left" + Fore.RESET+ " command...",
-    client.timedCommand(ROBOTICSNET_DRIVE_REVERSELEFT,args.reverseleft)
+    client.timedCommand(DRIVE_REVERSELEFT,args.reverseleft)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _reverseRight():
     print "Send " + Fore.BLUE + "reverse right" + Fore.RESET+ " command...",
-    client.timedCommand(ROBOTICSNET_DRIVE_REVERSERIGHT,args.reverseRight)
+    client.timedCommand(DRIVE_REVERSERIGHT,args.reverseRight)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _stop():
     print "Send " + Fore.BLUE + "stop" + Fore.RESET+ " command...",
-    client.timedCommand(ROBOTICSNET_DRIVE_STOP)
+    client.timedCommand(DRIVE_STOP)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _queryproc():
@@ -139,22 +139,22 @@ def _queryproc():
 
 def _startVideo():
     print "Send " + Fore.BLUE + "startvid" + Fore.RESET + " to listener...",
-    client.sendCommand(ROBOTICSNET_CAMERA_START_VID)
+    client.sendCommand(CAMERA_START_VID)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _stopVideo():
     print "Send " + Fore.BLUE + "stopvid" + Fore.RESET + " to listener...",
-    client.sendCommand(ROBOTICSNET_CAMERA_STOP_VID)
+    client.sendCommand(CAMERA_STOP_VID)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _snapshot():
     print "Send " + Fore.BLUE + "snapshot" + Fore.RESET + " to listener...",
-    client.sendCommand(ROBOTICSNET_CAMERA_SNAPSHOT)
+    client.sendCommand(CAMERA_SNAPSHOT)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _panoramicSnapshot():
     print "Send " + Fore.BLUE + "panoramic snapshot" + Fore.RESET + " to listener...",
-    client.sendCommand(ROBOTICSNET_CAMERA_PANORAMICSNAPSHOT)
+    client.sendCommand(CAMERA_PANORAMIC)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _ping():
@@ -164,7 +164,7 @@ def _ping():
 
 def _graceful():
     print "Requesting " + Fore.BLUE + "shutdown" + Fore.RESET + "...",
-    client.sendCommand(ROBOTICSNET_SYSTEM_GRACEFUL)
+    client.sendCommand(SYSTEM_GRACEFUL)
     print Fore.GREEN, "Done!", Fore.RESET
 
 

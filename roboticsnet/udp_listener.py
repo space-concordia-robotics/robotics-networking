@@ -39,7 +39,7 @@ class UdpListener(RoverListener):
                 received_bytes, addr = sock.recvfrom(1024) # buffer size is 1024 bytes
                 logging.info("Received: "+RoverUtils.hexArrToHumanReadableString(received_bytes))
                 print "Received: "+RoverUtils.hexArrToHumanReadableString(received_bytes)
-                if ord(received_bytes[0]) == ROBOTICSNET_SYSTEM_GRACEFUL:
+                if ord(received_bytes[0]) == SYSTEM_GRACEFUL:
                     self.end_listen = True
                 else:
                     try:
