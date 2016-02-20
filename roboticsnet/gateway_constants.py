@@ -29,19 +29,22 @@ ROBOTICSNET_CAMERA_PANORAMICSNAPSHOT =  0x23
 ROBOTICSNET_SENSOR_INFO =               0x30
 ROBOTICSNET_SENSOR_INFO_RESP =          0x31
 
-
 # Arm Commands (Range: 0x60 - 0x7F)
 #ROBOTICSNET_ARM_STOP =                  0X60
-#ROBOTICSNET_ARM_DRILL                   0XED
+#ROBOTICSNET_ARM_DRILL                   0X6D
 #ROBOTICSNET_ARM_GRAB =                  0X7E
 #ROBOTICSNET_ARM_RESET =                 0x7F
 
-# System Commands (Range: 0xE0 - 0xFF)
-ROBOTICSNET_SYSTEM_QUERYPROC =          0xE0
-ROBOTICSNET_SYSTEM_SETPORT =            0xF0
-ROBOTICSNET_SYSTEM_SETHOST =            0xF1
-ROBOTICSNET_SYSTEM_KILLCLIENT =         0xF2
-ROBOTICSNET_SYSTEM_PING =               0xF3
+# Client Commands (Range: 0xE0 - 0xEF)
+ROBOTICSNET_SYSTEM_SET_PORT =            0xE0
+ROBOTICSNET_SYSTEM_SET_HOST =            0xE1
+ROBOTICSNET_SYSTEM_GET_PORT =            0xE2
+ROBOTICSNET_SYSTEM_GET_HOST =            0xE3
+ROBOTICSNET_SYSTEM_KILL_CLIENT =         0xE4
+
+# System Commands (Range: 0xF0 - 0xFF)
+ROBOTICSNET_SYSTEM_QUERYPROC =          0xF0
+ROBOTICSNET_SYSTEM_PING =               0xF1
 ROBOTICSNET_SYSTEM_GRACEFUL =           0xFF
 
 
@@ -54,23 +57,26 @@ ROBOTICSNET_STRCMD_LOOKUP = {
         , 'reverseLeft':                ROBOTICSNET_DRIVE_REVERSELEFT
         , 'reverseRight':               ROBOTICSNET_DRIVE_REVERSERIGHT
 
-        , 'startvid':                   ROBOTICSNET_CAMERA_START_VID
-        , 'stopvid':                    ROBOTICSNET_CAMERA_STOP_VID
+        , 'startVid':                   ROBOTICSNET_CAMERA_START_VID
+        , 'stopVid':                    ROBOTICSNET_CAMERA_STOP_VID
         , 'snapshot':                   ROBOTICSNET_CAMERA_SNAPSHOT
-        , 'panoramicsnapshot':          ROBOTICSNET_CAMERA_PANORAMICSNAPSHOT
+        , 'panoramicSnapshot':          ROBOTICSNET_CAMERA_PANORAMICSNAPSHOT
 
-        , 'sensorinfo':                 ROBOTICSNET_SENSOR_INFO
-        , 'sensorinforesp':             ROBOTICSNET_SENSOR_INFO_RESP
+        , 'sensorInfo':                 ROBOTICSNET_SENSOR_INFO
+        , 'sensorInfoResp':             ROBOTICSNET_SENSOR_INFO_RESP
 
 #        , 'armstop':                    ROBOTICSNET_ARM_STOP
 #        , 'armdrill':                   ROBOTICSNET_ARM_DRILL
 #        , 'armgrab':                    ROBOTICSNET_ARM_GRAB
 #        , 'armreset':                   ROBOTICSNET_ARM_RESET
 
+        , 'setPort':                    ROBOTICSNET_SYSTEM_SET_PORT
+        , 'setHost':                    ROBOTICSNET_SYSTEM_SET_HOST
+        , 'getPort':                    ROBOTICSNET_SYSTEM_GET_PORT
+        , 'getHost':                    ROBOTICSNET_SYSTEM_GET_HOST
+        , 'killClient':                 ROBOTICSNET_SYSTEM_KILL_CLIENT
+
         , 'queryproc':                  ROBOTICSNET_SYSTEM_QUERYPROC
-        , 'setport':                    ROBOTICSNET_SYSTEM_SETPORT
-        , 'sethost':                    ROBOTICSNET_SYSTEM_SETHOST
-        , 'killclient':                 ROBOTICSNET_SYSTEM_KILLCLIENT
         , 'ping':                       ROBOTICSNET_SYSTEM_PING
         , 'graceful':                   ROBOTICSNET_SYSTEM_GRACEFUL
         }
