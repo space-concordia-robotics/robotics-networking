@@ -78,7 +78,13 @@ class RoverListener():
                     logging.info("Received ping from {0} in {1}s".format(addr, diff))
                     conn.send(str(diff))
                 else:
-                    self.commandable.execute(received_bytes)
+                    try:
+                        self.commandable.execute(received_bytes)
+                    except AttributeError as e:
+                        logging.error("Attribute error on commandable execute. This is most likely because there is no commandable file to execute:\n\t{0}".format(e.message))
+                    except Exception as e:
+                        logging.error("Critical error executing command:\n\t{0}".format(e.message))
+                        
 
             except:
                 logging.error("There was some error. Ignoring last command")
