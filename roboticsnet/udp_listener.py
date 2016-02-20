@@ -42,13 +42,10 @@ class UdpListener(RoverListener):
                 if ord(received_bytes[0]) == SYSTEM_GRACEFUL:
                     self.end_listen = True
                 else:
-                    try:
-                        self.commandable.execute(received_bytes)
-                    except AttributeError as e:
-                        logging.error("Attribute error on commandable execute. This is most likely because there is no commandable file to execute:\n\t{0}".format(e.message))
-                    except Exception as e:
-                        logging.error("Critical error executing command:\n\t{0}".format(e.message))
+                    self.commandable.execute(received_bytes)
 
+            except AttributeError as e:
+                logging.error("Attribute error on commandable execute. This is most likely because there is no commandable file to execute:\n\t{0}".format(e.message))
 
             except KeyboardInterrupt:
                 """ User hits C^c """
