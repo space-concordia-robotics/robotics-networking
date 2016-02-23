@@ -64,22 +64,24 @@ class RoverListener():
             try:
                 conn, addr = s.accept()
                 received_bytes = conn.recv(1024)
-                
+
                 readable = RoverUtils.hexArrToHumanReadableString(received_bytes)
-                logging.info("{0}: {1}".format(addr, readable)) 
+                logging.info("{0}: {1}".format(addr, readable))
                 print readable
 
-                if ord(received_bytes[0]) == ROBOTICSNET_SYSTEM_GRACEFUL:
-                    message = RoverUtils.hexArr2Str([ROBOTICSNET_SYSTEM_GRACEFUL])
+                if ord(received_bytes[0]) == SYSTEM_GRACEFUL:
+                    message = RoverUtils.hexArr2Str([SYSTEM_GRACEFUL])
                     sock2.sendto(message, ("localhost",10667))
                     self.end_listen = True
-                elif ord(received_bytes[0]) == ROBOTICSNET_SYSTEM_PING:
+                elif ord(received_bytes[0]) == SYSTEM_PING:
                     diff = calculate_time_diff(ord(received_bytes[1]))
                     logging.info("Received ping from {0} in {1}s".format(addr, diff))
                     conn.send(str(diff))
                 else:
                     self.commandable.execute(received_bytes)
 
+            except AttributeError as e:
+                logging.error("Attribute error on commandable execute. This is most likely because there is no commandable file to execute:\n\t{0}".format(e.message))
             except:
                 logging.error("There was some error. Ignoring last command")
                 logging.error(sys.exc_info()[0])
@@ -89,7 +91,7 @@ class RoverListener():
                 """ Conn might not be set if nothing is received """
                 if 'conn' in vars() or 'conn' in globals():
                     conn.close()
-        
+
         conn.close()
         self._stopRunningServices()
         print "Server closed."

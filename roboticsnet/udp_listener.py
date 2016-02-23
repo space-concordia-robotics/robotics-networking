@@ -39,11 +39,13 @@ class UdpListener(RoverListener):
                 received_bytes, addr = sock.recvfrom(1024) # buffer size is 1024 bytes
                 logging.info("Received: "+RoverUtils.hexArrToHumanReadableString(received_bytes))
                 print "Received: "+RoverUtils.hexArrToHumanReadableString(received_bytes)
-                if ord(received_bytes[0]) == ROBOTICSNET_SYSTEM_GRACEFUL:
+                if ord(received_bytes[0]) == SYSTEM_GRACEFUL:
                     self.end_listen = True
                 else:
                     self.commandable.execute(received_bytes)
 
+            except AttributeError as e:
+                logging.error("Attribute error on commandable execute. This is most likely because there is no commandable file to execute:\n\t{0}".format(e.message))
 
             except KeyboardInterrupt:
                 """ User hits C^c """
