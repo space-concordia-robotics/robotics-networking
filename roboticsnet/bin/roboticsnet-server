@@ -20,18 +20,12 @@ parser.add_argument('--udpport',
         help='set the listening UDP port. If not specified, standard ' + str(udp_port) + 'is used.',
         type=int)
 
-parser.add_argument('--broadcast',
-        help='set the server to broadcast across the local network until it receives some valid data.',
-        action='store_true')
-
 args = parser.parse_args()
 
 if args.tcpport:
     tcp_port = args.tcp_port
 if args.udpport:
     udp_port = args.udp_port
-if args.broadcast:
-    print "broadcast"
 
 tcpserver = RoverListener(default_port=tcp_port)
 udpserver = UdpListener(default_port=udp_port)
