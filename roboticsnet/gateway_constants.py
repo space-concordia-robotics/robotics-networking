@@ -1,3 +1,4 @@
+
 """
 Store the constants for the whole project here. Other parts of the project can
 use these constants to interface to appropriate modules if necessary.
@@ -7,8 +8,8 @@ Author:
 """
 
 # The listener listens to this port if we specify nothing else
-ROBOTICSNET_TCP_PORT =          10666
-ROBOTICSNET_UDP_PORT =          10667
+TCP_PORT =          10666
+UDP_PORT =          10667
 
 # Drive Commands (Range: 0x00 - 0x1F)
 DRIVE_STOP =                    0x00

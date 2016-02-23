@@ -3,7 +3,7 @@ from roboticsnet.rover_utils import RoverUtils
 from roboticsnet.roboticsnet_exception import RoboticsnetException
 import socket
 from colorama import Fore
-
+import sys
 class RoverClient:
     """
     The client that interfaces to the Rover gateway server. This is where we add
@@ -12,7 +12,7 @@ class RoverClient:
     author: psyomn
     """
 
-    def __init__(self, host='localhost', tcp_port=ROBOTICSNET_TCP_PORT, udp_port=ROBOTICSNET_UDP_PORT):
+    def __init__(self, host='localhost', tcp_port=TCP_PORT, udp_port=UDP_PORT):
         self.host = host
         self.tcp_port = tcp_port
         self.udp_port = udp_port
@@ -49,7 +49,7 @@ class RoverClient:
         """ Sends a request to the server """
         """ This is only for movement commands """
         if not magnitude in range(0, 65):
-            raise RoboticsnetException("You can send things in range of 0 to 255 only")
+            raise RoboticsnetException("You can send things in range of 0 to 65 only")
         message = RoverUtils.hexArrToTimestampedString([command, magnitude])
         self._sendMessage(message, False) #sent with udp
 
@@ -73,6 +73,7 @@ class RoverClient:
             tsock.settimeout(3)
             tsock.connect(address)
             tsock.send(message)
+            tsock.shutdown(socket.SHUT_WR)
             tsock.close()
         else:
             #from UdpCommunication on the Python wiki
@@ -81,8 +82,32 @@ class RoverClient:
 
             sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             sock.sendto(message, (self.host,self.udp_port))
+    
+    def snapshot(self, command):
+        message = RoverUtils.hexArr2Str([command])
+        buffer_size=921600
+        address = (self.host, self.tcp_port)
+        tsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        tsock.settimeout(3)
+        try:
+            tsock.connect(address)
+            tsock.send(message)
+            data = ""
+            while len(data) < buffer_size:
+                packet = tsock.recv(buffer_size - len(data))
+                if not packet:
+                    return None
+                data += packet
+            return data
+        except Exception as e:
+            print e
+            data = None
+        finally:
+            tsock.shutdown(socket.SHUT_WR)
+            tsock.close()
+            return data
 
-    def _sendMessageAwaitReply(self, message, buffer_size = 20):
+    def _sendMessageAwaitReply(self, message, buffer_size = 1024):
         """
         As _sendMessage, but this method waits for a reply
 
@@ -91,11 +116,19 @@ class RoverClient:
         """
         address = (self.host, self.tcp_port)
         tsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        tsock.connect(address)
-        tsock.send(message)
-        data = tsock.recv(buffer_size)
-        tsock.close()
-        return data
+        tsock.settimeout(3)
+        try:
+            tsock.connect(address)
+            tsock.send(message)
+            data = tsock.recv(buffer_size)
+            return data
+        except Exception as e:
+            print e
+            data = None
+        finally:
+            tsock.shutdown(socket.SHUT_WR)
+            tsock.close()
+            return data
 
     def sensInfo(self):
         """ Request information about sensors """
@@ -104,5 +137,5 @@ class RoverClient:
 
     def ping(self):
         """ Pings the rover with a timestamp """
-        message = RoverUtils.hexArrToTimestampedString([SYSTEM_PING])
+        message = RoverUtils.hexArrToTimestampedString([0xF1])
         return self._sendMessageAwaitReply(message)

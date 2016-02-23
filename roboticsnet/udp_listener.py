@@ -12,7 +12,7 @@ from roboticsnet.monitoring_service import MonitoringService
 
 class UdpListener(RoverListener):
 
-    def __init__(self, default_port=ROBOTICSNET_UDP_PORT, hook=None,
+    def __init__(self, default_port=UDP_PORT, hook=None,
             monitorProcs=None):
 
 
@@ -62,4 +62,3 @@ class UdpListener(RoverListener):
                 if 'conn' in vars() or 'conn' in globals():
                     conn.close()
         self._stopRunningServices()
-        conn.close()

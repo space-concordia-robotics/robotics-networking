@@ -21,7 +21,7 @@ class RoverListener():
     first to the validator, and then to the dispatcher.
     """
 
-    def __init__(self, default_port=ROBOTICSNET_TCP_PORT,
+    def __init__(self, default_port=TCP_PORT,
             monitorProcs=None, hook=None):
         """
         default_port:
@@ -64,10 +64,9 @@ class RoverListener():
             try:
                 conn, addr = s.accept()
                 received_bytes = conn.recv(1024)
-
                 readable = RoverUtils.hexArrToHumanReadableString(received_bytes)
                 logging.info("{0}: {1}".format(addr, readable))
-                print readable
+                print "received",readable
 
                 if ord(received_bytes[0]) == SYSTEM_GRACEFUL:
                     message = RoverUtils.hexArr2Str([SYSTEM_GRACEFUL])
@@ -77,6 +76,16 @@ class RoverListener():
                     diff = calculate_time_diff(ord(received_bytes[1]))
                     logging.info("Received ping from {0} in {1}s".format(addr, diff))
                     conn.send(str(diff))
+                elif ord(received_bytes[0]) == CAMERA_SNAPSHOT:
+                    logging.info("Received snapshot from {0}".format(addr))
+                    img = self.commandable.execute(received_bytes)
+                    chunk = 4096*4
+                    for i in range(0,len(img),chunk):
+                        if i+chunk<len(img):
+                            temp = img[i:i+chunk]
+                        else:
+                            temp = img[i:len(img)]
+                        conn.send(temp)
                 else:
                     self.commandable.execute(received_bytes)
 

@@ -86,7 +86,7 @@ parser.add_argument('--ping',
 args = parser.parse_args()
 
 # These will be overwritten if --port, or --host is supplied
-host, port = 'localhost', ROBOTICSNET_TCP_PORT
+host, port = 'localhost', TCP_PORT
 
 if args.host:
     host = args.host
