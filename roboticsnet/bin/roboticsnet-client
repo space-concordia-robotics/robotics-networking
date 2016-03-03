@@ -95,7 +95,7 @@ if args.port:
     port = args.port
 
 ##### RUN
-client = RoverClient(host, port)
+client = RoverClient()
 
 def _forward():
     print "Send " + Fore.BLUE + "forward" + Fore.RESET + " command...",
