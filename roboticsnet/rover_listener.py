@@ -1,7 +1,6 @@
 import sys
 import traceback
 import threading
-#import logging
 import serial
 
 from multiprocessing import Process, Pipe
@@ -29,8 +28,11 @@ class RoverListener():
         self.ser = serial.Serial(portList[0], 9600,timeout=None)
         self.end_listen = False
         self.commandable = hook #again, just a placeholder name. could be changed
-        #logging.basicConfig(filename='rover_listener.log',level=logging.DEBUG)
-
+        
+        self.logger = Logger("rover_listener")
+        self.logger_parent, self.logger_child = multiprocessing.Pipe()
+        self.p = multiprocessing.Process(target=self.logger.run, args=(self.logger_child, ))
+        self.p.start()
 
     def start(self):
         while not self.end_listen:
@@ -43,18 +45,15 @@ class RoverListener():
                     self.end_listen = True
                 elif ord(received_bytes[0]) == SYSTEM_PING:
                     diff = calculate_time_diff(ord(received_bytes[1]))
-                    #this was blocking
-                    #logging.info("Received ping from {0} in {1}s".format(addr, diff))
+                    self.logger_parent.send(["info","Received ping in {0}s".format(diff)])
                     self.ser.write(str(diff)+"\n")
                 else:
                     self.commandable.execute(received_bytes)
 
             except AttributeError as e:
-                logging.error("Attribute error on commandable execute. This is most likely because there is no commandable file to execute:\n\t{0}".format(e.message))
+                self.logger_parent.send(["err","Attribute error on commandable execute. This is most likely because there is no commandable file to execute:\n\t{0}".format(e.message)])
             except:
-                logging.error("There was some error. Ignoring last command")
-                logging.error(sys.exc_info()[0])
-                logging.error(traceback.format_exc())
+                self.logger_parent.send(["err","There was some error. Ignoring last command.\n{0}\n{1}".format(sys.exc_info()[0], traceback.format_exc())])
 
         self.ser.close()
         self._stopRunningServices()
