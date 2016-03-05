@@ -14,7 +14,9 @@ class RoverClient:
     """
 
     def __init__(self):
-        self.ser = serial.Serial('/dev/ttyUSB1', 9600, timeout=None)
+        portList = [x for x in RoverUtils.findPorts() if "ACM" not in x]
+        #change this to portList[1] when testing antennas on the same computer
+        self.ser = serial.Serial(portList[0], 9600, timeout=1)
 
     def sendCommand(self, command):
         """ Sends a request to the server """
@@ -56,18 +58,15 @@ class RoverClient:
 
 
     def _sendMessageAwaitReply(self, message):
+        print "called sendmsg"
         """
         As _sendMessage, but this method waits for a reply
         Parameters:
             message - is the bytearray to send, in string format
         """
         self.ser.write(message+"\n")
-        """So it times out if nothing is received"""
-        ser.setTimeout(3000)
         data = self.ser.readline()
-        ser.setTimeout(None)
-        if len(data)==0:
-            return None
+        
         return data
 
     def sensInfo(self):
@@ -79,3 +78,8 @@ class RoverClient:
         """ Pings the rover with a timestamp """
         message = RoverUtils.hexArrToTimestampedString([SYSTEM_PING])
         return self._sendMessageAwaitReply(message)
+
+
+
+
+

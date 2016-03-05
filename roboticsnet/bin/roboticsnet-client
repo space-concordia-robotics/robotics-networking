@@ -160,7 +160,11 @@ def _panoramicSnapshot():
 def _ping():
     print "Send " + Fore.BLUE + "ping" + Fore.RESET + " to listener...",
     reply = client.ping()
-    print Fore.GREEN, "Rover received ping in {0}s".format(reply), Fore.RESET
+    if reply=="":
+        print Fore.GREEN, "No connection"
+    else:
+        reply = reply[0:len(reply)-1]
+        print Fore.GREEN, "Rover received ping in {0}s".format(reply), Fore.RESET
 
 def _graceful():
     print "Requesting " + Fore.BLUE + "shutdown" + Fore.RESET + "...",

@@ -1,7 +1,7 @@
 import sys
 import traceback
 import threading
-import logging
+#import logging
 import serial
 
 from multiprocessing import Process, Pipe
@@ -11,6 +11,7 @@ from roboticsnet.gateway_constants import *
 from roboticsnet.rover_utils import RoverUtils
 from roboticsnet.monitoring_service import MonitoringService
 from roboticsnet.command_validator import calculate_time_diff
+import glob
 
 class RoverListener():
     """
@@ -24,10 +25,11 @@ class RoverListener():
     def __init__(self, default_port=TCP_PORT,
             monitorProcs=None, hook=None):
 
-        self.ser = serial.Serial('/dev/ttyUSB0', 9600,timeout=None)
+        portList = [x for x in RoverUtils.findPorts() if "ACM" not in x]
+        self.ser = serial.Serial(portList[0], 9600,timeout=None)
         self.end_listen = False
         self.commandable = hook #again, just a placeholder name. could be changed
-        logging.basicConfig(filename='rover_listener.log',level=logging.DEBUG)
+        #logging.basicConfig(filename='rover_listener.log',level=logging.DEBUG)
 
 
     def start(self):
@@ -41,7 +43,8 @@ class RoverListener():
                     self.end_listen = True
                 elif ord(received_bytes[0]) == SYSTEM_PING:
                     diff = calculate_time_diff(ord(received_bytes[1]))
-                    logging.info("Received ping from {0} in {1}s".format(addr, diff))
+                    #this was blocking
+                    #logging.info("Received ping from {0} in {1}s".format(addr, diff))
                     self.ser.write(str(diff)+"\n")
                 else:
                     self.commandable.execute(received_bytes)

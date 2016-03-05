@@ -1,4 +1,5 @@
 
+
 """
 Store the constants for the whole project here. Other parts of the project can
 use these constants to interface to appropriate modules if necessary.
@@ -15,10 +16,8 @@ UDP_PORT =          10667
 DRIVE_STOP =                    0x00
 DRIVE_FORWARD =                 0x01
 DRIVE_REVERSE =                 0x02
-DRIVE_FORWARDLEFT =             0x03
-DRIVE_FORWARDRIGHT =            0x04
-DRIVE_REVERSELEFT =             0x05
-DRIVE_REVERSERIGHT =            0x06
+DRIVE_LEFT =                    0x03
+DRIVE_RIGHT =                   0x04
 
 # Camera Commands (Range: 0x20 - 0x2F)
 CAMERA_START_VID =              0x20
@@ -53,10 +52,8 @@ ROBOTICSNET_STRCMD_LOOKUP = {
           'stop':                       DRIVE_STOP
         , 'forward':                    DRIVE_FORWARD
         , 'reverse':                    DRIVE_REVERSE
-        , 'forwardLeft':                DRIVE_FORWARDLEFT
-        , 'forwardRight':               DRIVE_FORWARDRIGHT
-        , 'reverseLeft':                DRIVE_REVERSELEFT
-        , 'reverseRight':               DRIVE_REVERSERIGHT
+        , 'left':                DRIVE_LEFT
+        , 'right':               DRIVE_RIGHT
 
         , 'startvid':                   CAMERA_START_VID
         , 'stopvid':                    CAMERA_STOP_VID

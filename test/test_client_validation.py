@@ -7,10 +7,10 @@ from roboticsnet.roboticsnet_exception import RoboticsnetException
 class ClientMock(RoverClient):
     """ Do nothing when actually sending things """
 
-    def __init__(self, host, port):
-        RoverClient.__init__(self, host, port)
+    def __init__(self):
+        RoverClient.__init__(self)
 
-    def _sendMessage(self, message, TCP=True):
+    def _sendMessage(self, message):
         pass
 
     def _sendMessageAwaitReply(self, message):
@@ -22,29 +22,20 @@ class TestClientValidation(unittest.TestCase):
     values"""
 
     def setUp(self):
-        self.cm = ClientMock('myhost', 123)
+        self.cm = ClientMock()
 
     def testGraceful(self):
         self.cm.sendCommand(SYSTEM_GRACEFUL)
 
-    def testAttrSet(self):
-        self.assertEqual(self.cm.getHost(), 'myhost')
-        self.assertEqual(self.cm.getPort(), 123)
 
     def testForward(self):
         self.cm.timedCommand(DRIVE_FORWARD,12)
 
-    def testForwardLeft(self):
-        self.cm.timedCommand(DRIVE_FORWARDLEFT, 12)
+    def testLeft(self):
+        self.cm.timedCommand(DRIVE_LEFT, 12)
 
-    def testForwardRight(self):
-        self.cm.timedCommand(DRIVE_FORWARDRIGHT,12)
-
-    def testReverseLeft(self):
-        self.cm.timedCommand(DRIVE_REVERSELEFT,12)
-
-    def testReverseRight(self):
-        self.cm.timedCommand(DRIVE_REVERSERIGHT,12)
+    def testRight(self):
+        self.cm.timedCommand(DRIVE_RIGHT,12)
 
     def testQuery(self):
         self.cm.query()
@@ -82,47 +73,25 @@ class TestClientValidation(unittest.TestCase):
 
     def testForwardRightBadValueBig(self):
         with self.assertRaises(RoboticsnetException):
-            self.cm.timedCommand(DRIVE_FORWARDRIGHT,300)
+            self.cm.timedCommand(DRIVE_RIGHT,300)
 
     def testForwardRightBadValueSmall(self):
         with self.assertRaises(RoboticsnetException):
-            self.cm.timedCommand(DRIVE_FORWARDRIGHT,-300)
+            self.cm.timedCommand(DRIVE_RIGHT,-300)
 
     def testForwardRightZero(self):
-        self.cm.timedCommand(DRIVE_FORWARDRIGHT,0)
+        self.cm.timedCommand(DRIVE_RIGHT,0)
 
     def testForwardLeftZero(self):
-        self.cm.timedCommand(DRIVE_FORWARDLEFT,0)
+        self.cm.timedCommand(DRIVE_LEFT,0)
 
     def testForwardLeftBadValueBig(self):
         with self.assertRaises(RoboticsnetException):
-            self.cm.timedCommand(DRIVE_FORWARDLEFT,300)
+            self.cm.timedCommand(DRIVE_LEFT,300)
 
     def testForwardLeftBadValueSmall(self):
         with self.assertRaises(RoboticsnetException):
-            self.cm.timedCommand(DRIVE_FORWARDLEFT,-300)
-
-    def testReverseRightBadValueBig(self):
-        with self.assertRaises(RoboticsnetException):
-            self.cm.timedCommand(DRIVE_REVERSERIGHT,300)
-
-    def testReverseRightBadValueSmall(self):
-        with self.assertRaises(RoboticsnetException):
-            self.cm.timedCommand(DRIVE_REVERSERIGHT,-300)
-
-    def testReverseRightZero(self):
-        self.cm.timedCommand(DRIVE_REVERSERIGHT,0)
-
-    def testReverseLeftZero(self):
-        self.cm.timedCommand(DRIVE_REVERSELEFT,-0)
-
-    def testReverseLeftBadValueBig(self):
-        with self.assertRaises(RoboticsnetException):
-            self.cm.timedCommand(DRIVE_REVERSELEFT,300)
-
-    def testReverseLeftBadValueSmall(self):
-        with self.assertRaises(RoboticsnetException):
-            self.cm.timedCommand(DRIVE_REVERSELEFT,-300)
+            self.cm.timedCommand(DRIVE_LEFT,-300)
 
     def testReverseBadValueBig(self):
         with self.assertRaises(RoboticsnetException):
