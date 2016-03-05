@@ -2,6 +2,7 @@ import sys
 import traceback
 import threading
 import serial
+import multiprocessing
 
 from multiprocessing import Process, Pipe
 from colorama import Fore
@@ -21,8 +22,7 @@ class RoverListener():
     first to the validator, and then to the dispatcher.
     """
 
-    def __init__(self, default_port=TCP_PORT,
-            monitorProcs=None, hook=None):
+    def __init__(self, monitorProcs=None, hook=None):
 
         portList = [x for x in RoverUtils.findPorts() if "ACM" not in x]
         self.ser = serial.Serial(portList[0], 9600,timeout=None)

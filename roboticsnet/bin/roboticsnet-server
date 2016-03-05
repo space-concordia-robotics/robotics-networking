@@ -4,49 +4,19 @@ import argparse
 import roboticsnet
 import threading
 from roboticsnet.rover_listener import RoverListener
-from roboticsnet.udp_listener import UdpListener
 from roboticsnet.gateway_constants import *
 
-tcp_port = ROBOTICSNET_TCP_PORT
-udp_port = ROBOTICSNET_UDP_PORT
-
 parser = argparse.ArgumentParser('roboticsnet-server')
-
-parser.add_argument('--tcpport',
-        help='set the listening TCP port. If not specified, standard ' + str(tcp_port) + 'is used.',
-        type=int)
-
-parser.add_argument('--udpport',
-        help='set the listening UDP port. If not specified, standard ' + str(udp_port) + 'is used.',
-        type=int)
-
-parser.add_argument('--broadcast',
-        help='set the server to broadcast across the local network until it receives some valid data.',
-        action='store_true')
-
 args = parser.parse_args()
 
-if args.tcpport:
-    tcp_port = args.tcp_port
-if args.udpport:
-    udp_port = args.udp_port
-if args.broadcast:
-    print "broadcast"
-
-tcpserver = RoverListener(default_port=tcp_port)
-udpserver = UdpListener(default_port=udp_port)
+rover_listener = RoverListener()
 
 print roboticsnet.__appname__, " ",  roboticsnet.__version__
 print "Starting command dispatcher..."
 
-t1 = threading.Thread(target=tcpserver.start, args=())
-t2 = threading.Thread(target=udpserver.start, args=())
-
+t1 = threading.Thread(target=rover_listener.start, args=())
 t1.daemon=True
-t2.daemon=True
-
 t1.start()
-t2.start()
 
 try:
     while t1.is_alive():
