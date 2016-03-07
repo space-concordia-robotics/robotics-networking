@@ -1,7 +1,6 @@
 from roboticsnet.gateway_constants import *
 from roboticsnet.rover_utils import RoverUtils
 from roboticsnet.roboticsnet_exception import RoboticsnetException
-from colorama import Fore
 import serial
 import sys
 
@@ -58,11 +57,8 @@ class RoverClient:
 
 
     def _sendMessageAwaitReply(self, message):
-        print "called sendmsg"
         """
-        As _sendMessage, but this method waits for a reply
-        Parameters:
-            message - is the bytearray to send, in string format
+        Waits for a reply after sending command.
         """
         self.ser.write(message+"\n")
         data = self.ser.readline()

@@ -161,7 +161,7 @@ def _ping():
     print "Send " + Fore.BLUE + "ping" + Fore.RESET + " to listener...",
     reply = client.ping()
     if reply=="":
-        print Fore.GREEN, "No connection"
+        print Fore.RED, "No connection", Fore.RESET
     else:
         reply = reply[0:len(reply)-1]
         print Fore.GREEN, "Rover received ping in {0}s".format(reply), Fore.RESET

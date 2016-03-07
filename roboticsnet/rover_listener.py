@@ -1,6 +1,5 @@
 import sys
 import traceback
-import threading
 import serial
 import multiprocessing
 
@@ -11,7 +10,6 @@ from roboticsnet.gateway_constants import *
 from roboticsnet.rover_utils import RoverUtils
 from roboticsnet.monitoring_service import MonitoringService
 from roboticsnet.command_validator import calculate_time_diff
-import glob
 
 class RoverListener():
     """
@@ -38,7 +36,9 @@ class RoverListener():
         while not self.end_listen:
             try:
                 received_bytes = self.ser.readline()
-                readable = RoverUtils.hexArrToHumanReadableString(received_bytes)
+                print received_bytes.pop()
+                
+                readable = RoverUtils.hexArrToHumanReadableString(received_bytes[0],received_bytes[1])
                 print "received",readable
                 
                 if ord(received_bytes[0]) == SYSTEM_GRACEFUL:
