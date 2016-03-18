@@ -23,7 +23,10 @@ class RoverListener():
     def __init__(self, monitorProcs=None, hook=None):
 
         portList = [x for x in RoverUtils.findPorts() if "ACM" not in x]
-        self.ser = serial.Serial(portList[0], 9600,timeout=None)
+        if len(portList)>0:
+            self.ser = serial.Serial(portList[0], 9600,timeout=None)
+        else:
+            self.ser = None
         self.end_listen = False
         self.commandable = hook #again, just a placeholder name. could be changed
         
@@ -35,10 +38,9 @@ class RoverListener():
     def start(self):
         while not self.end_listen:
             try:
-                received_bytes = self.ser.readline()
-                print received_bytes.pop()
+                received_bytes = self.ser.readline()[:-1]
                 
-                readable = RoverUtils.hexArrToHumanReadableString(received_bytes[0],received_bytes[1])
+                readable = RoverUtils.hexArrToHumanReadableString(received_bytes)
                 print "received",readable
                 
                 if ord(received_bytes[0]) == SYSTEM_GRACEFUL:

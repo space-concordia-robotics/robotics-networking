@@ -15,7 +15,10 @@ class RoverClient:
     def __init__(self):
         portList = [x for x in RoverUtils.findPorts() if "ACM" not in x]
         #change this to portList[1] when testing antennas on the same computer
-        self.ser = serial.Serial(portList[0], 9600, timeout=1)
+        if len(portList)>0:
+            self.ser = serial.Serial(portList[0], 9600, timeout=1)
+        else:
+            self.ser = None
 
     def sendCommand(self, command):
         """ Sends a request to the server """
