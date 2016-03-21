@@ -24,7 +24,7 @@ class RoverListener():
 
         portList = [x for x in RoverUtils.findPorts() if "ACM" not in x]
         if len(portList)>0:
-            self.ser = serial.Serial(portList[0], 9600,timeout=None)
+            self.ser = serial.Serial(portList[-1], 9600,timeout=None)
         else:
             self.ser = None
         self.end_listen = False
