@@ -1,8 +1,7 @@
 import sys
 import traceback
-import threading
-import socket
-import logging
+import serial
+import multiprocessing
 
 from multiprocessing import Process, Pipe
 from colorama import Fore
@@ -21,78 +20,44 @@ class RoverListener():
     first to the validator, and then to the dispatcher.
     """
 
-    def __init__(self, default_port=ROBOTICSNET_TCP_PORT,
-            monitorProcs=None, hook=None):
-        """
-        default_port:
-            The port that the server monitors on in default.
+    def __init__(self, monitorProcs=None, hook=None):
 
-        hook:
-            This is really just a placeholder name for the initialization of the Commands class the listener uses.
-
-        monitorProcs:
-            An array of lambdas, which have arity of 1 (they take in one
-            parameter).
-
-
-        author: psyomn
-        """
-        self.port = default_port
+        portList = [x for x in RoverUtils.findPorts() if "ACM" not in x]
+        if len(portList)>0:
+            self.ser = serial.Serial(portList[-1], 9600,timeout=None)
+        else:
+            self.ser = None
         self.end_listen = False
-        self.monitorServices = []
-        self._spawnMonitoringServices(monitorProcs)
         self.commandable = hook #again, just a placeholder name. could be changed
-        logging.basicConfig(filename='rover_listener.log',level=logging.DEBUG)
-
+        
+        self.logger = Logger("rover_listener")
+        self.logger_parent, self.logger_child = multiprocessing.Pipe()
+        self.p = multiprocessing.Process(target=self.logger.run, args=(self.logger_child, ))
+        self.p.start()
 
     def start(self):
-
-        """ main entry point """
-        logging.info("TCP listening on port: %d" % (self.port))
-        print "TCP listening on port: %d" % (self.port)
-
-        address = ('', self.port)
-
-        s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        s.bind(address)
-        s.listen(1)
-
-        """To kill the Udp listener when this one receives graceful"""
-        sock2 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
         while not self.end_listen:
             try:
-                conn, addr = s.accept()
-                received_bytes = conn.recv(1024)
-
+                received_bytes = self.ser.readline()[:-1]
+                
                 readable = RoverUtils.hexArrToHumanReadableString(received_bytes)
-                logging.info("{0}: {1}".format(addr, readable))
-                print readable
-
+                print "received",readable
+                
                 if ord(received_bytes[0]) == SYSTEM_GRACEFUL:
-                    message = RoverUtils.hexArr2Str([SYSTEM_GRACEFUL])
-                    sock2.sendto(message, ("localhost",10667))
                     self.end_listen = True
                 elif ord(received_bytes[0]) == SYSTEM_PING:
                     diff = calculate_time_diff(ord(received_bytes[1]))
-                    logging.info("Received ping from {0} in {1}s".format(addr, diff))
-                    conn.send(str(diff))
+                    self.logger_parent.send(["info","Received ping in {0}s".format(diff)])
+                    self.ser.write(str(diff)+"\n")
                 else:
                     self.commandable.execute(received_bytes)
 
             except AttributeError as e:
-                logging.error("Attribute error on commandable execute. This is most likely because there is no commandable file to execute:\n\t{0}".format(e.message))
+                self.logger_parent.send(["err","Attribute error on commandable execute. This is most likely because there is no commandable file to execute:\n\t{0}".format(e.message)])
             except:
-                logging.error("There was some error. Ignoring last command")
-                logging.error(sys.exc_info()[0])
-                logging.error(traceback.format_exc())
+                self.logger_parent.send(["err","There was some error. Ignoring last command.\n{0}\n{1}".format(sys.exc_info()[0], traceback.format_exc())])
 
-            finally:
-                """ Conn might not be set if nothing is received """
-                if 'conn' in vars() or 'conn' in globals():
-                    conn.close()
-
-        conn.close()
+        self.ser.close()
         self._stopRunningServices()
         print "Server closed."
 
@@ -110,6 +75,7 @@ class RoverListener():
 
     def stop(self):
         self.end_listen = True
+
 
     def _spawnMonitoringServices(self, monitorProcs):
         """ This starts all the monitoring services (as threads) """

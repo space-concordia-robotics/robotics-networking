@@ -20,20 +20,12 @@ parser.add_argument('--reverse',
         help='send reverse command, given a value from 1 to 63',
         type=int)
 
-parser.add_argument('--forwardLeft',
-        help='send forward left command, given a value from 1 to 63',
+parser.add_argument('--left',
+        help='send turn left command, given a value from 1 to 63',
         type=int)
 
-parser.add_argument('--forwardRight',
-        help='send forward right command, given a value from 1 to 63',
-        type=int)
-
-parser.add_argument('--reverseLeft',
-        help='send reverse left command, given a value from 1 to 63',
-        type=int)
-
-parser.add_argument('--reverseRight',
-        help='send reverse right command, given a value from 1 to 63',
+parser.add_argument('--right',
+        help='send turn right command, given a value from 1 to 63',
         type=int)
 
 parser.add_argument('--stop',
@@ -86,7 +78,7 @@ parser.add_argument('--ping',
 args = parser.parse_args()
 
 # These will be overwritten if --port, or --host is supplied
-host, port = 'localhost', ROBOTICSNET_TCP_PORT
+host, port = 'localhost', TCP_PORT
 
 if args.host:
     host = args.host
@@ -95,7 +87,7 @@ if args.port:
     port = args.port
 
 ##### RUN
-client = RoverClient(host, port)
+client = RoverClient()
 
 def _forward():
     print "Send " + Fore.BLUE + "forward" + Fore.RESET + " command...",
@@ -107,24 +99,14 @@ def _reverse():
     client.timedCommand(DRIVE_REVERSE,args.reverse)
     print Fore.GREEN, "Done!", Fore.RESET
 
-def _forwardLeft():
-    print "Send " + Fore.BLUE + "forward left" + Fore.RESET+ " command...",
-    client.timedCommand(DRIVE_FORWARDLEFT,args.forwardLeft)
+def _left():
+    print "Send " + Fore.BLUE + "turn left" + Fore.RESET+ " command...",
+    client.timedCommand(DRIVE_LEFT,args.left)
     print Fore.GREEN, "Done!", Fore.RESET
 
-def _forwardRight():
-    print "Send " + Fore.BLUE + "forward right" + Fore.RESET+ " command...",
-    client.timedCommand(DRIVE_FORWARDRIGHT,args.forwardRight)
-    print Fore.GREEN, "Done!", Fore.RESET
-
-def _reverseLeft():
-    print "Send " + Fore.BLUE + "reverse left" + Fore.RESET+ " command...",
-    client.timedCommand(DRIVE_REVERSELEFT,args.reverseleft)
-    print Fore.GREEN, "Done!", Fore.RESET
-
-def _reverseRight():
-    print "Send " + Fore.BLUE + "reverse right" + Fore.RESET+ " command...",
-    client.timedCommand(DRIVE_REVERSERIGHT,args.reverseRight)
+def _right():
+    print "Send " + Fore.BLUE + "turn right" + Fore.RESET+ " command...",
+    client.timedCommand(DRIVE_RIGHT,args.right)
     print Fore.GREEN, "Done!", Fore.RESET
 
 def _stop():
@@ -160,13 +142,16 @@ def _panoramicSnapshot():
 def _ping():
     print "Send " + Fore.BLUE + "ping" + Fore.RESET + " to listener...",
     reply = client.ping()
-    print Fore.GREEN, "Rover received ping in {0}s".format(reply), Fore.RESET
+    if reply=="":
+        print Fore.RED, "No connection", Fore.RESET
+    else:
+        reply = reply[0:len(reply)-1]
+        print Fore.GREEN, "Rover received ping in {0}s".format(reply), Fore.RESET
 
 def _graceful():
     print "Requesting " + Fore.BLUE + "shutdown" + Fore.RESET + "...",
     client.sendCommand(SYSTEM_GRACEFUL)
     print Fore.GREEN, "Done!", Fore.RESET
-
 
 def _testAll():
     """ Test all commands with dummy data """
@@ -176,7 +161,7 @@ def _testAll():
     args.reverse = 0xbb
 
     # Make sure _graceful is in the end
-    calls = [_forward, _reverse, _forwardLeft, _forwardRight, _reverseLeft, _reverseRight, _stop, _startVideo, _stopVideo,
+    calls = [_forward, _reverse, _left, _right, _stop, _startVideo, _stopVideo,
              _queryproc, _ping, _graceful]
 
     print Fore.MAGENTA + "Testing all commands..." + Fore.RESET
@@ -185,10 +170,8 @@ def _testAll():
 
 try:
     if   args.forward:      _forward()
-    elif args.forwardLeft:     _forwardLeft()
-    elif args.forwardRight:    _forwardRight()
-    elif args.reverseLeft:  _reverseLeft()
-    elif args.reverseRight: _reverseRight()
+    elif args.left:         _left()
+    elif args.right:        _right()
     elif args.stop:         _stop()
     elif args.reverse:      _reverse()
     elif args.queryproc:    _queryproc()
